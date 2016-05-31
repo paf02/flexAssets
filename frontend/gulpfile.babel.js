@@ -60,19 +60,18 @@ gulp.task('html', ['styles', 'hbs'], () => {
 
 gulp.task('hbs', () => {
 
-  // var options = {
-  //   batch : ['./app/_partials', './app/_pages'],
-  //   helpers : {
-  //     capitals : (str) => {
-  //       return str.toUpperCase();
-  //     }
-  //   }
-  // }
+  var options = {
+    batch : ['./app/_partials', './app/_pages'],
+    helpers : {
+      capitals : (str) => {
+        return str.toUpperCase();
+      }
+    }
+  }
 
-  // return gulp.src(['app/_pages/*.hbs', ])
-  return gulp.src(['app/pages/*.html', ])
-    // .pipe($.compileHandlebars({}, options))
-    // .pipe($.rename({ extname: '.html' }))
+  return gulp.src(['app/_pages/*.hbs', ])
+    .pipe($.compileHandlebars({}, options))
+    .pipe($.rename({ extname: '.html' }))
     .pipe(gulp.dest('./app'));
 });
 
@@ -87,17 +86,39 @@ var standardHandler = function (err) {
   $.util.log($.util.colors.red('Error'), err.message);
 }
 
+
 gulp.task('script', () => {
   return gulp.src(['app/scripts/app/**/*.js'])
     .pipe(concat('main.js'))
     .pipe(gulp.dest('./app/scripts/'));
 });
 
+
+// Combine svg files and inject it into pages
+gulp.task('svg', () => {
+    var svgs = gulp
+        .src('./app/images/svg/*.svg')
+        .pipe($.svgmin())
+        .pipe($.svgstore({ inlineSvg: true }));
+
+    function fileContents (filePath, file) {
+        return file.contents.toString();
+    }
+
+    return gulp
+        .src('app/_pages/*.hbs')
+        .pipe($.inject(svgs, { transform: fileContents }))
+        .pipe(gulp.dest('app/_pages/'));
+});
+
 gulp.task('images', () => {
   return gulp.src('app/images/**/*')
     .pipe($.if($.if.isFile, $.cache($.imagemin({
       progressive: true,
-      interlaced: true
+      interlaced: true,
+      // don't remove IDs from SVGs, they are often used
+      // as hooks for embedding and styling
+      svgoPlugins: [{cleanupIDs: false}]
     }))
     .on('error', function (err) {
       console.log(err);
@@ -125,7 +146,7 @@ gulp.task('extras', () => {
 
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
-gulp.task('serve', ['hbs', 'styles', 'fonts'], () => {
+gulp.task('serve', ['svg', 'hbs', 'styles', 'fonts'], () => {
   browserSync({
     notify: false,
     port: 9000,
@@ -144,7 +165,8 @@ gulp.task('serve', ['hbs', 'styles', 'fonts'], () => {
     '.tmp/fonts/**/*'
   ]).on('change', reload);
 
-  gulp.watch('app/**/*.html', ['hbs']);
+  gulp.watch('app/**/*.hbs', ['hbs']);
+  gulp.watch('app/images/svg/*.svg', ['svg']);
   gulp.watch('app/styles/**/*.scss', ['styles']);
   gulp.watch('app/scripts/app/**/*.js', ['script']);
   gulp.watch('app/fonts/**/*', ['fonts']);
@@ -186,7 +208,7 @@ gulp.task('wiredep', () => {
     }))
     .pipe(gulp.dest('app/styles'));
 
-  gulp.src('app/**/*.html')
+  gulp.src('app/**/*.hbs')
     .pipe(wiredep({
       ignorePath: /^(\.\.\/)*\.\./
     }))
@@ -194,7 +216,7 @@ gulp.task('wiredep', () => {
 });
 
 // gulp.task('build', ['lint', 'hbs', 'html', 'images', 'fonts', 'extras'], () => {
-gulp.task('build', ['html', 'images', 'fonts', 'extras'], () => {
+gulp.task('build', ['svg', 'html', 'images', 'fonts', 'extras'], () => {
   return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 

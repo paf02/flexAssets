@@ -1,0 +1,1 @@
+{_id: 'IOS', parent: 'Phones', ancestors: ['Electronics']}

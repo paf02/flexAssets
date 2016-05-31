@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MY APP</title>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+  <script>
+    $(function() {
+      $('.create').on('click', function(e) {
+        e.preventDefault();
+        
+        $.ajax({
+          url: 'http://localhost:3000/api/v1/product',
+          type: 'POST',
+          data: formData(),
+          dataType: 'json',
+          cache : false,
+          // processData: false,
+          success: function(data, textStatus, jqXHR) {
+            console.log("data = " + JSON.stringify(data));
+            console.log("textStatus = " +textStatus);
+            console.log("jqXHR = " + jqXHR);
+          }, error: function (jqXHR, textStatus, errorThrown) {
+            console.log("errorThrown = " );
+            console.log(errorThrown);
+            console.log(textStatus);
+            console.log(jqXHR);
+          }
+        });  
+      });
+
+
+      $('.update').on('click', function(e) {
+        e.preventDefault();
+
+        $.ajax({
+          url: 'http://localhost:3000/api/v1/product',
+          type: 'PUT',
+          data: formData(),
+          dataType: 'json',
+          cache : false,
+          // processData: false,
+          success: function(data, textStatus, jqXHR) {
+            console.log("data = " + JSON.stringify(data));
+            console.log("textStatus = " +textStatus);
+            console.log("jqXHR = " + jqXHR);
+          }, error: function (jqXHR, textStatus, errorThrown) {
+            console.log("errorThrown = " );
+            console.log(errorThrown);
+            console.log(textStatus);
+            console.log(jqXHR);
+          }
+        });
+      });
+
+
+      $('.remove').on('click', function(e) {
+        e.preventDefault();
+
+        $.ajax({
+          url: 'http://localhost:3000/api/v1/product',
+          type: 'DELETE',
+          data: formData(),
+          dataType: 'json',
+          cache : false,
+          // processData: false,
+          success: function(data, textStatus, jqXHR) {
+            console.log("data = " + JSON.stringify(data));
+            console.log("textStatus = " +textStatus);
+            console.log("jqXHR = " + jqXHR);
+          }, error: function (jqXHR, textStatus, errorThrown) {
+            console.log("errorThrown = " );
+            console.log(errorThrown);
+            console.log(textStatus);
+            console.log(jqXHR);
+          }
+        });
+      });
+
+      $('.upload-input').on('change', function() {
+        var $_th = $(this);
+
+        if (this.files && this.files[0]) {
+          var FR = new FileReader();
+          FR.onload = function(e) {
+            images[$_th.parent().index()] = e.target.result;
+          };       
+          FR.readAsDataURL( this.files[0] );
+        }
+      });
+    });
+
+    
+    var images = [];
+
+    function formData() {
+      return {
+        id: $( "input:text[name=id]").val(),
+        name: $( "input:text[name=name]").val(),
+        pictures: images,
+        rate: $( "input:text[name=rate]").val(),
+        tags: $( "input:text[name=tags]").val(),
+        price: {
+          discount: $( "input:text[name=discount]").val(),
+          amount: $("input:text[name=price]").val(),
+          currency: $("input:radio[name=currency]:checked").val()
+        },
+        category: { 
+          _id: $("input:radio[name=category]:checked").val(), 
+          parent: '',
+          ancestors: [] 
+        },
+      };
+    }
+
+  </script>
+</head>
+<body>
+  <ul class="nav">
+    <!-- <li><a href="get">get</a></li>
+    <li><a href="modify">modify - create - delete</a></li> -->
+  </ul>
+
+  <div> 
+    
+    <p>ID</p>
+    <input type="text" placeholder="id" name="id"><br>
+
+    <hr>
+
+
+    <p>Name</p>
+    <input type="text" placeholder="name" name="name"><br>
+    <p>Rate (Number 1 - 5)</p>
+    <input type="text" placeholder="rate" name="rate"><br>
+    <p>Tags (divididos por comas)</p>
+    <input type="text" placeholder="tags" name="tags"><br>
+    <p>Price (Number)</p>
+    <input type="text" placeholder="price" name="price"><br>
+    <p>Discount (Number 0 - 100)</p>
+    <input type="text" placeholder="discount" name="discount"><br>
+    <p>Photo (URL)</p>
+    <ul>
+      <li><input class="upload-input" type="file" ><br></li>
+      <li><input class="upload-input" type="file" ><br></li>
+      <li><input class="upload-input" type="file" ><br></li>
+      <li><input class="upload-input" type="file" ><br></li>
+    </ul>
+    <p>Currency</p>
+    <input type="radio" name="currency" value="USD"> USD<br>
+    <input type="radio" name="currency" value="EUR"> EUR<br>
+    <input type="radio" name="currency" value="GBP"> GBP<br>
+    <p>Category</p>
+    <input type="radio" name="category" value="Electronics"> Electronics<br>
+    <input type="radio" name="category" value="Phones"> Phones<br>
+    <input type="radio" name="category" value="laptops"> laptops<br>
+    <input type="radio" name="category" value="Android"> Android<br>
+
+
+    <a href="#" class="create">create</a>
+    <a href="#" class="update">Update</a>
+    <a href="#" class="remove">remove</a>
+  </div>
+</body>
+</html>

@@ -12,7 +12,7 @@ app.use(express.static(config.publicAccess));
 
 app.use('/api/' + config.apiVersion, api(wagner));
 
-app.get('/product', function(req, res) {
+app.get('/', function(req, res) {
 	res.sendFile(__dirname + '/view/modifyProduct.html');
 });
 

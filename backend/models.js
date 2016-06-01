@@ -1,27 +1,32 @@
 var mongoose = require('mongoose');
 var category = require('./category');
-var product = require('./product');
+var role = require('./role');
+var user = require('./user');
 var config = require('./config');
 
 module.exports = function(wagner) {
 	mongoose.connect('mongodb://localhost:27017/' + config.dataBaseName);
 
-	// var Category = mongoose.model('Category', require('./category'), 'categories');
-
-	var Category = mongoose.model('Category', category);
-	var Product = mongoose.model('Product', product);
+	var Category = mongoose.model('Category', category, 'category');
+	var Role = mongoose.model('Role', role, 'role');
+	var User = mongoose.model('User', user, 'user');
 
 	var models = {
 		Category: Category,
-		Product: Product
+		Role: Role,
+		User: User
 	};
 
-	wagner.factory('Category', function() {
+	wagner.factory('Category', function() { 
 		return Category;
 	});
 
-	wagner.factory('Product', function() {
-		return Product;
+	wagner.factory('Role', function() {
+		return Role;
+	});
+
+	wagner.factory('User', function() {
+		return User;
 	});
 
 	return models;

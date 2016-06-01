@@ -12,7 +12,7 @@
         e.preventDefault();
         
         $.ajax({
-          url: 'http://localhost:3000/api/v1/product',
+          url: 'http://localhost:3000/api/v1/user',
           type: 'POST',
           data: formData(),
           dataType: 'json',
@@ -85,7 +85,7 @@
         if (this.files && this.files[0]) {
           var FR = new FileReader();
           FR.onload = function(e) {
-            images[$_th.parent().index()] = e.target.result;
+            files[$_th.parent().index()] = e.target.result;
           };       
           FR.readAsDataURL( this.files[0] );
         }
@@ -93,25 +93,32 @@
     });
 
     
-    var images = [];
+    var files = [];
 
     function formData() {
       return {
-        id: $( "input:text[name=id]").val(),
-        name: $( "input:text[name=name]").val(),
-        pictures: images,
-        rate: $( "input:text[name=rate]").val(),
-        tags: $( "input:text[name=tags]").val(),
-        price: {
-          discount: $( "input:text[name=discount]").val(),
-          amount: $("input:text[name=price]").val(),
-          currency: $("input:radio[name=currency]:checked").val()
-        },
-        category: { 
-          _id: $("input:radio[name=category]:checked").val(), 
-          parent: '',
-          ancestors: [] 
-        },
+        id: $('input:text[name=id]').val(),
+        name: $('input:text[name=name]').val(),
+        lastname: $('input:text[name=lastname]').val(),
+        role: { name: "rol0" },
+        category: { name: "cat0" },
+        resume: files,
+        calendarPoint: [{
+          date: new Date('05/06/16'),
+          available: false
+        }, {
+          date: new Date('05/10/16'),
+          available: true,
+          book: .5
+        }, {
+          date: new Date('05/12/16'),
+          available: true,
+          book: 1
+        }, {
+          date: new Date('05/25/16'),
+          available: true,
+          book: 1
+        }],
       };
     }
 
@@ -133,30 +140,14 @@
 
     <p>Name</p>
     <input type="text" placeholder="name" name="name"><br>
-    <p>Rate (Number 1 - 5)</p>
-    <input type="text" placeholder="rate" name="rate"><br>
-    <p>Tags (divididos por comas)</p>
-    <input type="text" placeholder="tags" name="tags"><br>
-    <p>Price (Number)</p>
-    <input type="text" placeholder="price" name="price"><br>
-    <p>Discount (Number 0 - 100)</p>
-    <input type="text" placeholder="discount" name="discount"><br>
-    <p>Photo (URL)</p>
+    <p>lastName</p>
+    <input type="text" placeholder="lastname" name="lastname"><br>
+    
+    <p>resume</p>
     <ul>
       <li><input class="upload-input" type="file" ><br></li>
-      <li><input class="upload-input" type="file" ><br></li>
-      <li><input class="upload-input" type="file" ><br></li>
-      <li><input class="upload-input" type="file" ><br></li>
     </ul>
-    <p>Currency</p>
-    <input type="radio" name="currency" value="USD"> USD<br>
-    <input type="radio" name="currency" value="EUR"> EUR<br>
-    <input type="radio" name="currency" value="GBP"> GBP<br>
-    <p>Category</p>
-    <input type="radio" name="category" value="Electronics"> Electronics<br>
-    <input type="radio" name="category" value="Phones"> Phones<br>
-    <input type="radio" name="category" value="laptops"> laptops<br>
-    <input type="radio" name="category" value="Android"> Android<br>
+
 
 
     <a href="#" class="create">create</a>

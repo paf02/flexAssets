@@ -1,15 +1,10 @@
 var mongoose = require('mongoose');
 
 var categorySchema = {
-	_id: { type: String },
-	parent: {
+	name: {
 		type: String,
-		ref: 'Category'
-	},
-	ancestors: [{
-		type: String,
-		ref: 'Category'
-	}]
+		required: true
+	}
 };
 
 module.exports = new mongoose.Schema(categorySchema);

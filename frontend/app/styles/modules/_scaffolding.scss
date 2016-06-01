@@ -1,0 +1,47 @@
+body {
+	font-weight: 300;
+}
+
+.nav-tabs.nav-justified > li {
+	& > a {
+		padding: 15px;
+		margin-bottom: 30px;
+		border: 0;
+		border-bottom: 5px solid $gray-light;
+		color: $text-color;
+
+		&:hover, 
+		&:focus {
+			border: 0;
+			border-bottom: 5px solid $gray-light;
+		}
+	}
+
+	&.active > a {
+		border: 0;
+		border-bottom: 5px solid $brand-primary;
+		color: $brand-primary;
+
+		&:hover, 
+		&:focus {
+			border: 0;
+			border-bottom: 5px solid $brand-primary;
+		}
+	}
+}
+
+.control-label {
+	margin-bottom: 10px;
+	text-transform: uppercase;
+	text-color: $gray;
+	font-size: 11px;
+	font-weight: 300;
+}
+
+.table {
+	& > thead > tr > th {
+		background: #222;
+		color: #fff;
+		font-weight: 300;
+	}
+}

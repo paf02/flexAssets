@@ -1,0 +1,25 @@
+.details-head {
+	background: #f9f9f9;
+
+	.btn {
+		margin-right: 15px;
+	}
+
+	& > span { 
+		font-size: $font-size-large; 
+		vertical-align: middle;
+	}
+}
+
+.table-book {
+	& > thead > tr > th,
+	& > tbody > tr > td {
+		border: 0;
+		padding: 8px;
+	}
+
+	& > thead > tr > th {
+		background: transparent;
+		color: $text-color;
+	}
+}

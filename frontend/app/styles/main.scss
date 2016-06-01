@@ -20,3 +20,24 @@ $icon-font-path: '../fonts/';
 @import "modules/footer";
 @import "modules/header";
 @import "modules/details";
+
+
+.algo {
+	display: inline-block;
+
+	ul {	
+		padding: 10px 0;
+		margin: 0;
+		font-size: 0;
+
+		li {
+			background-color: red;
+			border-radius: 50%;
+			height: 10px;
+			width: 10px;
+			margin: 0 10px;
+			display: inline-block;
+			font-size: 10px;
+		}
+	}
+}

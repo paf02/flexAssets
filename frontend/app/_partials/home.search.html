@@ -1,0 +1,68 @@
+<div class="form-group has-feedback">
+  <input type="text" class="form-control input-lg" placeholder="Search...">
+  <i class="zmdi zmdi-search zmdi-hc-lg form-control-feedback" aria-hidden="true"></i>
+</div>
+
+<label class="control-label"><i class="zmdi zmdi-filter-list"></i> Filter by</label>
+<div class="row">
+	<div class="col-sm-3 col-xs-6">
+		<div class="form-group">
+			<select class="form-control">
+				<option>Country</option>
+			</select>
+		</div>
+	</div>
+	<div class="col-sm-3 col-xs-6">
+		<div class="form-group">
+			<select class="form-control">
+				<option>Position</option>
+			</select>
+		</div>
+	</div>
+	<div class="col-sm-3 col-xs-6">
+		<div class="form-group">
+			<select class="form-control">
+				<option>Role</option>
+			</select>
+		</div>
+	</div>
+	<div class="col-sm-3 col-xs-6 hide">
+		<div class="form-group">
+			<select class="form-control">
+				<option>Country</option>
+			</select>
+		</div>
+	</div>
+</div>
+<br>
+<div class="table-responsive">
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Position</th>
+				<th>Role</th>
+				<th>Country</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><a ui-sref="details">John Smith</a></td>
+				<td>Development</td>
+				<td>Senior Front End</td>
+				<td>Costa Rica</td>
+				<td class="text-right"><a class="zmdi zmdi-account-box zmdi-hc-lg text-danger"></a></td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<div class="text-center">
+	<ul class="pagination">
+		<li class="active"><a href="#">1</a></li>
+	    <li><a href="#">2</a></li>
+	    <li><a href="#">3</a></li>
+	    <li><a href="#">4</a></li>
+	    <li><a href="#">5</a></li>
+	</ul>
+</div>

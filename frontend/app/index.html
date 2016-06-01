@@ -1,10 +1,10 @@
 <!doctype html>
-<html class="no-js" lang="">
+<html class="no-js" lang="" ng-app="flexApp">
   <head>
     <meta charset="utf-8">
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Project Name</title>
+    <title>Flex Booking App</title>
     <meta name="description" content="description">
     <meta name="keywords" content="jgatjens, webapp, templates, es6">
     <meta name="author" content="project name">
@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+
     <!-- build:js scripts/vendor/modernizr.js -->
     <script src="/bower_components/modernizr/modernizr.js"></script>
     <!-- endbuild -->
@@ -29,36 +31,24 @@
     <!--[if lt IE 10]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <div style="height: 0; width: 0; position: absolute; top: 0; visibility: hidden;">
-    <!-- inject:svg -->
-    <svg xmlns="http://www.w3.org/2000/svg"><symbol id="social_fb" viewBox="0 0 40 40"><path d="M37.792 0H2.208C.988 0 0 .988 0 2.207v35.585C0 39.011.988 40 2.208 40h19.158V24.51h-5.213v-6.037h5.213v-4.452c0-5.167 3.155-7.98 7.764-7.98 2.208 0 4.105.165 4.658.238v5.399l-3.196.001c-2.507 0-2.992 1.191-2.992 2.939v3.854h5.978l-.778 6.037h-5.199V40h10.193A2.208 2.208 0 0 0 40 37.792V2.207A2.208 2.208 0 0 0 37.792 0z"/></symbol><symbol id="social_google" viewBox="0 0 40 40"><path d="M19.667 14.199c0-2.586-1.507-6.605-4.411-6.605-.913 0-1.892.466-2.453 1.185-.596.755-.769 1.721-.769 2.657 0 2.404 1.365 6.388 4.378 6.388.875 0 1.818-.428 2.381-1.003.804-.829.874-1.975.874-2.622zm-1.892 9.441c-.279-.036-.454-.036-.804-.036-.315 0-2.207.07-3.677.576-.771.285-3.011 1.147-3.011 3.696 0 2.549 2.416 4.383 6.163 4.383 3.363 0 5.149-1.656 5.149-3.878-.001-1.836-1.157-2.802-3.82-4.741zM38.752 0H1.248C.559 0 0 .572 0 1.276v37.446C0 39.429.559 40 1.248 40h37.503c.69 0 1.249-.571 1.249-1.277V1.277C40 .572 39.441 0 38.752 0zM14.728 33.764c-5.079 0-7.528-2.476-7.528-5.134 0-1.291.629-3.121 2.696-4.378 2.17-1.364 5.114-1.543 6.69-1.654-.492-.646-1.051-1.328-1.051-2.439 0-.61.175-.969.348-1.4-.386.037-.769.072-1.12.072-3.711 0-5.813-2.838-5.813-5.638 0-1.649.734-3.481 2.24-4.81 1.998-1.687 4.726-2.145 6.62-2.145h6.9l-2.278 1.464h-2.17c.805.681 2.484 2.117 2.484 4.847 0 2.654-1.469 3.914-2.939 5.098-.456.466-.982.969-.982 1.76 0 .788.526 1.218.91 1.544l1.262 1.002c1.541 1.328 2.942 2.549 2.941 5.029.001 3.373-3.187 6.782-9.21 6.782zm18.635-14.202h-3.521v3.611h-1.733v-3.611h-3.503v-1.793h3.503V14.18h1.733v3.589h3.521v1.793z"/></symbol><symbol id="social_in" viewBox="0 0 40 40"><path d="M36.918 0H2.94C1.314 0 0 .807 0 2.396v34.211C0 38.199 1.314 40 2.94 40h33.979C38.544 40 40 38.199 40 36.607V2.396C40 .807 38.544 0 36.918 0zM11.742 33.846H5.548V14.359h6.194v19.487zm-3.238-21.95c-1.957 0-3.538-1.541-3.538-3.44 0-1.896 1.582-3.436 3.538-3.436 1.953 0 3.538 1.54 3.538 3.436 0 1.9-1.585 3.44-3.538 3.44zm25.948 21.95h-6.194v-9.542c0-2.214-.24-5.059-3.369-5.059-3.177 0-3.857 2.41-3.857 4.898v9.703h-6.194V14.359h6.194v3.077h.295c.816-2.051 2.821-3.244 5.791-3.244 6.177 0 7.333 3.787 7.333 8.925v10.729z"/></symbol><symbol id="social_tw" viewBox="0 0 40 31.432"><path d="M40 3.721a16.935 16.935 0 0 1-4.714 1.251C36.98 3.99 38.281 2.434 38.894.58a16.745 16.745 0 0 1-5.211 1.927A8.32 8.32 0 0 0 27.693 0c-4.532 0-8.207 3.552-8.207 7.935 0 .622.073 1.228.213 1.809-6.82-.332-12.867-3.49-16.915-8.292a7.702 7.702 0 0 0-1.111 3.99c0 2.753 1.449 5.182 3.651 6.604a8.361 8.361 0 0 1-3.717-.992l-.001.101c0 3.843 2.829 7.051 6.583 7.779a8.496 8.496 0 0 1-3.706.137c1.044 3.153 4.075 5.446 7.666 5.51-2.808 2.128-6.347 3.397-10.192 3.397-.662 0-1.316-.037-1.958-.111a23.812 23.812 0 0 0 12.579 3.566c15.095 0 23.349-12.092 23.349-22.577 0-.343-.008-.686-.024-1.027A16.42 16.42 0 0 0 40 3.721z"/></symbol></svg>
-    <!-- endinject -->
-    </div>
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" ui-sref="home.search">
+            <img alt="Flex" src="images/flex.jpg">
+          </a>
+          <div class="navbar-text">
+            Welcome Adrian
+          </div>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="active"><a href="#"><i class="zmdi zmdi-sign-in"></i> Login</a></li>
+        </ul>
+      </div>
+    </nav>
 
     <div class="container">
-
-       <div class="bs-example" data-example-id="table-within-panel"> <div class="panel panel-default">  <div class="panel-heading">Panel heading</div> <div class="panel-body"> <p>Some default panel content here. Nulla vitae elit libero, a pharetra augue. Aenean lacinia bibendum nulla sed consectetur. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nullam id dolor id nibh ultricies vehicula ut id elit.</p> </div>  <table class="table"> <thead> <tr> <th>#</th> <th>First Name</th> <th>Last Name</th> <th>Username</th> </tr> </thead> <tbody> <tr> <th scope="row">1</th> <td>Mark</td> <td>Otto</td> <td>@mdo</td> </tr> <tr> <th scope="row">2</th> <td>Jacob</td> <td>Thornton</td> <td>@fat</td> </tr> <tr> <th scope="row">3</th> <td>Larry</td> <td>the Bird</td> <td>@twitter</td> </tr> </tbody> </table> </div> </div>
-       
-      <h1>'Allo, 'Allo!</h1>
-      <p>You now have</p>
-      <ul>
-        <li>HTML5 Boilerplate</li>
-        <li>Sass</li>
-        <li>Handlebars</li>
-        <li>Bootstrap</li>
-        <li>Modernizr</li>
-        <li>ES6</li>
-        <li>Inject SVG sprites</li>
-        <li>Custome css structure</li>
-      </ul>
-
-      <div class="col-md-12 text-left">
-        <p>Share</p>
-        <a id="js-social-fb" class="svg-icon" href="#"><svg id="fb-svg"><use xlink:href="#social_fb"></use></svg></a>
-        <a id="js-social-tw" class="svg-icon" href="#"><svg id="tw-svg"><use xlink:href="#social_tw"></use></svg></a>
-        <a id="js-social-go" class="svg-icon" href="#"><svg id="google-svg"><use xlink:href="#social_google"></use></svg></a>
-      </div>
-
+      <div ui-view></div>
     </div>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
@@ -77,6 +67,10 @@
     <script src="/bower_components/jquery/dist/jquery.js"></script>
     <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/transition.js"></script>
     <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/modal.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js"></script>
+    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tab.js"></script>
+    <script src="/bower_components/angular/angular.js"></script>
+    <script src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
     

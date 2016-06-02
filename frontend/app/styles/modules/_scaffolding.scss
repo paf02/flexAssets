@@ -1,5 +1,5 @@
 body {
-	font-weight: 300;
+	font-weight: normal;
 }
 
 .nav-tabs.nav-justified > li {
@@ -33,15 +33,53 @@ body {
 .control-label {
 	margin-bottom: 10px;
 	text-transform: uppercase;
-	text-color: $gray;
+	color: $gray;
 	font-size: 11px;
-	font-weight: 300;
+	font-weight: normal;
 }
 
 .table {
 	& > thead > tr > th {
 		background: #222;
 		color: #fff;
-		font-weight: 300;
+		font-weight: normal;
 	}
+
+	& > thead > tr > th,
+	& > tbody > tr > td { vertical-align: middle; }
+}
+
+.booking-dots {
+	display: inline-block;
+
+	ul {	
+		padding: 10px 0;
+		margin: 0;
+		font-size: 0;
+
+		li {
+			background-color: $state-success-text;
+			border-radius: 50%;
+			height: 10px;
+			width: 10px;
+			margin: 0 10px;
+			display: inline-block;
+			font-size: 10px;
+
+			&.booked {
+				background-color: $state-danger-text;
+			}
+		}
+	}
+}
+
+.modal-header {
+	background: $brand-primary;
+	color: #fff;
+	padding: 20px;
+}
+
+.footer {
+	@extend .modal-header;
+	margin-top: 30px;
 }

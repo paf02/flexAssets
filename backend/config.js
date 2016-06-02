@@ -1,7 +1,7 @@
 module.exports = {
 	apiVersion: 'v1',
-	imagesPath: 'assets/uploadImages/',
+	resumePath: 'assets/uploadResume/',
 	publicAccess: 'assets',
 	maxFileSize: '50mb',
-	dataBaseName: 'ecoM'
+	dataBaseName: 'flexTeam'
 };

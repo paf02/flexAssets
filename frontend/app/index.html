@@ -42,14 +42,41 @@
           </div>
         </div>
         <ul class="nav navbar-nav navbar-right">
-          <li class="active"><a href="#"><i class="zmdi zmdi-sign-in"></i> Login</a></li>
+          <li class="active"><a href="#" data-toggle="modal" data-target="#login"><i class="zmdi zmdi-sign-in"></i> Login</a></li>
+          <li class="active"><a href="#"><i class="zmdi zmdi-sign-in"></i> Logout</a></li>
         </ul>
+      </div>
+      <div class="modal fade" tabindex="-1" role="dialog" id="login">
+        <div class="modal-dialog modal-sm">
+          <form class="modal-content">
+            <div class="modal-header">
+              <div class="text-center"><i class="zmdi zmdi-sign-in"></i> Login</div>
+            </div>
+            <div class="modal-body">
+              <label class="control-label"><i class="zmdi zmdi-account"></i> Username</label>
+              <div class="form-group">
+                <input type="text" name="username" class="form-control">
+              </div>
+              <label class="control-label"><i class="zmdi zmdi-lock"></i> Password</label>
+              <div class="form-group">
+                <input type="password" name="username" class="form-control">
+              </div>
+              <p class="text-right">
+                <button type="button" class="btn btn-primary">Login</button>
+              </p>
+            </div>
+          </form>
+        </div>
       </div>
     </nav>
 
     <div class="container">
       <div ui-view></div>
     </div>
+
+    <footer class="footer text-center">
+      <small>Flexpool</small>
+    </footer>
 
     <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
     <script>

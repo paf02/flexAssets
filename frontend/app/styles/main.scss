@@ -1,0 +1,22 @@
+$icon-font-path: '../fonts/';
+
+@import "core/variables";
+
+// Custom Bootstrap
+@import "vendors/bootstrap/variables";
+@import "vendors/bootstrap/bootstrap";
+
+
+// Custom Helpers
+@import "helpers/mixins";
+@import "helpers/utils";
+
+
+// Core
+@import "core/fonts";
+
+// Custom Modulos
+@import "modules/scaffolding";
+@import "modules/footer";
+@import "modules/header";
+@import "modules/details";

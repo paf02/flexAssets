@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MY APP</title>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+  <script>
+    $(function() {
+      $('.create').on('click', function(e) {
+        e.preventDefault();
+        
+        $.ajax({
+          url: 'http://localhost:3000/api/v1/user',
+          type: 'POST',
+          data: formData(),
+          dataType: 'json',
+          cache : false,
+          // processData: false,
+          success: function(data, textStatus, jqXHR) {
+            console.log("data = " + JSON.stringify(data));
+            console.log("textStatus = " +textStatus);
+            console.log("jqXHR = " + jqXHR);
+          }, error: function (jqXHR, textStatus, errorThrown) {
+            console.log("errorThrown = " );
+            console.log(errorThrown);
+            console.log(textStatus);
+            console.log(jqXHR);
+          }
+        });  
+      });
+
+
+      $('.update').on('click', function(e) {
+        e.preventDefault();
+
+        $.ajax({
+          url: 'http://localhost:3000/api/v1/user',
+          type: 'PUT',
+          data: formDataUpdate(),
+          dataType: 'json',
+          cache : false,
+          // processData: false,
+          success: function(data, textStatus, jqXHR) {
+            console.log("data = " + JSON.stringify(data));
+            console.log("textStatus = " +textStatus);
+            console.log("jqXHR = " + jqXHR);
+          }, error: function (jqXHR, textStatus, errorThrown) {
+            console.log("errorThrown = " );
+            console.log(errorThrown);
+            console.log(textStatus);
+            console.log(jqXHR);
+          }
+        });
+      });
+
+
+      $('.remove').on('click', function(e) {
+        e.preventDefault();
+
+        $.ajax({
+          url: 'http://localhost:3000/api/v1/user',
+          type: 'DELETE',
+          data: formData(),
+          dataType: 'json',
+          cache : false,
+          // processData: false,
+          success: function(data, textStatus, jqXHR) {
+            console.log("data = " + JSON.stringify(data));
+            console.log("textStatus = " +textStatus);
+            console.log("jqXHR = " + jqXHR);
+          }, error: function (jqXHR, textStatus, errorThrown) {
+            console.log("errorThrown = " );
+            console.log(errorThrown);
+            console.log(textStatus);
+            console.log(jqXHR);
+          }
+        });
+      });
+
+      $('.upload-input').on('change', function() {
+        var $_th = $(this);
+
+        if (this.files && this.files[0]) {
+          var FR = new FileReader();
+          FR.onload = function(e) {
+            filesData = e.target.result;
+          };       
+          FR.readAsDataURL( this.files[0] );
+        }
+      });
+    });
+
+    
+    var filesData = null;
+
+    function formData() {
+      return {
+        id: $('input:text[name=id]').val(),
+        name: $('input:text[name=name]').val(),
+        lastname: $('input:text[name=lastname]').val(),
+        role: { name: 'rol0' },
+        category: { name: 'cat0' },
+        skill: [
+          { name: 'skill0' },
+          { name: 'skill2' },
+          { name: 'skill5' },
+          { name: 'skill9' },
+        ],
+        resume: filesData,
+        calendarPoint: [{
+          date: new Date('05/06/16'),
+          available: false,
+          book: 0
+        }, {
+          date: new Date('05/10/16'),
+          available: true,
+          book: .5
+        }, {
+          date: new Date('05/12/16'),
+          available: true,
+          book: 1
+        }, {
+          date: new Date('05/25/16'),
+          available: true,
+          book: 1
+        }],
+      };
+    }
+
+
+    function formDataUpdate() {
+      return {
+        id: $('input:text[name=id]').val(),
+        name: $('input:text[name=name]').val(),
+        role: { name: 'rol4' },
+        resume: filesData,
+        skill_new: [
+          { name: 'skill1' },
+          { name: 'skill8' },
+        ],
+        skill_remove: [
+          { name: 'skill0' },
+          { name: 'skill9' },
+        ],
+        calendarPoint_new: [{
+          date: new Date('06/26/16'),
+          available: true,
+          book: .5
+        }, {
+          date: new Date('05/06/16'), 
+          available: true,
+          book: 1
+        }, {
+          date: new Date('05/27/16'),
+          available: false,
+          book: 0
+        }],
+        calendarPoint_remove: [{
+          date: new Date('05/10/16')
+        }, {
+          date: new Date('05/12/16')
+        }],
+      };
+    }
+
+  </script>
+</head>
+<body>
+  <ul class="nav">
+    <!-- <li><a href="get">get</a></li>
+    <li><a href="modify">modify - create - delete</a></li> -->
+  </ul>
+
+  <div> 
+    
+    <p>ID</p>
+    <input type="text" placeholder="id" name="id"><br>
+
+    <hr>
+
+
+    <p>Name</p>
+    <input type="text" placeholder="name" name="name"><br>
+    <p>lastName</p>
+    <input type="text" placeholder="lastname" name="lastname"><br>
+    
+    <p>resume</p>
+    <ul>
+      <li><input class="upload-input" type="file" ><br></li>
+    </ul>
+
+
+
+    <a href="#" class="create">create</a>
+    <a href="#" class="update">Update</a>
+    <a href="#" class="remove">remove</a>
+  </div>
+</body>
+</html>

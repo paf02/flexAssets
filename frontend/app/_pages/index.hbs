@@ -1,0 +1,84 @@
+<!doctype html>
+<html class="no-js" lang="" ng-app="flexApp">
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Flex Booking App</title>
+    <meta name="description" content="description">
+    <meta name="keywords" content="jgatjens, webapp, templates, es6">
+    <meta name="author" content="project name">
+
+    <!-- Place favicon.ico and apple-touch-icon(s) in the root directory -->
+    <link rel="icon" type="image/vnd.microsoft.icon" href="img/favicon.ico" />
+
+    <!-- build:css styles/vendor.css -->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+
+    <!-- build:css styles/main.css -->
+    <link rel="stylesheet" href="styles/main.css">
+    <!-- endbuild -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+
+    <!-- build:js scripts/vendor/modernizr.js -->
+    <script src="/bower_components/modernizr/modernizr.js"></script>
+    <!-- endbuild -->
+  </head>
+  <body>
+    <!--[if lt IE 10]>
+      <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <nav class="navbar navbar-default">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" ui-sref="home.search">
+            <img alt="Flex" src="images/flex.jpg">
+          </a>
+          <div class="navbar-text">
+            Welcome Adrian
+          </div>
+        </div>
+        <ul class="nav navbar-nav navbar-right">
+          <li class="active"><a href="#" data-toggle="modal" data-target="#login"><i class="zmdi zmdi-sign-in"></i> Login</a></li>
+          <li class="active"><a href="#"><i class="zmdi zmdi-sign-in"></i> Logout</a></li>
+        </ul>
+      </div>
+      <div class="modal fade" tabindex="-1" role="dialog" id="login">
+        <div class="modal-dialog modal-sm">
+          <form class="modal-content">
+            <div class="modal-header">
+              <div class="text-center"><i class="zmdi zmdi-sign-in"></i> Login</div>
+            </div>
+            <div class="modal-body">
+              <label class="control-label"><i class="zmdi zmdi-account"></i> Username</label>
+              <div class="form-group">
+                <input type="text" name="username" class="form-control">
+              </div>
+              <label class="control-label"><i class="zmdi zmdi-lock"></i> Password</label>
+              <div class="form-group">
+                <input type="password" name="username" class="form-control">
+              </div>
+              <p class="text-right">
+                <button type="button" class="btn btn-primary">Login</button>
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div ui-view></div>
+    </div>
+
+    <footer class="footer text-center">
+      <small>Flexpool</small>
+    </footer>
+
+    {{> scripts }}
+
+  </body>
+</html>

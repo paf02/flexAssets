@@ -1,0 +1,7 @@
+{
+  "name": "flexapi",
+  "description": "flexapi",
+  "repository": "https://github.com/paf02/flexAssets",
+  "logo": "http://node-js-sample.herokuapp.com/node.svg",
+  "keywords": ["node", "express"] 
+}

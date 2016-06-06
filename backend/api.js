@@ -12,6 +12,32 @@ module.exports = function(wagner) {
 	api.use(bodyparser.json({limit: config.maxFileSize}));
 	api.use(bodyparser.urlencoded({limit: config.maxFileSize, extended: true}));
 
+	function saveFile(argument) {
+		var extension = '';
+		var imgDat = argument.split(/^data:image\/(png|jpg|jpeg);base64,/);
+
+		if (imgDat[1].indexOf('png') !== -1) extension = 'png'
+		else if (imgDat[1].indexOf('jpg') !== -1 || imgDat[1].indexOf('jpeg') !== -1) extension = 'jpg'
+
+		var generatePath = config.resumePath + shortid.generate() + '.' + extension;
+		
+		fs.writeFile(generatePath, imgDat[2], 'base64', function(err) {
+		  if (err) 
+		  	console.log(err);
+		});
+
+		return generatePath;
+	}
+
+	function deleteFile(filePath) {
+		var too = config.publicAccess + filePath;
+
+		fs.exists(too , function(exists) {
+		  if(exists) {
+		    fs.unlink(too);
+		  }
+		});
+	}
 
 	api.get('/user', wagner.invoke(function(User) {
 		return function(req, res) {
@@ -33,41 +59,11 @@ module.exports = function(wagner) {
 		}; 
 	}));
 
-
-	function saveFile(argument) {
-		var extension = '';
-		var imgDat = argument.split(/^data:image\/(png|jpg|jpeg);base64,/);
-
-		if (imgDat[1].indexOf('png') !== -1) extension = 'png'
-		else if (imgDat[1].indexOf('jpg') !== -1 || imgDat[1].indexOf('jpeg') !== -1) extension = 'jpg'
-
-		var generatePath = config.resumePath + shortid.generate() + '.' + extension;
-		
-		fs.writeFile(generatePath, imgDat[2], 'base64', function(err) {
-		  console.log(err);
-		});
-
-		return generatePath;
-	}
-
-	function deleteFile(algo) {
-		var too = config.publicAccess + algo;
-
-		fs.exists(too , function(exists) {
-		  if(exists) {
-		    fs.unlink(too);
-		  }
-		});
-	}
-
-
 	api.post('/user', wagner.invoke(function(User) {
 		return function(req, res) {
 
 			if (req.body.resume) {
-				var urlFiles = req.body.resume.map(function(obj){ 
-				  return req.headers.origin + saveFile(obj).split(config.publicAccess)[1];
-				});
+				var urlFiles = req.headers.origin + saveFile(req.body.resume).split(config.publicAccess)[1];
 			}
 
 			var newUser = new User({
@@ -80,7 +76,8 @@ module.exports = function(wagner) {
         category: {
         	name: req.body.category.name,
         },
-        calendarPoint: req.body.calendarPoint
+        calendarPoint: req.body.calendarPoint,
+        skill: req.body.skill
 			});
 
 			newUser.save(function(error, user) {
@@ -94,6 +91,138 @@ module.exports = function(wagner) {
 					.status(status.OK)
 					.json({ User: user });
 			});
+		}
+	}));
+
+
+	api.put('/user', wagner.invoke(function(User) {
+		return function(req, res) {
+
+			User.findOne({ _id: req.body.id }, function(error, user) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				if (!user) {
+					return res.
+						status(status.NOT_FOUND). 
+						json({ error: 'Not found'});
+				}
+
+				// var updateObj = {
+    //       name : req.body.name
+    //     };
+
+
+				if (req.body.resume) {
+					var filePath = user.resume.split(req.headers.origin)[1];
+					deleteFile(filePath);
+
+					var urlFiles = req.headers.origin + saveFile(req.body.resume).split(config.publicAccess)[1];
+					user.resume = urlFiles;
+				}
+
+				if (req.body.name)
+					user.name = req.body.name;
+
+				if (req.body.lastname)
+					user.lastname = req.body.lastname;
+
+				if (req.body.role)
+					user.role.name = req.body.role.name;
+
+				if (req.body.category)
+					user.category.name = req.body.category.name;
+
+
+				if(req.body.skill_remove) {
+					if (user.skill && user.skill.length > 0) {
+						for (var i = 0; i < user.skill.length; i++) {
+							for (var ii = 0; ii < req.body.skill_remove.length; ii++) {
+								if(user.skill[i]._doc.name == req.body.skill_remove[ii].name) {
+									// console.log('match ' + user.skill[i]._doc.name);
+									user.skill.splice(i, 1);
+								}
+							};
+						};
+					}
+				}
+
+				if(req.body.skill_new) {
+					if (user.skill && user.skill.length > 0) {
+						// req.body.skill_new.forEach(function(el, indx) {
+						// 	user.skill.push(el);
+						// });
+						req.body.skill_new.forEach(function(el, indx) {
+							user.skill.push(el);
+						});
+					} else {
+						// for (var i = 0; i < user.skill.length; i++) {
+						// 	for (var ii = 0; ii < req.body.skill_new.length; ii++) {
+						// 		if(el_par._doc.name == el.name) {
+						// 			console.log('match ' + el_par._doc.name);
+						// 		}
+						// 	};
+						// };
+						user.skill = req.body.skill_new;
+					}
+				}
+
+
+				if (req.body.calendarPoint_remove) {
+					if (user.calendarPoint && user.calendarPoint.length > 0) {
+						for (var i = 0; i < user.calendarPoint.length; i++) {
+							for (var ii = 0; ii < req.body.calendarPoint_remove.length; ii++) {
+								if (user.calendarPoint[i]._doc.date.toString() == req.body.calendarPoint_remove[ii].date) {
+									// in case of the date already exist, it just update the other values
+									user.calendarPoint.splice(i, 1);
+								}
+							};
+						};
+					}
+				}
+
+
+				if (req.body.calendarPoint_new) {
+					if (user.calendarPoint && user.calendarPoint.length > 0) {
+						for (var i = 0; i < user.calendarPoint.length; i++) {
+							for (var ii = 0; ii < req.body.calendarPoint_new.length; ii++) {
+								if (user.calendarPoint[i]._doc.date.toString() == req.body.calendarPoint_new[ii].date) {
+									// in case of the date already exist, it just update the other values
+									user.calendarPoint[i]._doc.available = req.body.calendarPoint_new[ii].available;
+									user.calendarPoint[i]._doc.book = req.body.calendarPoint_new[ii].book;
+									req.body.calendarPoint_new.splice(ii, 1);
+								}
+							};
+						};
+
+						req.body.calendarPoint_new.forEach(function(ele, indx) {
+							user.calendarPoint.push(ele);
+						});
+					} else {
+						// direct insert
+						req.body.calendarPoint_new.forEach(function(ele, indx) {
+							user.calendarPoint.push(ele);
+						});
+					}
+				}
+
+
+				// user.update(updateObj, function(error, user) {
+				user.save(function(error, user) {
+					if (error) {
+						return res.
+							status(status.INTERNAL_SERVER_ERROR).
+							json({ error: error.toString() });
+					} 
+
+					return res
+						.status(status.OK)
+						.json({ User: user });
+				});
+			});			
 		}
 	}));
 
@@ -114,10 +243,8 @@ module.exports = function(wagner) {
 						json({ error: 'Not found'});
 				}
 				
-				user.resume.forEach(function(ele, indx) {
-					var algo = ele.split(req.headers.origin)[1];
-					deleteFile(algo);
-				});
+				var filePath = user.resume.split(req.headers.origin)[1];
+				deleteFile(filePath);
 
 				user.remove(function(error, user) {
 					if (error) {
@@ -128,7 +255,7 @@ module.exports = function(wagner) {
 
 					return res
 						.status(status.OK)
-						.json({ User: product });
+						.json({ User: user });
 				});
 			});			
 		}
@@ -150,7 +277,7 @@ module.exports = function(wagner) {
 						json({ error: 'Not found'});
 				}
 
-				res.json({ role: role }); 
+				res.json({ Role: role }); 
 			}); 
 		}; 
 	}));
@@ -171,7 +298,28 @@ module.exports = function(wagner) {
 						json({ error: 'Not found'});
 				}
 
-				res.json({ category: category }); 
+				res.json({ Category: category }); 
+			}); 
+		}; 
+	}));
+
+
+	api.get('/skill', wagner.invoke(function(Skill) {
+		return function(req, res) {
+			Skill.find(function(error, skill) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				if (!skill) {
+					return res.
+						status(status.NOT_FOUND).
+						json({ error: 'Not found'});
+				}
+
+				res.json({ Skill: skill }); 
 			}); 
 		}; 
 	}));

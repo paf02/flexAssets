@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var category = require('./category');
 var role = require('./role');
 var user = require('./user');
+var skill = require('./skill');
 var config = require('./config');
 
 module.exports = function(wagner) {
@@ -10,11 +11,13 @@ module.exports = function(wagner) {
 	var Category = mongoose.model('Category', category, 'category');
 	var Role = mongoose.model('Role', role, 'role');
 	var User = mongoose.model('User', user, 'user');
+	var Skill = mongoose.model('Skill', skill, 'skill');
 
 	var models = {
 		Category: Category,
 		Role: Role,
-		User: User
+		User: User,
+		Skill: Skill
 	};
 
 	wagner.factory('Category', function() { 
@@ -27,6 +30,10 @@ module.exports = function(wagner) {
 
 	wagner.factory('User', function() {
 		return User;
+	});
+
+	wagner.factory('Skill', function() {
+		return Skill;
 	});
 
 	return models;

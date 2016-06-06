@@ -36,9 +36,9 @@
         e.preventDefault();
 
         $.ajax({
-          url: 'http://localhost:3000/api/v1/product',
+          url: 'http://localhost:3000/api/v1/user',
           type: 'PUT',
-          data: formData(),
+          data: formDataUpdate(),
           dataType: 'json',
           cache : false,
           // processData: false,
@@ -60,7 +60,7 @@
         e.preventDefault();
 
         $.ajax({
-          url: 'http://localhost:3000/api/v1/product',
+          url: 'http://localhost:3000/api/v1/user',
           type: 'DELETE',
           data: formData(),
           dataType: 'json',
@@ -85,7 +85,7 @@
         if (this.files && this.files[0]) {
           var FR = new FileReader();
           FR.onload = function(e) {
-            files[$_th.parent().index()] = e.target.result;
+            filesData = e.target.result;
           };       
           FR.readAsDataURL( this.files[0] );
         }
@@ -93,19 +93,26 @@
     });
 
     
-    var files = [];
+    var filesData = null;
 
     function formData() {
       return {
         id: $('input:text[name=id]').val(),
         name: $('input:text[name=name]').val(),
         lastname: $('input:text[name=lastname]').val(),
-        role: { name: "rol0" },
-        category: { name: "cat0" },
-        resume: files,
+        role: { name: 'rol0' },
+        category: { name: 'cat0' },
+        skill: [
+          { name: 'skill0' },
+          { name: 'skill2' },
+          { name: 'skill5' },
+          { name: 'skill9' },
+        ],
+        resume: filesData,
         calendarPoint: [{
           date: new Date('05/06/16'),
-          available: false
+          available: false,
+          book: 0
         }, {
           date: new Date('05/10/16'),
           available: true,
@@ -118,6 +125,42 @@
           date: new Date('05/25/16'),
           available: true,
           book: 1
+        }],
+      };
+    }
+
+
+    function formDataUpdate() {
+      return {
+        id: $('input:text[name=id]').val(),
+        name: $('input:text[name=name]').val(),
+        role: { name: 'rol4' },
+        resume: filesData,
+        skill_new: [
+          { name: 'skill1' },
+          { name: 'skill8' },
+        ],
+        skill_remove: [
+          { name: 'skill0' },
+          { name: 'skill9' },
+        ],
+        calendarPoint_new: [{
+          date: new Date('06/26/16'),
+          available: true,
+          book: .5
+        }, {
+          date: new Date('05/06/16'), 
+          available: true,
+          book: 1
+        }, {
+          date: new Date('05/27/16'),
+          available: false,
+          book: 0
+        }],
+        calendarPoint_remove: [{
+          date: new Date('05/10/16')
+        }, {
+          date: new Date('05/12/16')
         }],
       };
     }

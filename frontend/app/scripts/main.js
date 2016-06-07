@@ -108,31 +108,26 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'InitService',
 		$location.path('/home/search');
 	}
 
-	$scope.service = function(){
-		
-	}
-
-
-	// $scope.$on('$stateChangeSuccess', function() {
-	// 	console.log("stateChangeSuccess");	   
+	// $scope.$on('$viewContentLoaded', function() {
+	// 	console.log("viewContentLoaded");	   
+	// 	InitService.addEventListener('jQueryReady', function () {
+	// 		$('[data-toggle="tooltip"]').tooltip();
+	// 	});	
 	// });
-
-	// $scope.$on('$routeChangeSuccess', function() {
-	// 	console.log("routeChangeSuccess");	   
-	// });
-
-	$scope.$on('$viewContentLoaded', function() {
-		console.log("viewContentLoaded");	   
-		InitService.addEventListener('jQueryReady', function () {
-			$('[data-toggle="tooltip"]').tooltip();
-		});	
-		// InitService.addEventListener('jQueryReady', function () {
-		// 	$('[data-toggle="tooltip"]').tooltip();
-		// });
-	});
 
 
 }])
+
+.directive('toggle', function(){
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs){
+      if (attrs.toggle=="tooltip"){
+        $(element).tooltip();
+      }
+    }
+  };
+})
 MyApp.angular.factory('InitService', ['$document', function ($document) {
   'use strict';
 

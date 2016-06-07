@@ -38,7 +38,3 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider) {
 // 	getLanguage: 'http://jsonplaceholder.typicode.com/posts/2',
 // 	getCurrency: 'http://jsonplaceholder.typicode.com/posts/3'
 // }
-
-$(document).ready(function() {
-    $('[data-toggle=tooltip]').tooltip();
-}); 

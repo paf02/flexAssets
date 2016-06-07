@@ -94,7 +94,6 @@ module.exports = function(wagner) {
 		}
 	}));
 
-
 	api.put('/user', wagner.invoke(function(User) {
 		return function(req, res) {
 
@@ -226,7 +225,6 @@ module.exports = function(wagner) {
 		}
 	}));
 
-
 	api.delete('/user', wagner.invoke(function(User) {
 		return function(req, res) {
 
@@ -282,6 +280,59 @@ module.exports = function(wagner) {
 		}; 
 	}));
 
+	api.post('/role', wagner.invoke(function(Role) {
+		return function(req, res) {
+
+			var newRole = new Role({
+				name: req.body.name
+			});
+
+			newRole.save(function(error, role) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				return res
+					.status(status.OK)
+					.json({ Role: role });
+			});
+		}
+	}));
+
+
+	api.delete('/role', wagner.invoke(function(Role) {
+		return function(req, res) {
+
+			Role.findOne({ _id: req.body.id }, function(error, role) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				if (!role) {
+					return res.
+						status(status.NOT_FOUND). 
+						json({ error: 'Not found'});
+				}
+
+				role.remove(function(error, role) {
+					if (error) {
+						return res.
+							status(status.INTERNAL_SERVER_ERROR).
+							json({ error: error.toString() });
+					}
+
+					return res
+						.status(status.OK)
+						.json({ Role: user });
+				});
+			});			
+		}
+	}));
+
 
 	api.get('/category', wagner.invoke(function(Category) {
 		return function(req, res) {
@@ -303,6 +354,58 @@ module.exports = function(wagner) {
 		}; 
 	}));
 
+	api.post('/category', wagner.invoke(function(Category) {
+		return function(req, res) {
+
+			var newCategory = new Category({
+				name: req.body.name
+			});
+
+			newCategory.save(function(error, category) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				return res
+					.status(status.OK)
+					.json({ Category: category });
+			});
+		}
+	}));
+
+	api.delete('/category', wagner.invoke(function(Category) {
+		return function(req, res) {
+
+			Category.findOne({ _id: req.body.id }, function(error, category) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				if (!category) {
+					return res.
+						status(status.NOT_FOUND). 
+						json({ error: 'Not found'});
+				}
+
+				category.remove(function(error, category) {
+					if (error) {
+						return res.
+							status(status.INTERNAL_SERVER_ERROR).
+							json({ error: error.toString() });
+					}
+
+					return res
+						.status(status.OK)
+						.json({ Category: user });
+				});
+			});			
+		}
+	}));
+
 
 	api.get('/skill', wagner.invoke(function(Skill) {
 		return function(req, res) {
@@ -322,6 +425,58 @@ module.exports = function(wagner) {
 				res.json({ Skill: skill }); 
 			}); 
 		}; 
+	}));
+
+	api.post('/skill', wagner.invoke(function(Skill) {
+		return function(req, res) {
+
+			var newSkill = new Skill({
+				name: req.body.name
+			});
+
+			newSkill.save(function(error, skill) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				return res
+					.status(status.OK)
+					.json({ Skill: skill });
+			});
+		}
+	}));
+
+	api.delete('/skill', wagner.invoke(function(Skill) {
+		return function(req, res) {
+
+			Skill.findOne({ _id: req.body.id }, function(error, skill) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				if (!skill) {
+					return res.
+						status(status.NOT_FOUND). 
+						json({ error: 'Not found'});
+				}
+
+				skill.remove(function(error, skill) {
+					if (error) {
+						return res.
+							status(status.INTERNAL_SERVER_ERROR).
+							json({ error: error.toString() });
+					}
+
+					return res
+						.status(status.OK)
+						.json({ Skill: user });
+				});
+			});			
+		}
 	}));
 
 

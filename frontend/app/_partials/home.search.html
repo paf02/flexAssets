@@ -39,7 +39,7 @@
 	<table class="table table-hover">
 		<thead>
 			<tr>
-				<th>Name</th>
+				<th ng-show="auth">Name</th>
 				<th>Position</th>
 				<th>Role</th>
 				<th>Country</th>
@@ -48,27 +48,17 @@
 		</thead>
 		<tbody>
 			<tr>
-				<td><a ui-sref="details">John Smith</a></td>
+				<td ng-show="auth"><a ui-sref="details">John Smith</a></td>
 				<td>Development</td>
 				<td>Senior Front End</td>
 				<td>Costa Rica</td>
-				<td class="text-right">
-					<div class="booking-dots">
-						<ul>
-							<li></li>
-							<li></li>
-							<li></li>
-							<li></li>
-							<li></li>
-						</ul>
-						<ul>
-							<li></li>
-							<li></li>
-							<li></li>
-							<li></li>
-							<li></li>
-						</ul>
-
+				<td>
+					<div class="clearfix">
+						<div class="pull-right">
+							<div ng-repeat="date in dates" ng-class="{block: ($index +1) % 6}">
+						      <div class="days" data-toggle="tooltip" title="{{date | date}}" data-placement="bottom"></div>
+						    </div>	
+						</div>
 					</div>
 				</td>
 			</tr>

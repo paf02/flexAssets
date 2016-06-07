@@ -1,14 +1,3 @@
-// MyApp.angular.directive('toggle', function(){
-//   return {
-//     restrict: 'A',
-//     controller: 'appController',
-//     link: function(scope, element, attrs){
-//       if (attrs.toggle=="tooltip"){
-//         $(element).tooltip();
-//       }
-//     }
-//   };
-// })
 MyApp.angular.controller('appController', ['$scope', '$location', 'InitService', 'DataService', function($scope, $location, InitService, DataService){
 	$scope.auth = false;
 
@@ -77,9 +66,4 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'InitService',
 		$location.path('/home/search');
 	}
 
-	$scope.service = function(){
-		
-	}
-
-
-}])
+}]);

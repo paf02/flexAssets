@@ -33,8 +33,8 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider) {
 });
 
 
-// MyApp.endPoints = {
-// 	getProduct: 'http://jsonplaceholder.typicode.com/posts/1',
-// 	getLanguage: 'http://jsonplaceholder.typicode.com/posts/2',
-// 	getCurrency: 'http://jsonplaceholder.typicode.com/posts/3'
-// }
+MyApp.endPoints = {
+	getUsers: 'http://10.66.22.180:3000/api/v1/user',
+	getLanguage: 'http://jsonplaceholder.typicode.com/posts/2',
+	getCurrency: 'http://jsonplaceholder.typicode.com/posts/3'
+}

@@ -9,8 +9,17 @@
 //     }
 //   };
 // })
-MyApp.angular.controller('appController', ['$scope', '$location', 'InitService', function($scope, $location, InitService){
+MyApp.angular.controller('appController', ['$scope', '$location', 'InitService', 'DataService', function($scope, $location, InitService, DataService){
 	$scope.auth = false;
+
+
+	DataService.getUsers(function(results) {
+		console.log(results); 
+
+		$scope.users = results.data.user;
+	}, function() {
+		console.log('fail'); 
+	});
 
 	function getMondays() {
       var d = new Date(),
@@ -71,25 +80,6 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'InitService',
 	$scope.service = function(){
 		
 	}
-
-
-	// $scope.$on('$stateChangeSuccess', function() {
-	// 	console.log("stateChangeSuccess");	   
-	// });
-
-	// $scope.$on('$routeChangeSuccess', function() {
-	// 	console.log("routeChangeSuccess");	   
-	// });
-
-	$scope.$on('$viewContentLoaded', function() {
-		console.log("viewContentLoaded");	   
-		InitService.addEventListener('jQueryReady', function () {
-			$('[data-toggle="tooltip"]').tooltip();
-		});	
-		// InitService.addEventListener('jQueryReady', function () {
-		// 	$('[data-toggle="tooltip"]').tooltip();
-		// });
-	});
 
 
 }])

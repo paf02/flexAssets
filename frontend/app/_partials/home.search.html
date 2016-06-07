@@ -39,7 +39,7 @@
 	<table class="table table-hover">
 		<thead>
 			<tr>
-				<th ng-show="auth">Name</th>
+				<th>Name</th>
 				<th>Position</th>
 				<th>Role</th>
 				<th>Country</th>
@@ -47,11 +47,11 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td ng-show="auth"><a ui-sref="details">John Smith</a></td>
-				<td>Development</td>
-				<td>Senior Front End</td>
-				<td>Costa Rica</td>
+			<tr ng-repeat="user in users">
+				<td><a ui-sref="details">{{user.name + ' ' + user.lastname}}</a></td>
+				<td>{{user.category.name}}</td>
+				<td>{{user.role.name}}</td>
+				<td>{{user.country.name}}</td>
 				<td>
 					<div class="clearfix">
 						<div class="pull-right">
@@ -61,6 +61,16 @@
 						</div>
 					</div>
 				</td>
+
+				<!-- <td>
+					<div class="clearfix">
+						<div class="pull-right">
+							<div ng-repeat="date in dates" ng-class="{block: ($index +1) % 6}">
+						      <div class="days" data-toggle="tooltip" title="{{date | date}}" data-placement="bottom"></div>
+						    </div>	
+						</div>
+					</div>
+				</td> -->
 			</tr>
 		</tbody>
 	</table>

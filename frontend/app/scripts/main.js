@@ -33,11 +33,11 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider) {
 });
 
 
-// MyApp.endPoints = {
-// 	getProduct: 'http://jsonplaceholder.typicode.com/posts/1',
-// 	getLanguage: 'http://jsonplaceholder.typicode.com/posts/2',
-// 	getCurrency: 'http://jsonplaceholder.typicode.com/posts/3'
-// }
+MyApp.endPoints = {
+	getUsers: 'http://10.66.22.180:3000/api/v1/user',
+	getLanguage: 'http://jsonplaceholder.typicode.com/posts/2',
+	getCurrency: 'http://jsonplaceholder.typicode.com/posts/3'
+}
 // MyApp.angular.directive('toggle', function(){
 //   return {
 //     restrict: 'A',
@@ -49,8 +49,17 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider) {
 //     }
 //   };
 // })
-MyApp.angular.controller('appController', ['$scope', '$location', 'InitService', function($scope, $location, InitService){
+MyApp.angular.controller('appController', ['$scope', '$location', 'InitService', 'DataService', function($scope, $location, InitService, DataService){
 	$scope.auth = false;
+
+
+	DataService.getUsers(function(results) {
+		console.log(results); 
+
+		$scope.users = results.data.user;
+	}, function() {
+		console.log('fail'); 
+	});
 
 	function getMondays() {
       var d = new Date(),
@@ -113,26 +122,21 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'InitService',
 	}
 
 
-	// $scope.$on('$stateChangeSuccess', function() {
-	// 	console.log("stateChangeSuccess");	   
-	// });
-
-	// $scope.$on('$routeChangeSuccess', function() {
-	// 	console.log("routeChangeSuccess");	   
-	// });
-
-	$scope.$on('$viewContentLoaded', function() {
-		console.log("viewContentLoaded");	   
-		InitService.addEventListener('jQueryReady', function () {
-			$('[data-toggle="tooltip"]').tooltip();
-		});	
-		// InitService.addEventListener('jQueryReady', function () {
-		// 	$('[data-toggle="tooltip"]').tooltip();
-		// });
-	});
-
-
 }])
+MyApp.angular.factory('DataService', ['$document', '$http', function ($document, $http) {
+	'use strict';
+
+	var pub = {};
+
+	pub.getUsers = function(success, fail) {
+		$http({
+			method: 'GET',
+			url: MyApp.endPoints.getUsers
+		}).then(success, fail);
+	};
+
+	return pub;
+}]);
 MyApp.angular.factory('InitService', ['$document', function ($document) {
   'use strict';
 

@@ -3,6 +3,7 @@ var category = require('./category');
 var role = require('./role');
 var user = require('./user');
 var skill = require('./skill');
+var country = require('./country');
 var config = require('./config');
 var _ = require('underscore');
 
@@ -13,12 +14,14 @@ module.exports = function(wagner) {
 	var Role = mongoose.model('Role', role, 'role');
 	var User = mongoose.model('User', user, 'user');
 	var Skill = mongoose.model('Skill', skill, 'skill');
+	var Country = mongoose.model('Country', country, 'country');
 
 	var models = {
 		Category: Category,
 		Role: Role,
 		User: User,
-		Skill: Skill
+		Skill: Skill,
+		Country: Country
 	};
 
 

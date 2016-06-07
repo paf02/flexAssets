@@ -70,13 +70,10 @@ module.exports = function(wagner) {
 				name: req.body.name,
         lastname: req.body.lastname,
         resume: urlFiles,
-        role: {
-        	name: req.body.role.name
-        },
-        category: {
-        	name: req.body.category.name,
-        },
+        role: req.body.role,
+        category: req.body.category,
         calendarPoint: req.body.calendarPoint,
+        country: req.body.country,
         skill: req.body.skill
 			});
 
@@ -122,6 +119,9 @@ module.exports = function(wagner) {
 					var urlFiles = req.headers.origin + saveFile(req.body.resume).split(config.publicAccess)[1];
 					user.resume = urlFiles;
 				}
+
+				if (req.body.country)
+					user.country = req.body.country;
 
 				if (req.body.name)
 					user.name = req.body.name;
@@ -474,6 +474,79 @@ module.exports = function(wagner) {
 					return res
 						.status(status.OK)
 						.json({ Skill: user });
+				});
+			});			
+		}
+	}));
+
+
+	api.get('/country', wagner.invoke(function(Country) {
+		return function(req, res) {
+			Country.find(function(error, country) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				if (!country) {
+					return res.
+						status(status.NOT_FOUND).
+						json({ error: 'Not found'});
+				}
+
+				res.json({ Country: country }); 
+			}); 
+		}; 
+	}));
+
+	api.post('/country', wagner.invoke(function(Country) {
+		return function(req, res) {
+
+			var newCountry = new Country({
+				name: req.body.name
+			});
+
+			newCountry.save(function(error, country) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				return res
+					.status(status.OK)
+					.json({ Country: country });
+			});
+		}
+	}));
+
+	api.delete('/country', wagner.invoke(function(Country) {
+		return function(req, res) {
+
+			Country.findOne({ _id: req.body.id }, function(error, country) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				if (!country) {
+					return res.
+						status(status.NOT_FOUND). 
+						json({ error: 'Not found'});
+				}
+
+				country.remove(function(error, country) {
+					if (error) {
+						return res.
+							status(status.INTERNAL_SERVER_ERROR).
+							json({ error: error.toString() });
+					}
+
+					return res
+						.status(status.OK)
+						.json({ Country: user });
 				});
 			});			
 		}

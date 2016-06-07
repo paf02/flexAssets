@@ -4,6 +4,7 @@ var role = require('./role');
 var user = require('./user');
 var skill = require('./skill');
 var config = require('./config');
+var _ = require('underscore');
 
 module.exports = function(wagner) {
 	mongoose.connect('mongodb://localhost:27017/' + config.dataBaseName);
@@ -20,21 +21,28 @@ module.exports = function(wagner) {
 		Skill: Skill
 	};
 
-	wagner.factory('Category', function() { 
-		return Category;
+
+	_.each(models, function(value, key) {
+		wagner.factory(key, function() {
+			return value;
+		});
 	});
 
-	wagner.factory('Role', function() {
-		return Role;
-	});
+	// wagner.factory('Category', function() { 
+	// 	return Category;
+	// });
 
-	wagner.factory('User', function() {
-		return User;
-	});
+	// wagner.factory('Role', function() {
+	// 	return Role;
+	// });
 
-	wagner.factory('Skill', function() {
-		return Skill;
-	});
+	// wagner.factory('User', function() {
+	// 	return User;
+	// });
+
+	// wagner.factory('Skill', function() {
+	// 	return Skill;
+	// });
 
 	return models;
 };

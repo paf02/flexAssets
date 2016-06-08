@@ -35,7 +35,9 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider) {
 
 MyApp.endPoints = {
 	getUsers: 'http://10.66.22.180:3000/api/v1/user',
-	getLanguage: 'http://jsonplaceholder.typicode.com/posts/2',
+	getCountry: 'http://10.66.22.180:3000/api/v1/country',
+	getCategory: 'http://10.66.22.180:3000/api/v1/category',
+	getRole: 'http://10.66.22.180:3000/api/v1/role',
 	getCurrency: 'http://jsonplaceholder.typicode.com/posts/3'
 }
 MyApp.angular.controller('appController', ['$scope', '$location', 'InitService', 'DataService', function($scope, $location, InitService, DataService){
@@ -43,9 +45,25 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'InitService',
 
 
 	DataService.getUsers(function(results) {
-		console.log(results); 
-
 		$scope.users = results.data.user;
+	}, function() {
+		console.log('fail'); 
+	});
+
+	DataService.getCountry(function(results) {
+		$scope.countries = results.data.Country;
+	}, function() {
+		console.log('fail'); 
+	});
+
+	DataService.getCategory(function(results) {
+		$scope.categories = results.data.Category;
+	}, function() {
+		console.log('fail'); 
+	});
+
+	DataService.getRole(function(results) {
+		$scope.roles = results.data.Role;
 	}, function() {
 		console.log('fail'); 
 	});
@@ -127,6 +145,27 @@ MyApp.angular.factory('DataService', ['$document', '$http', function ($document,
 		$http({
 			method: 'GET',
 			url: MyApp.endPoints.getUsers
+		}).then(success, fail);
+	};
+
+	pub.getCountry = function(success, fail) {
+		$http({
+			method: 'GET',
+			url: MyApp.endPoints.getCountry
+		}).then(success, fail);
+	};
+
+	pub.getCategory = function(success, fail) {
+		$http({
+			method: 'GET',
+			url: MyApp.endPoints.getCategory
+		}).then(success, fail);
+	};
+
+	pub.getRole = function(success, fail) {
+		$http({
+			method: 'GET',
+			url: MyApp.endPoints.getRole
 		}).then(success, fail);
 	};
 

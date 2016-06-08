@@ -3,9 +3,25 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'InitService',
 
 
 	DataService.getUsers(function(results) {
-		console.log(results); 
-
 		$scope.users = results.data.user;
+	}, function() {
+		console.log('fail'); 
+	});
+
+	DataService.getCountry(function(results) {
+		$scope.countries = results.data.Country;
+	}, function() {
+		console.log('fail'); 
+	});
+
+	DataService.getCategory(function(results) {
+		$scope.categories = results.data.Category;
+	}, function() {
+		console.log('fail'); 
+	});
+
+	DataService.getRole(function(results) {
+		$scope.roles = results.data.Role;
 	}, function() {
 		console.log('fail'); 
 	});

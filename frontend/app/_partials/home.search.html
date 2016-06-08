@@ -51,12 +51,9 @@
 				<td>
 					<div class="clearfix">
 						<ul class="pull-right dates">
-							<li ng-repeat="date in dates" >
-							<!-- ng-class="{block: ($index +1) % 6}" -->
-								<div class="days" data-toggle="tooltip" data-original-title="{{date | date}}" data-placement="bottom">
+							<li ng-repeat="date in dates track by $index" ng-class="getBreakLine(date, $index)">
+								<div class="days" data-toggle="tooltip" data-original-title="{{date | date}}" data-placement="bottom" ng-class="getCSSClass(user, date)">
 								</div>
-
-								{{date}}	
 							</li>	
 						</ul>
 					</div>

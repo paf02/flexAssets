@@ -27,7 +27,7 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: "_partials/home.add.html"
     })
     .state('details', {
-      url: "/details",
+      url: "/details/:userId",
       templateUrl: "_partials/details.html"
     });
 });
@@ -40,7 +40,7 @@ MyApp.endPoints = {
 	getRole: 'http://10.66.22.180:3000/api/v1/role',
 	getCurrency: 'http://jsonplaceholder.typicode.com/posts/3'
 }
-MyApp.angular.controller('appController', ['$scope', '$location', 'InitService', 'DataService', function($scope, $location, InitService, DataService){
+MyApp.angular.controller('appController', ['$scope', '$location', 'InitService', 'DataService', '$stateParams', function($scope, $location, InitService, DataService, $stateParams){
 	$scope.auth = false;
 
 	DataService.getUsers(function(results) {
@@ -49,6 +49,9 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'InitService',
 	}, function() {
 		console.log('fail'); 
 	});
+
+	$scope.id = $stateParams.userId;
+	console.log($scope.id);
 
 	DataService.getCountry(function(results) {
 		$scope.countries = results.data.Country;

@@ -1,4 +1,4 @@
-MyApp.angular.controller('appController', ['$scope', '$location', 'InitService', 'DataService', function($scope, $location, InitService, DataService){
+MyApp.angular.controller('appController', ['$scope', '$location', 'InitService', 'DataService', '$stateParams', function($scope, $location, InitService, DataService, $stateParams){
 	$scope.auth = false;
 
 	DataService.getUsers(function(results) {
@@ -7,6 +7,9 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'InitService',
 	}, function() {
 		console.log('fail'); 
 	});
+
+	$scope.id = $stateParams.userId;
+	console.log($scope.id);
 
 	DataService.getCountry(function(results) {
 		$scope.countries = results.data.Country;

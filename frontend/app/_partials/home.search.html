@@ -50,11 +50,15 @@
 				<td>{{user.country.name}}</td>
 				<td>
 					<div class="clearfix">
-						<div class="pull-right">
-							<div ng-repeat="date in dates" ng-class="{block: ($index +1) % 6}">
-								<div class="days" data-toggle="tooltip" data-original-title="{{date | date}}" data-placement="bottom"></div>
-							</div>	
-						</div>
+						<ul class="pull-right dates">
+							<li ng-repeat="date in dates" >
+							<!-- ng-class="{block: ($index +1) % 6}" -->
+								<div class="days" data-toggle="tooltip" data-original-title="{{date | date}}" data-placement="bottom">
+								</div>
+
+								{{date}}	
+							</li>	
+						</ul>
 					</div>
 				</td>
 

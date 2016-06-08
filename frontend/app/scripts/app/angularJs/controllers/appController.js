@@ -1,9 +1,9 @@
 MyApp.angular.controller('appController', ['$scope', '$location', 'InitService', 'DataService', function($scope, $location, InitService, DataService){
 	$scope.auth = false;
 
-
 	DataService.getUsers(function(results) {
 		$scope.users = results.data.user;
+		pagination();
 	}, function() {
 		console.log('fail'); 
 	});
@@ -26,10 +26,26 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'InitService',
 		console.log('fail'); 
 	});
 
+	function pagination() {
+		$scope.currentPage = 0;
+	    $scope.defaultPageSize = 5;
+	    $scope.pageSize = $scope.defaultPageSize;
+        var len = Math.ceil($scope.users.length/$scope.pageSize);
+        $scope.pageArray = [];
+        
+        for( var i = 0; i < len; i++ )
+        {
+            $scope.pageArray.push( i);
+        }
+        
+        return len;            
+	}
+
 	function getMondays() {
       var d = new Date(),
           month = d.getMonth(),
-          mondays = [];
+          mondays = [],
+          count = 0;
 
       d.setDate(1);
 
@@ -42,6 +58,10 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'InitService',
       while (d.getMonth() === month) {
           mondays.push(new Date(d.getTime()));
           d.setDate(d.getDate() + 7);
+          count++;
+          if(count>2) {
+          	break;
+          }
       }
 
       return mondays;
@@ -83,3 +103,10 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'InitService',
 	}
 
 }]);
+
+MyApp.angular.filter('startFrom', function() {
+    return function(input, start) {
+        start = +start; //parse to int
+        return input.slice(start);
+    }
+});

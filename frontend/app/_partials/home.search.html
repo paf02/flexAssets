@@ -1,6 +1,6 @@
 <div class="form-group has-feedback">
-  <input type="text" class="form-control input-lg" placeholder="Search..." ng-model="search">
-  <i class="zmdi zmdi-search zmdi-hc-lg form-control-feedback" aria-hidden="true"></i>
+	<input type="text" class="form-control input-lg" placeholder="Search..." ng-model="search">
+	<i class="zmdi zmdi-search zmdi-hc-lg form-control-feedback" aria-hidden="true"></i>
 </div>
 
 <label class="control-label"><i class="zmdi zmdi-filter-list"></i> Filter by</label>
@@ -43,7 +43,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="user in users | filter: search | filter: countryFilter | filter: categoryFilter | filter: roleFilter">
+			<tr ng-repeat="user in filteredUsers = (users | filter: search | filter: countryFilter | filter: categoryFilter | filter: roleFilter) | startFrom:currentPage*pageSize | limitTo:pageSize"">
 				<td><a ui-sref="details">{{user.name + ' ' + user.lastname}}</a></td>
 				<td>{{user.category.name}}</td>
 				<td>{{user.role.name}}</td>
@@ -52,8 +52,8 @@
 					<div class="clearfix">
 						<div class="pull-right">
 							<div ng-repeat="date in dates" ng-class="{block: ($index +1) % 6}">
-						      <div class="days" data-toggle="tooltip" data-original-title="{{date | date}}" data-placement="bottom"></div>
-						    </div>	
+								<div class="days" data-toggle="tooltip" data-original-title="{{date | date}}" data-placement="bottom"></div>
+							</div>	
 						</div>
 					</div>
 				</td>
@@ -72,11 +72,9 @@
 	</table>
 </div>
 <div class="text-center">
-	<ul class="pagination">
-		<li class="active"><a href="#">1</a></li>
-	    <li><a href="#">2</a></li>
-	    <li><a href="#">3</a></li>
-	    <li><a href="#">4</a></li>
-	    <li><a href="#">5</a></li>
+	<ul class="pagination" ng-show="filteredUsers.length>pageSize">
+		<li ng-repeat="page in pageArray" ng-class="{active : currentPage==page}">
+			<a href="" ng-click="$parent.currentPage=page">{{page+1}}</a>
+		</li>
 	</ul>
 </div>

@@ -35,6 +35,8 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider) {
 
 MyApp.endPoints = {
 	getUsers: 'http://10.66.22.180:3000/api/v1/user',
-	getLanguage: 'http://jsonplaceholder.typicode.com/posts/2',
+	getCountry: 'http://10.66.22.180:3000/api/v1/country',
+	getCategory: 'http://10.66.22.180:3000/api/v1/category',
+	getRole: 'http://10.66.22.180:3000/api/v1/role',
 	getCurrency: 'http://jsonplaceholder.typicode.com/posts/3'
 }

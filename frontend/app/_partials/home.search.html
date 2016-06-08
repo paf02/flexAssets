@@ -1,5 +1,5 @@
 <div class="form-group has-feedback">
-  <input type="text" class="form-control input-lg" placeholder="Search...">
+  <input type="text" class="form-control input-lg" placeholder="Search..." ng-model="search">
   <i class="zmdi zmdi-search zmdi-hc-lg form-control-feedback" aria-hidden="true"></i>
 </div>
 
@@ -7,29 +7,25 @@
 <div class="row">
 	<div class="col-sm-3 col-xs-6">
 		<div class="form-group">
-			<select class="form-control">
-				<option>Country</option>
+			<select class="form-control" ng-model="countryFilter">
+				<option value="{{undefined}}">All</option>
+				<option ng-repeat="country in countries" value="{{country.name}}">{{country.name}}</option>
 			</select>
 		</div>
 	</div>
 	<div class="col-sm-3 col-xs-6">
 		<div class="form-group">
-			<select class="form-control">
-				<option>Position</option>
+			<select class="form-control" ng-model="categoryFilter">
+				<option value="{{undefined}}">All</option>
+				<option ng-repeat="category in categories" value="{{category.name}}">{{category.name}}</option>
 			</select>
 		</div>
 	</div>
 	<div class="col-sm-3 col-xs-6">
 		<div class="form-group">
-			<select class="form-control">
-				<option>Role</option>
-			</select>
-		</div>
-	</div>
-	<div class="col-sm-3 col-xs-6 hide">
-		<div class="form-group">
-			<select class="form-control">
-				<option>Country</option>
+			<select class="form-control" ng-model="roleFilter">
+				<option value="{{undefined}}">All</option>
+				<option ng-repeat="role in roles" value="{{role.name}}">{{role.name}}</option>
 			</select>
 		</div>
 	</div>
@@ -47,7 +43,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="user in users">
+			<tr ng-repeat="user in users | filter: search | filter: countryFilter | filter: categoryFilter | filter: roleFilter">
 				<td><a ui-sref="details">{{user.name + ' ' + user.lastname}}</a></td>
 				<td>{{user.category.name}}</td>
 				<td>{{user.role.name}}</td>

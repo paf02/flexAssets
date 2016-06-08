@@ -82,6 +82,19 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'InitService',
 	    }  	
 	});
 
+  var days = [];
+
+  (function() {
+  	var t = new Date(),
+  			day = null;
+  	
+  	for (var i=1; i<104; i++){
+  		day =	new Date().setDate(t.getDate() + i);
+  		days.push(new Date(day));
+  	}
+  	console.log(days);
+  })();
+
 	$scope.credentials = {
 		username: "John Smith",
 		password: "abc123"

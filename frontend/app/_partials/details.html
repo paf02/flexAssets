@@ -1,8 +1,8 @@
-<div class="details-head form-group">
+<div class="details-head form-group" ng-model="users">
 	<a class="btn btn-primary btn-lg" ui-sref="home.search">
 		<i class="zmdi zmdi-arrow-left zmdi-hc-lg"></i>
 	</a>
-	<span>John Smith Profile</span>
+	<span>{{users[id].name}} Profile</span>
 </div>
 <label class="control-label"><i class="zmdi zmdi-account"></i> Employee Information</label>
 <div class="row">

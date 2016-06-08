@@ -36,7 +36,7 @@
         e.preventDefault();
 
         $.ajax({
-          url: 'http://localhost:3000/api/v1/user',
+          url: 'http://10.66.22.180:3000/api/v1/user',
           type: 'PUT',
           data: formDataUpdate(),
           dataType: 'json',
@@ -60,7 +60,7 @@
         e.preventDefault();
 
         $.ajax({
-          url: 'http://localhost:3000/api/v1/user',
+          url: 'http://10.66.22.180:3000/api/v1/user',
           type: 'DELETE',
           data: formData(),
           dataType: 'json',
@@ -103,8 +103,8 @@
         role: { name: 'rol0' },
         category: { name: 'cat0' },
         country: { 
-          name: 'Costa Rica',
-          acronym: 'CR' 
+          name: 'colombia',
+          acronym: 'c' 
         },
         skill: [
           { name: 'skill0' },

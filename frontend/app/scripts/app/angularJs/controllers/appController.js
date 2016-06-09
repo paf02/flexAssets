@@ -1,15 +1,17 @@
-MyApp.angular.controller('appController', ['$scope', '$location', 'InitService', 'DataService', '$stateParams', function($scope, $location, InitService, DataService, $stateParams){
+MyApp.angular.controller('appController', ['$scope', '$location', 'DataService', function($scope, $location, DataService){
 	$scope.auth = false;
 
 	DataService.getUsers(function(results) {
-		$scope.users = results.data.User;
-		pagination();
+		try {
+			$scope.users = results.data.User;
+			pagination();	
+		} 
+		catch(e) {
+			console.log(e);
+		}
 	}, function() {
 		console.log('fail'); 
 	});
-
-	// $scope.id = $stateParams.userId;
-	// console.log($scope.id);
 
 	DataService.getCountry(function(results) {
 		$scope.countries = results.data.Country;
@@ -31,17 +33,17 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'InitService',
 
 	function pagination() {
 		$scope.currentPage = 0;
-	    $scope.defaultPageSize = 5;
-	    $scope.pageSize = $scope.defaultPageSize;
-        var len = Math.ceil($scope.users.length/$scope.pageSize);
-        $scope.pageArray = [];
-        
-        for( var i = 0; i < len; i++ )
-        {
-            $scope.pageArray.push( i);
-        }
-        
-        return len;            
+		$scope.defaultPageSize = 5;
+		$scope.pageSize = $scope.defaultPageSize;
+		var len = Math.ceil($scope.users.length/$scope.pageSize);
+		$scope.pageArray = [];
+
+		for( var i = 0; i < len; i++ )
+		{
+			$scope.pageArray.push( i);
+		}
+
+		return len;            
 	}
 
 	// function getMondays() {
@@ -69,15 +71,15 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'InitService',
 
  //      return mondays;
  //  	}
-  
+
  //  	var m = getMondays();
  //  	$scope.dates = [];
-  
+
  //  	m.forEach(function(ele) {
 	//     var x = new Date(ele);
 	//     var y = x.getTime();
 	//     var z, i, dates;
-	    
+
 	//     for (i=0; i<=4; i++) {
 	//     	z = (x.getDay() + i * 24 * 60 * 60 * 1000);
 	//       dates = new Date(y+z);
@@ -85,9 +87,7 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'InitService',
 	//     }  	
 	// });
 
-  // var days = [];
-
-  $scope.dates = [];
+	$scope.dates = [];
 
   (function() {
   	// startDate is a string or Date.now()
@@ -118,33 +118,34 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'InitService',
   		// filter saturdays and sundays
   		if (0 < day_number && 6 > day_number)
   			$scope.dates.push(day);
-  			
-			i++;
-			// console.log(day);
-  	}
-  })();
 
-  function calza(day_number) {
-  	for (var i = day_number - 1; i >= 1; i--) {
-  		$scope.dates.push('');
-  	};  
-  }
-  $scope.getBreakLine = function(dayView, indx) {
+  		i++;
+			// console.log(day);
+		}
+	})();
+
+	function calza(day_number) {
+		for (var i = day_number - 1; i >= 1; i--) {
+			$scope.dates.push('');
+		};  
+	}
+
+	$scope.getBreakLine = function(dayView, indx) {
   	// var yssss = '';
 
   	if (dayView) {
-			if (indx == 0) {
-	  		return 'block';
-	  	} else {
-		  	if (dayView.getDay() > 1) {
-		  		return 'block';
-		  	} else {
-		  		return '';
-		  	}
-	  	}
-		} else {
-			return 'hid block';
-		}
+  		if (indx == 0) {
+  			return 'block';
+  		} else {
+  			if (dayView.getDay() > 1) {
+  				return 'block';
+  			} else {
+  				return '';
+  			}
+  		}
+  	} else {
+  		return 'hid block';
+  	}
   } 
 
   $scope.getCSSClass = function(user, dayView) {
@@ -152,7 +153,7 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'InitService',
   	var yssss = '';
   	
   	
-		for (var indx = 0; indx < user.calendarPoint.length; indx++) {
+  	for (var indx = 0; indx < user.calendarPoint.length; indx++) {
   		day = new Date(user.calendarPoint[indx].date);
   		// console.log(parseDate(day));
   		// console.log(parseDate(dayView));
@@ -163,13 +164,6 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'InitService',
   			break;
   		}
   	};
-  	// } else {
-  	// 	yssss = 'hid';
-  	// }
-
-
-  	
-
 
   	// console.log(dayView.getFullYear() + "/" + (dayView.getMonth() + 1) + "/" + dayView.getDate());
   	return yssss;
@@ -183,31 +177,53 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'InitService',
   	}
   }
 
-	$scope.credentials = {
-		username: "John Smith",
-		password: "abc123"
-	};
+  $scope.credentials = {
+  	username: "John Smith",
+  	password: "abc123"
+  };
 
-	$scope.login = function(){ 
-		if($scope.loginForm.username.$modelValue == $scope.credentials.username && $scope.loginForm.password.$modelValue == $scope.credentials.password) {
-			$('#login').modal('hide');
-			$scope.auth = true;
-			$scope.message = false;
-		} else {
-			$scope.message = true;
-		}
-	}
+  $scope.login = function(){ 
+  	if($scope.loginForm.username.$modelValue == $scope.credentials.username && $scope.loginForm.password.$modelValue == $scope.credentials.password) {
+  		$('#login').modal('hide');
+  		$scope.auth = true;
+  		$scope.message = false;
+  	} else {
+  		$scope.message = true;
+  	}
+  }
 
-	$scope.logout = function() {
-		$scope.auth = false;
-		$location.path('/home/search');
-	}
+  $scope.logout = function() {
+  	$scope.auth = false;
+  	$location.path('/home/search');
+  }
 
 }]);
 
+MyApp.angular.controller('detailsController', ['$scope', 'InitService', 'DataService', '$stateParams', function($scope, InitService, DataService, $stateParams){
+	console.log($stateParams.userId);
+
+	DataService.getUser(function(results) {
+		try {
+			$scope.user = results.data.User;
+		} 
+		catch(e) {
+			console.log(e);
+		}
+	}, function() {
+		console.log('fail'); 
+	}, $stateParams.userId);
+}]);
+
 MyApp.angular.filter('startFrom', function() {
-    return function(input, start) {
-        start = +start; //parse to int
-        return input.slice(start);
+	return function(input, start) {
+		try {
+    		start = +start; //parse to int
+    		return input.slice(start);	
+    	}
+    	catch(e) {
+    		console.log(e);
+    		return null;
+    	}
+
     }
 });

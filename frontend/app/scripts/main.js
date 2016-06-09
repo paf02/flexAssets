@@ -50,8 +50,8 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'InitService',
 		console.log('fail'); 
 	});
 
-	$scope.id = $stateParams.userId;
-	console.log($scope.id);
+	// $scope.id = $stateParams.userId;
+	// console.log($scope.id);
 
 	DataService.getCountry(function(results) {
 		$scope.countries = results.data.Country;
@@ -132,15 +132,15 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'InitService',
   $scope.dates = [];
 
   (function() {
-  	var startDate = '2016/05/04',
+  	// startDate is a string or Date.now()
+  	var startDate = Date.now(),
   			today = new Date(startDate),
   			day_mili = null,
   			day = null,
   			day_number = -1,
   			i = 1,
-  			weeks = 0;
-  	
-  	var day_numberOr = today.getDay();
+  			weeks = 0,
+  			day_numberOr = today.getDay();
 
   	// 2 == 2 weeks
   	while (weeks < 2){
@@ -254,6 +254,16 @@ MyApp.angular.filter('startFrom', function() {
     }
 });
 
+MyApp.angular.directive('toggle', function(){
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs){
+      if (attrs.toggle=="tooltip"){
+        $(element).tooltip();
+      }
+    }
+  };
+});
 MyApp.angular.factory('DataService', ['$document', '$http', function ($document, $http) {
 	'use strict';
 
@@ -337,13 +347,3 @@ MyApp.angular.factory('InitService', ['$document', function ($document) {
   return pub;
   
 }]);
-MyApp.angular.directive('toggle', function(){
-  return {
-    restrict: 'A',
-    link: function(scope, element, attrs){
-      if (attrs.toggle=="tooltip"){
-        $(element).tooltip();
-      }
-    }
-  };
-});

@@ -220,6 +220,8 @@ MyApp.angular.controller('detailsController', ['$scope', 'InitService', 'DataSer
 	DataService.getUser(function(results) {
 		try {
 			$scope.user = results.data.User;
+      $scope.skills = $scope.user.skill;
+      console.log($scope.skills);
 		} 
 		catch(e) {
 			console.log(e);

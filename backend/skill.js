@@ -4,6 +4,10 @@ var skillSchema = {
 	name: {
 		type: String,
 		required: true
+	},
+	level: {
+		type: String,
+		enum: ['basic', 'intermediate', 'advanced']
 	}
 };
 

@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-var Category = require('./category');
 var Role = require('./role');
 var Country = require('./country');
 var Skill = require('./skill');
@@ -19,7 +18,6 @@ var userSchema = {
 	},
 	country: Country.countrySchema,
 	role: Role.roleSchema,
-	category: Category.categorySchema,
 	skill: [Skill.skillSchema],
 	calendarPoint: [{
 		date: {

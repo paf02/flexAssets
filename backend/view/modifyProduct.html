@@ -8,6 +8,80 @@
 
   <script>
     $(function() {
+      $('.populateBD').on('click', function(e) {
+        e.preventDefault();
+        deleteAllDocuments('country');
+        deleteAllDocuments('skill');
+        deleteAllDocuments('category');
+        deleteAllDocuments('role');
+        deleteAllDocuments('admin');
+
+        setTimeout(function() {
+          preloadBD().country.forEach( function(element, index) {
+            bdCall('country', element);
+          });
+
+          preloadBD().skill.forEach( function(element, index) {
+            bdCall('skill', element);
+          });
+
+          preloadBD().category.forEach( function(element, index) {
+            bdCall('category', element);
+          }); 
+
+          preloadBD().role.forEach( function(element, index) {
+            bdCall('role', element);
+          }); 
+
+          preloadBD().admin.forEach( function(element, index) {
+            bdCall('admin', element);
+          });   
+        }, 5000); 
+          
+      });
+
+      function deleteAllDocuments(endPointName) {
+        $.ajax({
+          url: 'http://10.66.22.180:3000/api/v1/' + endPointName + '/all',
+          type: 'DELETE',
+          dataType: 'json',
+          cache : false,
+          // processData: false,
+          success: function(data, textStatus, jqXHR) {
+            console.log("data = " + JSON.stringify(data));
+            console.log("textStatus = " +textStatus);
+            console.log("jqXHR = " + jqXHR);
+          }, error: function (jqXHR, textStatus, errorThrown) {
+            console.log("errorThrown = " );
+            console.log(errorThrown);
+            console.log(textStatus);
+            console.log(jqXHR);
+          }
+        });
+      }
+
+      function bdCall(endPointName, ele) {
+        $.ajax({
+          url: 'http://10.66.22.180:3000/api/v1/' + endPointName,
+          type: 'POST',
+          data: ele,
+          dataType: 'json',
+          cache : false,
+          // processData: false,
+          success: function(data, textStatus, jqXHR) {
+            console.log("data = " + JSON.stringify(data));
+            console.log("textStatus = " +textStatus);
+            console.log("jqXHR = " + jqXHR);
+          }, error: function (jqXHR, textStatus, errorThrown) {
+            console.log("errorThrown = " );
+            console.log(errorThrown);
+            console.log(textStatus);
+            console.log(jqXHR);
+          }
+        });
+      }
+
+
       $('.create').on('click', function(e) {
         e.preventDefault();
         
@@ -91,6 +165,94 @@
         }
       });
     });
+
+    function preloadBD() {
+      var collection = {};
+
+      collection.skill = [{
+        name: 'html'
+      }, {
+        name: 'js'
+      }, {
+        name: 'angular.js'
+      }, {
+        name: 'photoshop'
+      }, {
+        name: 'backbone.js'
+      }, {
+        name: 'css'
+      }, {
+        name: 'html5'
+      }, {
+        name: 'css3'
+      }, {
+        name: 'node.js'
+      }, {
+        name: 'mongo.js'
+      }];
+
+      collection.category = [{
+        name: 'design'
+      }, {
+        name: 'motion design'
+      }, {
+        name: 'development'
+      }, {
+        name: 'qa analyst'
+      }];
+
+      collection.role = [{
+        name: 'Front End Engineer',
+        category: collection.category[2]
+      }, {
+        name: 'Back End Engineer',
+        category: collection.category[2]
+      }, {
+        name: 'Software Engineer Java',
+        category: collection.category[2]
+      }, {
+        name: 'Sr. Software Engineer .Net',
+        category: collection.category[2]
+      }, {
+        name: 'Sr. front End Engineer',
+        category: collection.category[2]
+      }, {
+        name: 'Creative Engineer OLA',
+        category: collection.category[0]
+      }, {
+        name: 'Creative Engineer Email',
+        category: collection.category[0]
+      }, {
+        name: 'Flash Motion Designer',
+        category: collection.category[1]
+      }, {
+        name: 'Functional QA Analyst',
+        category: collection.category[3]
+      }, {
+        name: 'Sr. Functional QA Analyst',
+        category: collection.category[3]
+      }];
+
+      collection.country = [{
+        name: 'Costa Rica',
+        acronym: 'CR'
+      }, {
+        name: 'Colombia',
+        acronym: 'CO'
+      }, {
+        name: 'Mauritius',
+        acronym: 'MU'
+      }];
+
+      collection.admin = [{
+        name: 'admin',
+        lastname: 'admin',
+        password: '123',
+        username: '123'
+      }];
+
+      return collection;
+    }
 
     
     var filesData = null;
@@ -200,6 +362,9 @@
     <a href="#" class="create">create</a>
     <a href="#" class="update">Update</a>
     <a href="#" class="remove">remove</a>
+
+
+    <a href="#" class="populateBD">populate</a>
   </div>
 </body>
 </html>

@@ -280,6 +280,23 @@ module.exports = function(wagner) {
 		}
 	}));
 
+	api.delete('/user/all', wagner.invoke(function(User) {
+		return function(req, res) {
+
+			User.remove(function(error, user) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				return res
+					.status(status.OK)
+					.json({ User: user });
+			});		
+		}
+	}));
+
 
 	api.get('/role', wagner.invoke(function(Role) {
 		return function(req, res) {
@@ -301,11 +318,33 @@ module.exports = function(wagner) {
 		}; 
 	}));
 
+
+	api.get('/role/:categoryName', wagner.invoke(function(Role) {
+		return function(req, res) {
+			Role.find({ 'category.name': req.params.categoryName }, function(error, role) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				if (!role) {
+					return res.
+						status(status.NOT_FOUND).
+						json({ error: 'Not found'});
+				}
+
+				res.json({ Role: role }); 
+			}); 
+		}; 
+	}));
+
 	api.post('/role', wagner.invoke(function(Role) {
 		return function(req, res) {
 
 			var newRole = new Role({
-				name: req.body.name
+				name: req.body.name,
+				category: req.body.category
 			});
 
 			newRole.save(function(error, role) {
@@ -351,6 +390,23 @@ module.exports = function(wagner) {
 						.json({ Role: user });
 				});
 			});			
+		}
+	}));
+
+	api.delete('/role/all', wagner.invoke(function(Role) {
+		return function(req, res) {
+
+			Role.remove(function(error, role) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				return res
+					.status(status.OK)
+					.json({ Role: role });
+			});		
 		}
 	}));
 
@@ -427,6 +483,23 @@ module.exports = function(wagner) {
 		}
 	}));
 
+	api.delete('/category/all', wagner.invoke(function(Category) {
+		return function(req, res) {
+
+			Category.remove(function(error, category) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				return res
+					.status(status.OK)
+					.json({ Category: category });
+			});		
+		}
+	}));
+
 
 	api.get('/skill', wagner.invoke(function(Skill) {
 		return function(req, res) {
@@ -500,6 +573,23 @@ module.exports = function(wagner) {
 		}
 	}));
 
+	api.delete('/skill/all', wagner.invoke(function(Skill) {
+		return function(req, res) {
+
+			Skill.remove(function(error, skill) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				return res
+					.status(status.OK)
+					.json({ Skill: skill });
+			});		
+		}
+	}));
+
 
 	api.get('/country', wagner.invoke(function(Country) {
 		return function(req, res) {
@@ -513,7 +603,7 @@ module.exports = function(wagner) {
 				if (!country) {
 					return res.
 						status(status.NOT_FOUND).
-						json({ error: 'Not found'});
+						json({ error: 'Not found'}); 
 				}
 
 				res.json({ Country: country }); 
@@ -525,7 +615,8 @@ module.exports = function(wagner) {
 		return function(req, res) {
 
 			var newCountry = new Country({
-				name: req.body.name
+				name: req.body.name,
+				acronym: req.body.acronym
 			});
 
 			newCountry.save(function(error, country) {
@@ -573,6 +664,115 @@ module.exports = function(wagner) {
 		}
 	}));
 
+	api.delete('/country/all', wagner.invoke(function(Country) {
+		return function(req, res) {
+
+			Country.remove(function(error, country) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				return res
+					.status(status.OK)
+					.json({ Country: country });
+			});		
+		}
+	}));
+
+
+	api.get('/admin', wagner.invoke(function(Admin) {
+		return function(req, res) {
+			Admin.find(function(error, admin) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				if (!admin) {
+					return res.
+						status(status.NOT_FOUND).
+						json({ error: 'Not found'}); 
+				}
+
+				res.json({ Admin: admin }); 
+			}); 
+		}; 
+	}));
+
+	api.post('/admin', wagner.invoke(function(Admin) {
+		return function(req, res) {
+
+			var newAdmin = new Admin({
+				name: req.body.name,
+				lastname: req.body.lastname,
+				username: req.body.username,
+				password: req.body.password
+			});
+
+			newAdmin.save(function(error, admin) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				return res
+					.status(status.OK)
+					.json({ Admin: admin });
+			});
+		}
+	}));
+
+	api.delete('/admin', wagner.invoke(function(Admin) {
+		return function(req, res) {
+
+			Admin.findOne({ _id: req.body.id }, function(error, admin) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				if (!admin) {
+					return res.
+						status(status.NOT_FOUND). 
+						json({ error: 'Not found'});
+				}
+
+				admin.remove(function(error, admin) {
+					if (error) {
+						return res.
+							status(status.INTERNAL_SERVER_ERROR).
+							json({ error: error.toString() });
+					}
+
+					return res
+						.status(status.OK)
+						.json({ Admin: admin });
+				});
+			});			
+		}
+	}));
+
+	api.delete('/admin/all', wagner.invoke(function(Admin) {
+		return function(req, res) {
+
+			Admin.remove(function(error, admin) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				return res
+					.status(status.OK)
+					.json({ Admin: admin });
+			});		
+		}
+	}));
 
 	return api;
 };

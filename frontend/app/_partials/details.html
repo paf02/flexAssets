@@ -1,9 +1,15 @@
 <div ng-controller="detailsController">
-<div class="details-head form-group" ng-model="users">
-	<a class="btn btn-primary btn-lg" ui-sref="home.search">
-		<i class="zmdi zmdi-arrow-left zmdi-hc-lg"></i>
-	</a>
-	<span>{{user.name}} {{user.lastname}} Profile</span>
+<div class="details-head form-group clearfix text-right" ng-model="users">
+	<div class="pull-left">
+		<a class="btn btn-primary btn-lg btn-back" ui-sref="home.search">
+			<i class="zmdi zmdi-arrow-left zmdi-hc-lg"></i>
+		</a>
+		<span>{{user.name}} {{user.lastname}} Profile</span>
+	</div>
+	<div class="btn-group">
+	  <button type="button" class="btn btn-default btn-lg"><i class="zmdi zmdi-delete zmdi-hc-lg"></i></button>
+	  <button type="button" class="btn btn-default btn-lg"><i class="zmdi zmdi-save zmdi-hc-lg"></i></button>
+	</div>
 </div>
 <label class="control-label"><i class="zmdi zmdi-account"></i> Employee Information</label>
 <div class="row">
@@ -30,14 +36,14 @@
 	<div class="col-sm-3 col-xs-6">
 		<div class="form-group">
 			<select class="form-control">
-				<option>Position</option>
+				<option ng-repeat="category in categories" value="{{category.name}}" ng-selected="category.name == user.category.name">{{category.name}}</option>
 			</select>
 		</div>
 	</div>
 	<div class="col-sm-3 col-xs-6">
 		<div class="form-group">
 			<select class="form-control">
-				<option>Role</option>
+				<option ng-repeat="role in roles" value="{{role.name}}" ng-selected="role.name == user.role.name">{{role.name}}</option>
 			</select>
 		</div>
 	</div>

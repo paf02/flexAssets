@@ -32,4 +32,26 @@
   margin: 0;
 
   list-style: none;
+
+  li {
+    // overflow: hidden;
+    // float: left;
+
+    &.hid {
+      .days {
+        background-color: white;
+      }
+    }
+
+    .days {
+      // float: none;
+      // display: block;
+
+      &.book {
+         background-color: gray;
+      }
+
+      
+    }
+  }
 }

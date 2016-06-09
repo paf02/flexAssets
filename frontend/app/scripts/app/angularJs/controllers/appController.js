@@ -177,10 +177,10 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'DataService',
   	}
   }
 
-  $scope.credentials = {
-  	username: "John Smith",
-  	password: "abc123"
-  };
+  // $scope.credentials = {
+  // 	username: "John Smith",
+  // 	password: "abc123"
+  // };
 
   $scope.login = function() { 
 
@@ -189,12 +189,18 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'DataService',
       password: $scope.loginForm.password.$modelValue
     };
 
-
     DataService.getAdmin(function(results) {
-      console.log(results);
+      if (results.data.Admin.length > 0) {
+        $('#login').modal('hide');
+        $scope.auth = true;
+        $scope.message = false;
+      } else {
+       $scope.message = true;
+      }
     }, function() {
-      console.log('fail'); 
-    }, admin);
+      console.log('Not login'); 
+      $scope.message = true;
+    }, admin); 
 
 
 

@@ -702,7 +702,7 @@ module.exports = function(wagner) {
 		}; 
 	}));
 
-	api.post('/admin', wagner.invoke(function(Admin) {
+	api.post('/adminFind', wagner.invoke(function(Admin) {
 		return function(req, res) {
 			Admin.find({ 
 				username: req.body.username,

@@ -42,7 +42,7 @@ MyApp.angular.factory('DataService', ['$document', '$http', function ($document,
 		$http({
 			method: 'POST',
 			data: admin,
-			url: MyApp.endPoints.getAdmin
+			url: MyApp.endPoints.postAdminFind
 		}).then(success, fail);
 	};
 

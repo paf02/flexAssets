@@ -38,7 +38,7 @@ MyApp.endPoints = {
 	getCountry: 'http://10.66.22.180:3000/api/v1/country',
 	getCategory: 'http://10.66.22.180:3000/api/v1/category',
 	getRole: 'http://10.66.22.180:3000/api/v1/role',
-  getAdmin: 'http://10.66.22.180:3000/api/v1/admin',
+  postAdminFind: 'http://10.66.22.180:3000/api/v1/adminFind',
 	getCurrency: 'http://jsonplaceholder.typicode.com/posts/3'
 }
 MyApp.angular.controller('appController', ['$scope', '$location', 'DataService', function($scope, $location, DataService){
@@ -220,10 +220,10 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'DataService',
   	}
   }
 
-  $scope.credentials = {
-  	username: "John Smith",
-  	password: "abc123"
-  };
+  // $scope.credentials = {
+  // 	username: "John Smith",
+  // 	password: "abc123"
+  // };
 
   $scope.login = function() { 
 
@@ -232,12 +232,18 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'DataService',
       password: $scope.loginForm.password.$modelValue
     };
 
-
     DataService.getAdmin(function(results) {
-      console.log(results);
+      if (results.data.Admin.length > 0) {
+        $('#login').modal('hide');
+        $scope.auth = true;
+        $scope.message = false;
+      } else {
+       $scope.message = true;
+      }
     }, function() {
-      console.log('fail'); 
-    }, admin);
+      console.log('Not login'); 
+      $scope.message = true;
+    }, admin); 
 
 
 
@@ -340,7 +346,7 @@ MyApp.angular.factory('DataService', ['$document', '$http', function ($document,
 		$http({
 			method: 'POST',
 			data: admin,
-			url: MyApp.endPoints.getAdmin
+			url: MyApp.endPoints.postAdminFind
 		}).then(success, fail);
 	};
 

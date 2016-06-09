@@ -38,6 +38,6 @@ MyApp.endPoints = {
 	getCountry: 'http://10.66.22.180:3000/api/v1/country',
 	getCategory: 'http://10.66.22.180:3000/api/v1/category',
 	getRole: 'http://10.66.22.180:3000/api/v1/role',
-  getAdmin: 'http://10.66.22.180:3000/api/v1/admin',
+  postAdminFind: 'http://10.66.22.180:3000/api/v1/adminFind',
 	getCurrency: 'http://jsonplaceholder.typicode.com/posts/3'
 }

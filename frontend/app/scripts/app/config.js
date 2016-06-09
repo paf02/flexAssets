@@ -27,7 +27,7 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: "_partials/home.add.html"
     })
     .state('details', {
-      url: "/details/:userId",
+      url: "/details?:userId",
       templateUrl: "_partials/details.html"
     });
 });

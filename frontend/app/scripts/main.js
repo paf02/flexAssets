@@ -27,7 +27,7 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: "_partials/home.add.html"
     })
     .state('details', {
-      url: "/details/:userId",
+      url: "/details?:userId",
       templateUrl: "_partials/details.html"
     });
 });
@@ -40,18 +40,20 @@ MyApp.endPoints = {
 	getRole: 'http://10.66.22.180:3000/api/v1/role',
 	getCurrency: 'http://jsonplaceholder.typicode.com/posts/3'
 }
-MyApp.angular.controller('appController', ['$scope', '$location', 'InitService', 'DataService', '$stateParams', function($scope, $location, InitService, DataService, $stateParams){
+MyApp.angular.controller('appController', ['$scope', '$location', 'DataService', function($scope, $location, DataService){
 	$scope.auth = false;
 
 	DataService.getUsers(function(results) {
-		$scope.users = results.data.user;
-		pagination();
+		try {
+			$scope.users = results.data.User;
+			pagination();	
+		} 
+		catch(e) {
+			console.log(e);
+		}
 	}, function() {
 		console.log('fail'); 
 	});
-
-	$scope.id = $stateParams.userId;
-	console.log($scope.id);
 
 	DataService.getCountry(function(results) {
 		$scope.countries = results.data.Country;
@@ -127,19 +129,6 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'InitService',
 	    }  	
 	});
 
-  var days = [];
-
-  (function() {
-  	var t = new Date(),
-  			day = null;
-  	
-  	for (var i=1; i<104; i++){
-  		day =	new Date().setDate(t.getDate() + i);
-  		days.push(new Date(day));
-  	}
-  	console.log(days);
-  })();
-
 	$scope.credentials = {
 		username: "John Smith",
 		password: "abc123"
@@ -162,10 +151,32 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'InitService',
 
 }]);
 
+MyApp.angular.controller('detailsController', ['$scope', 'InitService', 'DataService', '$stateParams', function($scope, InitService, DataService, $stateParams){
+	console.log($stateParams.userId);
+
+	DataService.getUser(function(results) {
+		try {
+			$scope.user = results.data.User;
+		} 
+		catch(e) {
+			console.log(e);
+		}
+	}, function() {
+		console.log('fail'); 
+	}, $stateParams.userId);
+}]);
+
 MyApp.angular.filter('startFrom', function() {
     return function(input, start) {
-        start = +start; //parse to int
-        return input.slice(start);
+    	try {
+    		start = +start; //parse to int
+        	return input.slice(start);	
+    	}
+    	catch(e) {
+    		console.log(e);
+    		return null;
+    	}
+        
     }
 });
 
@@ -188,6 +199,13 @@ MyApp.angular.factory('DataService', ['$document', '$http', function ($document,
 		$http({
 			method: 'GET',
 			url: MyApp.endPoints.getUsers
+		}).then(success, fail);
+	};
+
+	pub.getUser = function(success, fail, userId) {
+		$http({
+			method: 'GET',
+			url: MyApp.endPoints.getUsers+'/'+userId
 		}).then(success, fail);
 	};
 

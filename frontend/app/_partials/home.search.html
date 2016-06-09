@@ -44,7 +44,7 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="user in filteredUsers = (users | filter: search | filter: countryFilter | filter: categoryFilter | filter: roleFilter) | startFrom:currentPage*pageSize | limitTo:pageSize"">
-				<td><a ui-sref="details({ userId: user._id })">{{user.name + ' ' + user.lastname}}</a></td>
+				<td><a ui-sref="details({ userId: user._id })" ng-click="test()">{{user.name + ' ' + user.lastname}}</a></td>
 				<td>{{user.category.name}}</td>
 				<td>{{user.role.name}}</td>
 				<td>{{user.country.name}}</td>

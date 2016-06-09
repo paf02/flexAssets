@@ -10,6 +10,13 @@ MyApp.angular.factory('DataService', ['$document', '$http', function ($document,
 		}).then(success, fail);
 	};
 
+	pub.getUser = function(success, fail, userId) {
+		$http({
+			method: 'GET',
+			url: MyApp.endPoints.getUsers+'/'+userId
+		}).then(success, fail);
+	};
+
 	pub.getCountry = function(success, fail) {
 		$http({
 			method: 'GET',

@@ -263,6 +263,8 @@ MyApp.angular.controller('detailsController', ['$scope', 'InitService', 'DataSer
 	DataService.getUser(function(results) {
 		try {
 			$scope.user = results.data.User;
+      $scope.skills = $scope.user.skill;
+      console.log($scope.skills);
 		} 
 		catch(e) {
 			console.log(e);
@@ -286,16 +288,6 @@ MyApp.angular.filter('startFrom', function() {
     }
 });
 
-MyApp.angular.directive('toggle', function(){
-  return {
-    restrict: 'A',
-    link: function(scope, element, attrs){
-      if (attrs.toggle=="tooltip"){
-        $(element).tooltip();
-      }
-    }
-  };
-});
 MyApp.angular.factory('DataService', ['$document', '$http', function ($document, $http) {
 	'use strict';
 
@@ -394,3 +386,13 @@ MyApp.angular.factory('InitService', ['$document', function ($document) {
   return pub;
   
 }]);
+MyApp.angular.directive('toggle', function(){
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs){
+      if (attrs.toggle=="tooltip"){
+        $(element).tooltip();
+      }
+    }
+  };
+});

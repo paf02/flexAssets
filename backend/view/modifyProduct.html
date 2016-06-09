@@ -262,17 +262,15 @@
         id: $('input:text[name=id]').val(),
         name: $('input:text[name=name]').val(),
         lastname: $('input:text[name=lastname]').val(),
-        role: { name: 'rol0' },
-        category: { name: 'cat0' },
-        country: { 
-          name: 'colombia',
-          acronym: 'c' 
-        },
+        role: preloadBD().role[1],
+        country: preloadBD().country[0],
         skill: [
-          { name: 'skill0' },
-          { name: 'skill2' },
-          { name: 'skill5' },
-          { name: 'skill9' },
+          preloadBD().skill[1],
+          preloadBD().skill[2],
+          preloadBD().skill[4],
+          preloadBD().skill[3],
+          preloadBD().skill[5],
+          preloadBD().skill[8]
         ],
         resume: filesData,
         calendarPoint: [{

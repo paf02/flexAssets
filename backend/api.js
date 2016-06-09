@@ -682,9 +682,32 @@ module.exports = function(wagner) {
 	}));
 
 
-	api.get('/admin', wagner.invoke(function(Admin) {
+	api.get('/admin/all', wagner.invoke(function(Admin) {
 		return function(req, res) {
 			Admin.find(function(error, admin) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				if (!admin) {
+					return res.
+						status(status.NOT_FOUND).
+						json({ error: 'Not found'}); 
+				}
+
+				res.json({ Admin: admin }); 
+			}); 
+		}; 
+	}));
+
+	api.post('/admin', wagner.invoke(function(Admin) {
+		return function(req, res) {
+			Admin.find({ 
+				username: req.body.username,
+				password: req.body.password,
+				}, function(error, admin) {
 				if (error) {
 					return res.
 						status(status.INTERNAL_SERVER_ERROR).

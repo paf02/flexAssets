@@ -38,6 +38,7 @@ MyApp.endPoints = {
 	getCountry: 'http://10.66.22.180:3000/api/v1/country',
 	getCategory: 'http://10.66.22.180:3000/api/v1/category',
 	getRole: 'http://10.66.22.180:3000/api/v1/role',
+  getAdmin: 'http://10.66.22.180:3000/api/v1/admin',
 	getCurrency: 'http://jsonplaceholder.typicode.com/posts/3'
 }
 MyApp.angular.controller('appController', ['$scope', '$location', 'DataService', function($scope, $location, DataService){
@@ -224,14 +225,29 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'DataService',
   	password: "abc123"
   };
 
-  $scope.login = function(){ 
-  	if($scope.loginForm.username.$modelValue == $scope.credentials.username && $scope.loginForm.password.$modelValue == $scope.credentials.password) {
-  		$('#login').modal('hide');
-  		$scope.auth = true;
-  		$scope.message = false;
-  	} else {
-  		$scope.message = true;
-  	}
+  $scope.login = function() { 
+
+    var admin = {
+      username: $scope.loginForm.username.$modelValue,
+      password: $scope.loginForm.password.$modelValue
+    };
+
+
+    DataService.getAdmin(function(results) {
+      console.log(results);
+    }, function() {
+      console.log('fail'); 
+    }, admin);
+
+
+
+  	// if($scope.loginForm.username.$modelValue == $scope.credentials.username && $scope.loginForm.password.$modelValue == $scope.credentials.password) {
+  	// 	$('#login').modal('hide');
+  	// 	$scope.auth = true;
+  	// 	$scope.message = false;
+  	// } else {
+  	// 	$scope.message = true;
+  	// }
   }
 
   $scope.logout = function() {
@@ -295,7 +311,7 @@ MyApp.angular.factory('DataService', ['$document', '$http', function ($document,
 	pub.getUser = function(success, fail, userId) {
 		$http({
 			method: 'GET',
-			url: MyApp.endPoints.getUsers+'/'+userId
+			url: MyApp.endPoints.getUsers + '/' + userId
 		}).then(success, fail);
 	};
 
@@ -316,7 +332,15 @@ MyApp.angular.factory('DataService', ['$document', '$http', function ($document,
 	pub.getRole = function(success, fail) {
 		$http({
 			method: 'GET',
-			url: MyApp.endPoints.getRole
+			url: MyApp.endPoints.getRole 
+		}).then(success, fail);
+	};
+
+	pub.getAdmin = function(success, fail, admin) {
+		$http({
+			method: 'POST',
+			data: admin,
+			url: MyApp.endPoints.getAdmin
 		}).then(success, fail);
 	};
 

@@ -13,7 +13,7 @@ MyApp.angular.factory('DataService', ['$document', '$http', function ($document,
 	pub.getUser = function(success, fail, userId) {
 		$http({
 			method: 'GET',
-			url: MyApp.endPoints.getUsers+'/'+userId
+			url: MyApp.endPoints.getUsers + '/' + userId
 		}).then(success, fail);
 	};
 
@@ -34,7 +34,15 @@ MyApp.angular.factory('DataService', ['$document', '$http', function ($document,
 	pub.getRole = function(success, fail) {
 		$http({
 			method: 'GET',
-			url: MyApp.endPoints.getRole
+			url: MyApp.endPoints.getRole 
+		}).then(success, fail);
+	};
+
+	pub.getAdmin = function(success, fail, admin) {
+		$http({
+			method: 'POST',
+			data: admin,
+			url: MyApp.endPoints.getAdmin
 		}).then(success, fail);
 	};
 

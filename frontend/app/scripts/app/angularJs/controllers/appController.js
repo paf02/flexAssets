@@ -182,14 +182,29 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'DataService',
   	password: "abc123"
   };
 
-  $scope.login = function(){ 
-  	if($scope.loginForm.username.$modelValue == $scope.credentials.username && $scope.loginForm.password.$modelValue == $scope.credentials.password) {
-  		$('#login').modal('hide');
-  		$scope.auth = true;
-  		$scope.message = false;
-  	} else {
-  		$scope.message = true;
-  	}
+  $scope.login = function() { 
+
+    var admin = {
+      username: $scope.loginForm.username.$modelValue,
+      password: $scope.loginForm.password.$modelValue
+    };
+
+
+    DataService.getAdmin(function(results) {
+      console.log(results);
+    }, function() {
+      console.log('fail'); 
+    }, admin);
+
+
+
+  	// if($scope.loginForm.username.$modelValue == $scope.credentials.username && $scope.loginForm.password.$modelValue == $scope.credentials.password) {
+  	// 	$('#login').modal('hide');
+  	// 	$scope.auth = true;
+  	// 	$scope.message = false;
+  	// } else {
+  	// 	$scope.message = true;
+  	// }
   }
 
   $scope.logout = function() {

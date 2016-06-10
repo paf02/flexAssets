@@ -15,6 +15,7 @@
         deleteAllDocuments('category');
         deleteAllDocuments('role');
         deleteAllDocuments('admin');
+        deleteAllDocuments('agency');
 
         setTimeout(function() {
           preloadBD().country.forEach( function(element, index) {
@@ -35,6 +36,10 @@
 
           preloadBD().admin.forEach( function(element, index) {
             bdCall('admin', element);
+          }); 
+
+          preloadBD().agency.forEach( function(element, index) {
+            bdCall('agency', element);
           });   
         }, 5000); 
           
@@ -251,6 +256,20 @@
         username: '123'
       }];
 
+      collection.agency = [{
+        name: 'Flex',
+        acronym: 'Fl',
+        color: 'red'
+      }, {
+        name: 'Digitas',
+        acronym: 'Di',
+        color: 'blue'
+      }, {
+        name: 'Moxie',
+        acronym: 'Mo',
+        color: 'green'
+      }];
+
       return collection;
     }
 
@@ -262,8 +281,20 @@
         id: $('input:text[name=id]').val(),
         name: $('input:text[name=name]').val(),
         lastname: $('input:text[name=lastname]').val(),
-        role: preloadBD().role[1],
+        resume: filesData,
+        email: $('input:text[name=name]').val() + '.' + $('input:text[name=lastname]').val() + '@prodigious.com',
+        wfh: ['m', 'w'],
+        tel: '8567-9898',
+        visa: false,
+        passport: true,
+        dates: {
+          dateCompanyIn: new Date('01/01/16'),
+          dateFlexIn: new Date('01/01/16'),
+          dateFlexOut: '',
+        },
+        belong: preloadBD().agency[0],
         country: preloadBD().country[0],
+        role: preloadBD().role[1],
         skill: [
           preloadBD().skill[1],
           preloadBD().skill[2],
@@ -272,23 +303,36 @@
           preloadBD().skill[5],
           preloadBD().skill[8]
         ],
-        resume: filesData,
         calendarPoint: [{
-          date: new Date('05/06/16'),
-          available: false,
-          book: 0
+          date: new Date('06/15/16'),
+          timeOff: 'vacation',
         }, {
-          date: new Date('05/10/16'),
-          available: true,
-          book: .5
+          date: new Date('06/16/16'),
+          timeOff: '',
+          book: { 
+            time: 1,
+            agency: preloadBD().agency[1]
+          }
         }, {
-          date: new Date('05/12/16'),
-          available: true,
-          book: 1
+          date: new Date('06/17/16'),
+          timeOff: '',
+          book: { 
+            time: 1,
+            agency: preloadBD().agency[1]
+          }
         }, {
-          date: new Date('05/25/16'),
-          available: true,
-          book: 1
+          date: new Date('06/20/16'),
+          timeOff: '',
+          book: { 
+            time: 1,
+            agency: preloadBD().agency[2]
+          }
+        }, {
+          date: new Date('06/21/16'),
+          timeOff: 'holiday'
+        }, {
+          date: new Date('06/22/16'),
+          timeOff: 'incapacitation'
         }],
       };
     }

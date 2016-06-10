@@ -39,7 +39,7 @@ module.exports = function(wagner) {
 		});
 	}
 
-	api.get('/user/:id', wagner.invoke(function(User) {
+	api.get('/user/filterByID/:id', wagner.invoke(function(User) {
 		return function(req, res) {
 
 			User.findOne({ _id: req.params.id }, function(error, user) {
@@ -61,6 +61,26 @@ module.exports = function(wagner) {
 	}));
 
 	api.get('/user', wagner.invoke(function(User) {
+		return function(req, res) {
+			User.find({ 'belong.name': 'Flex' }, function(error, user) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				if (!user) {
+					return res.
+						status(status.NOT_FOUND).
+						json({ error: 'Not found'});
+				}
+
+				res.json({ User: user }); 
+			}); 
+		}; 
+	}));
+
+	api.get('/user/all', wagner.invoke(function(User) {
 		return function(req, res) {
 			User.find(function(error, user) {
 				if (error) {
@@ -91,11 +111,17 @@ module.exports = function(wagner) {
 				name: req.body.name,
         lastname: req.body.lastname,
         resume: urlFiles,
-        role: req.body.role,
-        category: req.body.category,
-        calendarPoint: req.body.calendarPoint,
+        email: req.body.email,
+        wfh: req.body.wfh,
+        tel: req.body.tel,
+        visa: req.body.visa,
+        passport: req.body.passport,
+        dates: req.body.dates,
+        belong: req.body.belong,
         country: req.body.country,
-        skill: req.body.skill
+        role: req.body.role,
+        skill: req.body.skill,
+        calendarPoint: req.body.calendarPoint,
 			});
 
 			newUser.save(function(error, user) {
@@ -128,11 +154,6 @@ module.exports = function(wagner) {
 						json({ error: 'Not found'});
 				}
 
-				// var updateObj = {
-    //       name : req.body.name
-    //     };
-
-
 				if (req.body.resume) {
 					var filePath = user.resume.split(req.headers.origin)[1];
 					deleteFile(filePath);
@@ -151,11 +172,34 @@ module.exports = function(wagner) {
 					user.lastname = req.body.lastname;
 
 				if (req.body.role)
-					user.role.name = req.body.role.name;
+					user.role = req.body.role;
 
-				if (req.body.category)
-					user.category.name = req.body.category.name;
+				if (req.body.email)
+					email = req.body.email;
 
+        if (req.body.tel)
+        	tel = req.body.tel;
+
+        if (req.body.visa)
+        	visa = req.body.visa;
+
+        if (req.body.passport)
+        	passport = req.body.passport;
+
+        if (req.body.dates.dateCompanyIn)
+        	dates = req.body.dates.dateCompanyIn
+
+        if (req.body.dates.dateFlexIn)
+        	dates = req.body.dates.dateFlexIn
+
+        if (req.body.dates.dateFlexOut)
+        	dates = req.body.dates.dateFlexOut
+
+        if (req.body.belong)
+        	belong = req.body.belong;
+
+        if (req.body.wfh)
+        	wfh = req.body.wfh;
 
 				if(req.body.skill_remove) {
 					if (user.skill && user.skill.length > 0) {
@@ -228,7 +272,6 @@ module.exports = function(wagner) {
 						});
 					}
 				}
-
 
 				// user.update(updateObj, function(error, user) {
 				user.save(function(error, user) {
@@ -793,6 +836,99 @@ module.exports = function(wagner) {
 				return res
 					.status(status.OK)
 					.json({ Admin: admin });
+			});		
+		}
+	}));
+
+
+
+	api.get('/agency', wagner.invoke(function(Agency) {
+		return function(req, res) {
+			Agency.find(function(error, agency) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				if (!agency) {
+					return res.
+						status(status.NOT_FOUND).
+						json({ error: 'Not found'}); 
+				}
+
+				res.json({ Agency: agency }); 
+			}); 
+		}; 
+	}));
+
+	api.post('/agency', wagner.invoke(function(Agency) {
+		return function(req, res) {
+
+			var newAgency = new Agency({
+				name: req.body.name,
+				acronym: req.body.acronym,
+				color: req.body.color
+			});
+
+			newAgency.save(function(error, agency) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				return res
+					.status(status.OK)
+					.json({ Agency: agency });
+			});
+		}
+	}));
+
+	api.delete('/agency', wagner.invoke(function(Agency) {
+		return function(req, res) {
+
+			Agency.findOne({ _id: req.body.id }, function(error, agency) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				if (!agency) {
+					return res.
+						status(status.NOT_FOUND). 
+						json({ error: 'Not found'});
+				}
+
+				agency.remove(function(error, agency) {
+					if (error) {
+						return res.
+							status(status.INTERNAL_SERVER_ERROR).
+							json({ error: error.toString() });
+					}
+
+					return res
+						.status(status.OK)
+						.json({ Agency: user });
+				});
+			});			
+		}
+	}));
+
+	api.delete('/agency/all', wagner.invoke(function(Agency) {
+		return function(req, res) {
+
+			Agency.remove(function(error, agency) {
+				if (error) {
+					return res.
+						status(status.INTERNAL_SERVER_ERROR).
+						json({ error: error.toString() });
+				}
+
+				return res
+					.status(status.OK)
+					.json({ Agency: agency });
 			});		
 		}
 	}));

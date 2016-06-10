@@ -6,6 +6,7 @@ var skill = require('./skill');
 var country = require('./country');
 var config = require('./config');
 var admin = require('./admin');
+var agency = require('./agency');
 var _ = require('underscore');
 
 module.exports = function(wagner) {
@@ -17,6 +18,7 @@ module.exports = function(wagner) {
 	var Skill = mongoose.model('Skill', skill, 'skill');
 	var Country = mongoose.model('Country', country, 'country');
 	var Admin = mongoose.model('Admin', admin, 'admin');
+	var Agency = mongoose.model('Agency', agency, 'agency');
 
 	var models = {
 		Category: Category,
@@ -24,7 +26,8 @@ module.exports = function(wagner) {
 		User: User,
 		Skill: Skill,
 		Country: Country,
-		Admin: Admin
+		Admin: Admin,
+		Agency: Agency
 	};
 
 

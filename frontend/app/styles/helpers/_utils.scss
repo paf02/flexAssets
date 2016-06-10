@@ -38,8 +38,11 @@
     // float: left;
 
     &.hid {
+      visibility: hidden;
+      opacity: 0;
+
       .days {
-        background-color: white;
+        // background-color: red;
       }
     }
 
@@ -48,10 +51,20 @@
       // display: block;
 
       &.book {
-         background-color: gray;
+        background-color: gray;
       }
 
-      
+      &.incapacitation {
+        background-color: blue;
+      }
+
+      &.holiday {
+        background-color: yellow;
+      }
+
+      &.vacation {
+        background-color: pink;
+      }
     }
   }
 }

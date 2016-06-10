@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 var Role = require('./role');
 var Country = require('./country');
 var Skill = require('./skill');
+var Agency = require('./agency');
 
 var userSchema = {
 	name: {
@@ -16,6 +17,34 @@ var userSchema = {
 		type: String,
 		match: /^http:\/\//i
 	},
+	email: {
+		type: String
+	},
+	wfh: [{
+		type: String,
+		enum: ['m', 't', 'w', 'r', 'f']
+	}],
+	tel: {
+		type: String
+	},
+	visa: {
+		type: Boolean
+	},
+	passport: {
+		type: Boolean
+	},
+	dates: {
+		dateCompanyIn: {
+			type: String
+		},
+		dateFlexIn: {
+			type: String
+		},
+		dateFlexOut: {
+			type: String
+		}
+	},
+	belong: Agency.agencySchema,
 	country: Country.countrySchema,
 	role: Role.roleSchema,
 	skill: [Skill.skillSchema],
@@ -24,14 +53,18 @@ var userSchema = {
 			type: Date,
 			required: true
 		},
-		available: {
-			type: Boolean
+		timeOff: {
+			type: String,
+			enum: ['', 'vacation', 'holiday', 'incapacitation']
 		},
-		book: {
-			type: Number,
-			max: 1,
-			min: 0
-		}
+		book: [{
+			time: {
+				type: Number,
+				max: 1,
+				min: 0
+			},
+			agency: Agency.agencySchema
+		}]
 	}]
 };
 

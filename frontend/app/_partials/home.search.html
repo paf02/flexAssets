@@ -46,12 +46,13 @@
 					<span class="days-table">R</span>
 					<span class="days-table">F</span>
 				</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr ng-repeat="user in filteredUsers = (users | filter: search | filter: countryFilter | filter: categoryFilter | filter: roleFilter) | startFrom:currentPage*pageSize | limitTo:pageSize"">
 				<td><a ui-sref="details({ userId: user._id })" ng-click="test()">{{user.name + ' ' + user.lastname}}</a></td>
-				<td>{{user.category.name}}</td>
+				<td>{{user.role.category.name}}</td>
 				<td>{{user.role.name}}</td>
 				<td>{{user.country.name}}</td>
 				<td>
@@ -64,6 +65,7 @@
 						</ul>
 					</div>
 				</td>
+				<td><a href="#">Other Days</a></td>
 
 				<!-- <td>
 					<div class="clearfix">

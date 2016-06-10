@@ -27,7 +27,7 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider) {
       templateUrl: "_partials/home.add.html"
     })
     .state('details', {
-      url: "/details?:userId",
+      url: "/details/filterByID/:userId",
       templateUrl: "_partials/details.html"
     });
 });
@@ -134,7 +134,7 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'DataService',
 
   (function() {
   	// startDate is a string or Date.now()
-  	var startDate = Date.now(),
+  	var startDate = new Date,
   			today = new Date(startDate),
   			day_mili = null,
   			day = null,
@@ -144,14 +144,14 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'DataService',
   			day_numberOr = today.getDay();
 
   	// 2 == 2 weeks
-  	while (weeks < 2){
+  	while (weeks < (2*1)){
   		// get the day in millis
   		day_mili =	new Date(startDate).setDate(today.getDate() + i);
   		// parse the Date to a Date format
   		day = new Date(day_mili);
   		// get the day in the week
   		day_number = day.getDay();
-  		if (i == 1) {
+  		if (i == 1 && day_numberOr < 5) {
   			calza(day_number);
   		}
 
@@ -174,8 +174,6 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'DataService',
 	}
 
 	$scope.getBreakLine = function(dayView, indx) {
-  	// var yssss = '';
-
   	if (dayView) {
   		if (indx == 0) {
   			return 'block';
@@ -203,7 +201,27 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'DataService',
 
   		if (parseDate(day) == parseDate(dayView)) {
   			// console.log('match');
-  			yssss = 'book';
+
+        if (user.calendarPoint[indx].timeOff == '') {
+          yssss = 'book';
+        } else {
+          // switch () {
+          //   case 'vacation':
+          //     yssss = 'vacation';
+          //   break;
+
+          //   case 'holiday':
+          //     yssss = 'holiday';
+          //   break;
+
+          //   case 'incapacitation':
+          //     yssss = 'incapacitation';
+          //   break;
+          // }
+
+          yssss = user.calendarPoint[indx].timeOff;
+        }
+  			
   			break;
   		}
   	};
@@ -294,6 +312,16 @@ MyApp.angular.filter('startFrom', function() {
     }
 });
 
+MyApp.angular.directive('toggle', function(){
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs){
+      if (attrs.toggle=="tooltip"){
+        $(element).tooltip();
+      }
+    }
+  };
+});
 MyApp.angular.factory('DataService', ['$document', '$http', function ($document, $http) {
 	'use strict';
 
@@ -392,13 +420,3 @@ MyApp.angular.factory('InitService', ['$document', function ($document) {
   return pub;
   
 }]);
-MyApp.angular.directive('toggle', function(){
-  return {
-    restrict: 'A',
-    link: function(scope, element, attrs){
-      if (attrs.toggle=="tooltip"){
-        $(element).tooltip();
-      }
-    }
-  };
-});

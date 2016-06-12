@@ -1,13 +1,12 @@
 <div class="form-group has-feedback">
-	<input type="text" class="form-control input-lg" placeholder="Search..." ng-model="search">
+	<input type="text" class="form-control input-lg" placeholder="Search" ng-model="search">
 	<i class="zmdi zmdi-search zmdi-hc-lg form-control-feedback" aria-hidden="true"></i>
 </div>
-
-<label class="control-label"><i class="zmdi zmdi-filter-list"></i> Filter by</label>
 <div class="row">
 	<div class="col-sm-3 col-xs-6">
 		<div class="form-group">
-			<select class="form-control" ng-model="countryFilter">
+			<label class="control-label"><i class="zmdi zmdi-globe"></i> Country</label>
+			<select class="form-control input-lg" ng-model="countryFilter">
 				<option value="{{undefined}}">All</option>
 				<option ng-repeat="country in countries" value="{{country.name}}">{{country.name}}</option>
 			</select>
@@ -15,7 +14,8 @@
 	</div>
 	<div class="col-sm-3 col-xs-6">
 		<div class="form-group">
-			<select class="form-control" ng-model="categoryFilter">
+			<label class="control-label"><i class="zmdi zmdi-code-setting"></i> Category</label>
+			<select class="form-control input-lg" ng-model="categoryFilter">
 				<option value="{{undefined}}">All</option>
 				<option ng-repeat="category in categories" value="{{category.name}}">{{category.name}}</option>
 			</select>
@@ -23,10 +23,26 @@
 	</div>
 	<div class="col-sm-3 col-xs-6">
 		<div class="form-group">
-			<select class="form-control" ng-model="roleFilter">
+			<label class="control-label"><i class="zmdi zmdi-case"></i> Role</label>
+			<select class="form-control input-lg" ng-model="roleFilter">
 				<option value="{{undefined}}">All</option>
 				<option ng-repeat="role in roles" value="{{role.name}}">{{role.name}}</option>
 			</select>
+		</div>
+	</div>
+	<div class="col-sm-3 col-xs-6">
+		<label class="control-label"><i class="zmdi zmdi-calendar-check"></i> Availability</label>
+		<div class="clearfix form=group">
+			<div class="col-xs-6">
+				<div class="row">
+					<input class="form-control input-lg" type="text" placeholder="From" />
+				</div>
+			</div>
+			<div class="col-xs-6">
+				<div class="row">
+					<input class="form-control input-lg" type="text" placeholder="To" />
+				</div>
+			</div>
 		</div>
 	</div>
 </div>
@@ -36,9 +52,10 @@
 		<thead>
 			<tr>
 				<th>Name</th>
+				<th>Country</th>
 				<th>Position</th>
 				<th>Role</th>
-				<th>Country</th>
+				<th>Resume</th>
 				<th class="text-right">
 					<span class="days-table">M</span>
 					<span class="days-table">T</span>
@@ -49,11 +66,12 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="user in filteredUsers = (users | filter: search | filter: countryFilter | filter: categoryFilter | filter: roleFilter) | startFrom:currentPage*pageSize | limitTo:pageSize"">
+			<tr ng-repeat="user in filteredUsers = (users | filter: search | filter: countryFilter | filter: categoryFilter | filter: roleFilter) | startFrom:currentPage*pageSize | limitTo:pageSize''">
 				<td><a ui-sref="details({ userId: user._id })" ng-click="test()">{{user.name + ' ' + user.lastname}}</a></td>
+				<td>{{user.country.name}}</td>
 				<td>{{user.category.name}}</td>
 				<td>{{user.role.name}}</td>
-				<td>{{user.country.name}}</td>
+				<td><a><i class="zmdi zmdi-file-plus"></i> View Resume</a></td>
 				<td>
 					<div class="clearfix">
 						<ul class="pull-right dates">
@@ -64,24 +82,48 @@
 						</ul>
 					</div>
 				</td>
+			</tr>
 
-				<!-- <td>
+			<tr ng-repeat="10">
+				<td><a>John Smith</a></td>
+				<td>Costa Rica</td>
+				<td>Development</td>
+				<td>Sr Front End Engineer</td>
+				<td><a><i class="zmdi zmdi-file-plus"></i> View Resume</a></td>
+				<td>
 					<div class="clearfix">
-						<div class="pull-right">
-							<div ng-repeat="date in dates" ng-class="{block: ($index +1) % 6}">
-						      <div class="days" data-toggle="tooltip" title="{{date | date}}" data-placement="bottom"></div>
-						    </div>	
-						</div>
+						<ul class="pull-right dates">
+							<li>
+								<div class="days" data-toggle="tooltip" data-original-title="11/06/2016" data-placement="bottom"></div>
+								<div class="days" data-toggle="tooltip" data-original-title="11/06/2016" data-placement="bottom"></div>
+								<div class="days" data-toggle="tooltip" data-original-title="11/06/2016" data-placement="bottom"></div>
+								<div class="days" data-toggle="tooltip" data-original-title="11/06/2016" data-placement="bottom"></div>
+								<div class="days" data-toggle="tooltip" data-original-title="11/06/2016" data-placement="bottom"></div>
+							</li>
+						</ul>
 					</div>
-				</td> -->
+				</td>
 			</tr>
 		</tbody>
 	</table>
 </div>
-<div class="text-center">
-	<ul class="pagination" ng-show="filteredUsers.length>pageSize">
+
+<div class="clearfix">
+	<ul class="pagination pagination-lg" ng-show="filteredUsers.length>pageSize">
 		<li ng-repeat="page in pageArray" ng-class="{active : currentPage==page}">
 			<a href="" ng-click="$parent.currentPage=page">{{page+1}}</a>
 		</li>
 	</ul>
+	<ul class="pagination pagination-lg pull-left">
+		<li class="active"><a>1</a></li>
+		<li><a>2</a></li>
+		<li><a>3</a></li>
+	</ul>
+	<p class="pull-right booking-info">
+		<small><i class="zmdi zmdi-circle text-success"></i> Available</small>
+		|
+		<small><i class="zmdi zmdi-circle text-danger"></i> Booked</small>
+		|
+		<small><i class="zmdi zmdi-circle text-muted"></i> Vacation - Sick</small>
+	</p>
 </div>

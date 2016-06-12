@@ -51,7 +51,7 @@
 	<table class="table">
 		<thead>
 			<tr>
-				<th>Name</th>
+				<th ng-show="auth">Name</th>
 				<th>Country</th>
 				<th>Position</th>
 				<th>Role</th>
@@ -67,7 +67,7 @@
 		</thead>
 		<tbody>
 			<tr ng-repeat="user in filteredUsers = (users | filter: search | filter: countryFilter | filter: categoryFilter | filter: roleFilter) | startFrom:currentPage*pageSize | limitTo:pageSize''">
-				<td><a ui-sref="details({ userId: user._id })" ng-click="test()">{{user.name + ' ' + user.lastname}}</a></td>
+				<td ng-show="auth"><a ui-sref="details({ userId: user._id })" ng-click="test()">{{user.name + ' ' + user.lastname}}</a></td>
 				<td>{{user.country.name}}</td>
 				<td>{{user.category.name}}</td>
 				<td>{{user.role.name}}</td>
@@ -84,8 +84,8 @@
 				</td>
 			</tr>
 
-			<tr ng-repeat="10">
-				<td><a>John Smith</a></td>
+			<tr>
+				<td ng-show="auth"><a ui-sref="details({ userId: 1010 })">John Smith</a></td>
 				<td>Costa Rica</td>
 				<td>Development</td>
 				<td>Sr Front End Engineer</td>
@@ -109,15 +109,10 @@
 </div>
 
 <div class="clearfix">
-	<ul class="pagination pagination-lg" ng-show="filteredUsers.length>pageSize">
+	<ul class="pagination pagination-lg pull-left" ng-show="filteredUsers.length>pageSize">
 		<li ng-repeat="page in pageArray" ng-class="{active : currentPage==page}">
 			<a href="" ng-click="$parent.currentPage=page">{{page+1}}</a>
 		</li>
-	</ul>
-	<ul class="pagination pagination-lg pull-left">
-		<li class="active"><a>1</a></li>
-		<li><a>2</a></li>
-		<li><a>3</a></li>
 	</ul>
 	<p class="pull-right booking-info">
 		<small><i class="zmdi zmdi-circle text-success"></i> Available</small>

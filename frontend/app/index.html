@@ -38,20 +38,20 @@
       </a>
       <a class="box" ng-show="!auth" href="#" data-toggle="modal" data-target="#login"><i class="zmdi zmdi-sign-in"></i>&nbsp;Login</a>
       <a class="box" ng-show="auth" ng-click="logout()"><i class="zmdi zmdi-sign-in"></i>&nbsp;Logout</a>
-      <div class="box" ng-show="!auth">
+      <div class="box" ng-show="auth">
         Welcome Adrian
       </div>
     </nav>
 
     <div class="wrapper">
-      <div class="container-fluid animated fadeInDown">
+      <div class="container-fluid">
         <div ui-view></div>
       </div>
     </div>
 
     <div class="modal fade" tabindex="-1" role="dialog" id="login">
       <div class="modal-dialog modal-sm">
-        <form class="modal-content" name="loginForm" ng-submit="login()">
+        <form class="modal-content" name="loginForm" ng-submit="login()" novalidate="true">
           <div class="modal-header">
             <div class="text-center"><i class="zmdi zmdi-sign-in"></i> Login</div>
           </div>
@@ -73,10 +73,13 @@
             <div ng-show="message" class="text-danger small">
               Credentials not match
             </div>
-            <p class="text-right">
-              <button type="submit" class="btn btn-primary" ng-disabled="loginForm.username.$dirty && loginForm.username.$invalid ||  
-loginForm.password.$dirty && loginForm.password.$invalid">Login</button>
-            </p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" data-dismiss="modal" class="btn-footer">
+              Cancel
+            </button>
+            <button type="submit" class="btn-footer" ng-disabled="loginForm.username.$dirty && loginForm.username.$invalid ||  
+loginForm.password.$dirty && loginForm.password.$invalid">Enter</button>
           </div>
         </form>
       </div>

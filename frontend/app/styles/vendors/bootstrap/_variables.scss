@@ -3,6 +3,7 @@
 
 //== Colors
 $brand-primary:            					#f1c40f;
+$text-color:								#222;
 
 //Navbar
 $navbar-height:								100px;
@@ -25,6 +26,7 @@ $table-cell-padding:            			15px;
 
 $form-group-margin-bottom:       			35px;
 $btn-font-weight:                			300;
+$btn-primary-color:							$text-color;
 
 $state-success-text:						#26AC5F;
 $state-danger-text:							#D22C2C;

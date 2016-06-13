@@ -30,9 +30,9 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider) {
       url: "/details?:userId",
       templateUrl: "_partials/details.html"
     })
-    .state('detailsdate', {
+    .state('details.date', {
       url: "/detailsdate?:userId",
-      templateUrl: "_partials/detaildate.html"
+      templateUrl: "_partials/detail.date.html"
     });
 });
 

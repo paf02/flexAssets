@@ -53,7 +53,7 @@
 			<tr>
 				<th ng-show="auth">Name</th>
 				<th>Country</th>
-				<th>Position</th>
+				<th>Category</th>
 				<th>Role</th>
 				<th>Resume</th>
 				<th class="text-right">
@@ -69,8 +69,8 @@
 		<tbody>
 			<tr ng-repeat="user in filteredUsers = (users | filter: search | filter: countryFilter | filter: categoryFilter | filter: roleFilter) | startFrom:currentPage*pageSize | limitTo:pageSize">
 				<td ng-show="auth"><a ui-sref="details({ userId: user._id })" ng-click="test()">{{user.name + ' ' + user.lastname}}</a></td>
+				<td>{{user.country.name}}</td>
 				<td>{{user.role.category.name}}</td>
-				<td>{{user.category.name}}</td>
 				<td>{{user.role.name}}</td>
 				<td><a><i class="zmdi zmdi-file-plus"></i> View Resume</a></td>
 				<td>
@@ -83,7 +83,7 @@
 						</ul>
 					</div>
 				</td>
-				<td><a ui-sref="detailsdate({ userId: user._id })">Different Dates</a></td>
+				<td><a ui-sref="details.date({ userId: user._id })">Different Dates</a></td>
 			</tr>
 		</tbody>
 	</table>

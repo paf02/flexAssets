@@ -67,7 +67,7 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr ng-repeat="user in filteredUsers = (users | filter: search | filter: countryFilter | filter: categoryFilter | filter: roleFilter) | startFrom:currentPage*pageSize | limitTo:pageSize''">
+			<tr ng-repeat="user in filteredUsers = (users | filter: search | filter: countryFilter | filter: categoryFilter | filter: roleFilter) | startFrom:currentPage*pageSize | limitTo:pageSize">
 				<td ng-show="auth"><a ui-sref="details({ userId: user._id })" ng-click="test()">{{user.name + ' ' + user.lastname}}</a></td>
 				<td>{{user.role.category.name}}</td>
 				<td>{{user.category.name}}</td>
@@ -84,27 +84,6 @@
 					</div>
 				</td>
 				<td><a ui-sref="detailsdate({ userId: user._id })">Different Dates</a></td>
-			</tr>
-
-			<tr>
-				<td ng-show="auth"><a ui-sref="details({ userId: 1010 })">John Smith</a></td>
-				<td>Costa Rica</td>
-				<td>Development</td>
-				<td>Sr Front End Engineer</td>
-				<td><a><i class="zmdi zmdi-file-plus"></i> View Resume</a></td>
-				<td>
-					<div class="clearfix">
-						<ul class="pull-right dates">
-							<li>
-								<div class="days" data-toggle="tooltip" data-original-title="11/06/2016" data-placement="bottom"></div>
-								<div class="days" data-toggle="tooltip" data-original-title="11/06/2016" data-placement="bottom"></div>
-								<div class="days" data-toggle="tooltip" data-original-title="11/06/2016" data-placement="bottom"></div>
-								<div class="days" data-toggle="tooltip" data-original-title="11/06/2016" data-placement="bottom"></div>
-								<div class="days" data-toggle="tooltip" data-original-title="11/06/2016" data-placement="bottom"></div>
-							</li>
-						</ul>
-					</div>
-				</td>
 			</tr>
 		</tbody>
 	</table>

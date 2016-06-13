@@ -13,7 +13,7 @@ MyApp.angular.factory('DataService', ['$document', '$http', function ($document,
 	pub.getUser = function(success, fail, userId) {
 		$http({
 			method: 'GET',
-			url: MyApp.endPoints.getUsers + '/' + userId
+			url: MyApp.endPoints.getUsersFilterByID + '/' + userId
 		}).then(success, fail);
 	};
 

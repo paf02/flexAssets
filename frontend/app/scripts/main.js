@@ -25,16 +25,21 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider) {
     .state('home.add', {
       url: "/add",
       templateUrl: "_partials/home.add.html"
-    })
+    }) 
     .state('details', {
-      url: "/details/filterByID/:userId",
+      url: "/details?:userId",
       templateUrl: "_partials/details.html"
+    })
+    .state('detailsdate', {
+      url: "/detailsdate?:userId",
+      templateUrl: "_partials/detaildate.html"
     });
 });
 
 
 MyApp.endPoints = {
 	getUsers: 'http://10.66.22.180:3000/api/v1/user',
+  getUsersFilterByID: 'http://10.66.22.180:3000/api/v1/user/filterByID',
 	getCountry: 'http://10.66.22.180:3000/api/v1/country',
 	getCategory: 'http://10.66.22.180:3000/api/v1/category',
 	getRole: 'http://10.66.22.180:3000/api/v1/role',
@@ -282,13 +287,13 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'DataService',
 }]);
 
 MyApp.angular.controller('detailsController', ['$scope', 'InitService', 'DataService', '$stateParams', function($scope, InitService, DataService, $stateParams){
-	console.log($stateParams.userId);
+	// console.log($stateParams.userId);
 
 	DataService.getUser(function(results) {
 		try {
 			$scope.user = results.data.User;
       $scope.skills = $scope.user.skill;
-      console.log($scope.skills);
+      // console.log($scope.skills);
 		} 
 		catch(e) {
 			console.log(e);
@@ -312,6 +317,21 @@ MyApp.angular.filter('startFrom', function() {
     }
 });
 
+MyApp.angular.controller('detailsDateController', ['$scope', 'DataService', '$stateParams', function($scope, DataService, $stateParams){
+	// console.log($stateParams.userId);
+
+	DataService.getUser(function(results) {
+		try {
+			$scope.user = results.data.User;
+      console.log($scope.user);
+		} 
+		catch(e) {
+			console.log(e);
+		}
+	}, function() {
+		console.log('fail'); 
+	}, $stateParams.userId);
+}]);
 MyApp.angular.directive('toggle', function(){
   return {
     restrict: 'A',
@@ -337,7 +357,7 @@ MyApp.angular.factory('DataService', ['$document', '$http', function ($document,
 	pub.getUser = function(success, fail, userId) {
 		$http({
 			method: 'GET',
-			url: MyApp.endPoints.getUsers + '/' + userId
+			url: MyApp.endPoints.getUsersFilterByID + '/' + userId
 		}).then(success, fail);
 	};
 

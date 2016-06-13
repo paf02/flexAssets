@@ -239,13 +239,13 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'DataService',
 }]);
 
 MyApp.angular.controller('detailsController', ['$scope', 'InitService', 'DataService', '$stateParams', function($scope, InitService, DataService, $stateParams){
-	console.log($stateParams.userId);
+	// console.log($stateParams.userId);
 
 	DataService.getUser(function(results) {
 		try {
 			$scope.user = results.data.User;
       $scope.skills = $scope.user.skill;
-      console.log($scope.skills);
+      // console.log($scope.skills);
 		} 
 		catch(e) {
 			console.log(e);

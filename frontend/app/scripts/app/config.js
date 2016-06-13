@@ -25,16 +25,21 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider) {
     .state('home.add', {
       url: "/add",
       templateUrl: "_partials/home.add.html"
-    })
+    }) 
     .state('details', {
-      url: "/details/filterByID/:userId",
+      url: "/details?:userId",
       templateUrl: "_partials/details.html"
+    })
+    .state('detailsdate', {
+      url: "/detailsdate?:userId",
+      templateUrl: "_partials/detaildate.html"
     });
 });
 
 
 MyApp.endPoints = {
 	getUsers: 'http://10.66.22.180:3000/api/v1/user',
+  getUsersFilterByID: 'http://10.66.22.180:3000/api/v1/user/filterByID',
 	getCountry: 'http://10.66.22.180:3000/api/v1/country',
 	getCategory: 'http://10.66.22.180:3000/api/v1/category',
 	getRole: 'http://10.66.22.180:3000/api/v1/role',

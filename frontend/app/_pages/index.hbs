@@ -22,6 +22,7 @@
     <!-- endbuild -->
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+    <link rel="stylesheet" href="/bower_components/animate.css/animate.min.css">
 
     <!-- build:js scripts/vendor/modernizr.js -->
     <script src="/bower_components/modernizr/modernizr.js"></script>
@@ -31,62 +32,58 @@
     <!--[if lt IE 10]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <nav class="navbar navbar-default">
-      <div class="container">
-        <div class="navbar-header">
-          <a class="navbar-brand" ui-sref="home.search">
-            <img alt="Flex" src="images/flex.jpg">
-          </a>
-          <div class="navbar-text" ng-show="auth">
-            Welcome Adrian
-          </div>
-        </div>
-        <ul class="nav navbar-nav navbar-right">
-          <li class="active" ng-show="!auth"><a href="#" data-toggle="modal" data-target="#login"><i class="zmdi zmdi-sign-in"></i> Login</a></li>
-          <li class="active" ng-show="auth"><a ng-click="logout()"><i class="zmdi zmdi-sign-in"></i> Logout</a></li>
-        </ul>
-      </div>
-      <div class="modal fade" tabindex="-1" role="dialog" id="login">
-        <div class="modal-dialog modal-sm">
-          <form class="modal-content" name="loginForm" ng-submit="login()">
-            <div class="modal-header">
-              <div class="text-center"><i class="zmdi zmdi-sign-in"></i> Login</div>
-            </div>
-            <div class="modal-body">
-              <label class="control-label"><i class="zmdi zmdi-account"></i> Username</label>
-              <div class="form-group">
-                <input type="text" name="username" ng-model="username" class="form-control" required>
-                <div class="help-block" ng-show="loginForm.username.$touched && loginForm.username.$invalid">
-                  <small class="text-danger">Username is required</small>
-                </div>
-              </div>
-              <label class="control-label"><i class="zmdi zmdi-lock"></i> Password</label>
-              <div class="form-group">
-                <input type="password" name="password" ng-model="password" class="form-control" required>
-                <div class="help-block" ng-show="loginForm.password.$touched && loginForm.password.$invalid">
-                  <small class="text-danger">Password is required</small>
-                </div>
-              </div>
-              <div ng-show="message" class="text-danger small">
-                Credentials not match
-              </div>
-              <p class="text-right">
-                <button type="submit" class="btn btn-primary" ng-disabled="loginForm.username.$dirty && loginForm.username.$invalid ||  
-loginForm.password.$dirty && loginForm.password.$invalid">Login</button>
-              </p>
-            </div>
-          </form>
-        </div>
+    <nav class="navbar-vertical navbar-default text-center animated slideInLeft">
+      <a class="box logo" ui-sref="home.search">
+        <img alt="Flex" src="images/flex.jpg">
+      </a>
+      <a class="box" ng-show="!auth" href="#" data-toggle="modal" data-target="#login"><i class="zmdi zmdi-sign-in"></i>&nbsp;Login</a>
+      <a class="box" ng-show="auth" ng-click="logout()"><i class="zmdi zmdi-sign-in"></i>&nbsp;Logout</a>
+      <div class="box" ng-show="auth">
+        Welcome Adrian
       </div>
     </nav>
 
-    <div class="container">
-      <div ui-view></div>
+    <div class="wrapper">
+      <div class="container-fluid">
+        <div ui-view></div>
+      </div>
     </div>
 
-    <footer class="footer text-center">
-      <small>Flexpool</small>
-    </footer>
+    <div class="modal fade" tabindex="-1" role="dialog" id="login">
+      <div class="modal-dialog modal-sm">
+        <form class="modal-content" name="loginForm" ng-submit="login()" novalidate="true">
+          <div class="modal-header">
+            <div class="text-center"><i class="zmdi zmdi-sign-in"></i> Login</div>
+          </div>
+          <div class="modal-body">
+            <label class="control-label"><i class="zmdi zmdi-account"></i> Username</label>
+            <div class="form-group">
+              <input type="text" name="username" ng-model="username" class="form-control input-lg" required>
+              <div class="help-block" ng-show="loginForm.username.$touched && loginForm.username.$invalid">
+                <small class="text-danger">Username is required</small>
+              </div>
+            </div>
+            <label class="control-label"><i class="zmdi zmdi-lock"></i> Password</label>
+            <div class="form-group">
+              <input type="password" name="password" ng-model="password" class="form-control input-lg" required>
+              <div class="help-block" ng-show="loginForm.password.$touched && loginForm.password.$invalid">
+                <small class="text-danger">Password is required</small>
+              </div>
+            </div>
+            <div ng-show="message" class="text-danger small">
+              Credentials not match
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" data-dismiss="modal" class="btn-footer">
+              Cancel
+            </button>
+            <button type="submit" class="btn-footer" ng-disabled="loginForm.username.$dirty && loginForm.username.$invalid ||  
+loginForm.password.$dirty && loginForm.password.$invalid">Enter</button>
+          </div>
+        </form>
+      </div>
+    </div>
 
     {{> scripts }}
 

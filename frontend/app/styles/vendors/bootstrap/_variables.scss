@@ -2,7 +2,8 @@
 //===== OVERRIDE BOOTSTRAP VARS
 
 //== Colors
-$brand-primary:            					#FF4D37;
+$brand-primary:            					#f1c40f;
+$text-color:								#222;
 
 //Navbar
 $navbar-height:								100px;
@@ -21,10 +22,11 @@ $border-radius-small:       				0;
 
 $state-danger-text:							#D22E2E;
 
-$table-cell-padding:            			12px;
+$table-cell-padding:            			15px;
 
-$form-group-margin-bottom:       			25px;
+$form-group-margin-bottom:       			35px;
 $btn-font-weight:                			300;
+$btn-primary-color:							$text-color;
 
 $state-success-text:						#26AC5F;
 $state-danger-text:							#D22C2C;

@@ -1,35 +1,100 @@
 body {
 	font-weight: normal;
+	background-color: $body-background;
+	position: relative;
+	overflow: hidden;
+}
+
+* {
+	outline: none;
+}
+
+a:focus,
+.btn:focus, {
+	outline: none;
+}
+
+a:hover,
+.btn:hover {
+	transition: 0.3s;
+}
+
+.wrapper {
+	width: calc(100% - 100px);
+	height: 100vh;
+	margin-left: 100px;
+	padding: 50px;
+
+	.container-fluid {
+		background: #fff;
+		height: 100%;
+		max-width: 1200px;
+		overflow-x: auto;
+		-webkit-box-shadow: 0px 3px 5px 2px rgba(0,0,0,0.2);
+		-moz-box-shadow: 0px 3px 5px 2px rgba(0,0,0,0.2);
+		box-shadow: 0px 3px 5px 2px rgba(0,0,0,0.2);
+	}
+}
+
+.input-lg {
+	font-size: 14px;
+	-webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+select.input-lg {
+	line-height: inherit;
+}
+
+input[type="file"],
+input[type="file"]::-webkit-file-upload-button {
+    display: block;
+    width: 100%;
+    margin-top: -47px;
+    height: 48px;
+    line-height: 48px;
+    cursor: pointer !important;
+    opacity: 0;
+}
+
+.booking-info {
+	margin: 32px 0;
+}
+
+.pagination-lg > li > a,
+.btn-lg {
+	font-size: 14px;
+	height: 46px;
+	line-height: 26px;
 }
 
 .nav-tabs.nav-justified > li {
 	& > a {
-		padding: 15px;
+		padding: 40px 0;
 		border: 0;
-		border-bottom: 5px solid $gray-light;
 		color: $text-color;
+		background: #f5f5f5;
 
 		&:hover, 
 		&:focus {
 			border: 0;
-			border-bottom: 5px solid $gray-light;
 		}
 	}
 
 	&.active > a {
 		border: 0;
-		border-bottom: 5px solid $brand-primary;
-		color: $brand-primary;
+		color: #fff;
+		background: $brand-primary;
 
 		&:hover, 
 		&:focus {
 			border: 0;
-			border-bottom: 5px solid $brand-primary;
 		}
 	}
 }
 
-.tab-content { margin-top: 30px; }
+.tab-content { margin-top: 40px; }
 
 .control-label {
 	margin-bottom: 10px;
@@ -47,7 +112,11 @@ body {
 	}
 
 	& > thead > tr > th,
-	& > tbody > tr > td { vertical-align: middle; }
+	& > tbody > tr > td { 
+		vertical-align: middle; 
+		border-top: 0;
+		border-bottom: 1px solid #eee;
+	}
 }
 
 .days {
@@ -76,6 +145,28 @@ body {
 	background: $brand-primary;
 	color: #fff;
 	padding: 20px;
+}
+
+.modal-footer {
+	padding: 0;
+
+	.btn-footer {
+		width: 50%;
+		float: left;
+		display: inline-block;
+		padding: 20px 10px;
+		background: #fff;
+		border: 0;
+		
+		&:first-of-type {
+			border-right: 1px solid #e5e5e5;
+		}
+
+		&:hover,
+		&:focus {
+			background: $brand-primary;
+		}
+	}
 }
 
 .footer {

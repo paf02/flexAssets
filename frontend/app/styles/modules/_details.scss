@@ -1,14 +1,49 @@
 .details-head {
-	background: #f9f9f9;
+	background: $brand-primary;
+	height: 100px;
+
+	.btn-back,
+	.btn-details {
+		height: 100px;
+		width: 100px;
+		display: inline-block;
+	}
 
 	.btn-back {
-		margin-right: 15px;
+		background: #222;
+		color: #fff;
+		display: block;
+	    float: left;
+	    text-align: center;
+	    line-height: 100px;
+
+	    &:hover,
+	    &:focus {
+	    	color: $brand-primary;
+	    }
 	}
 
 	& > span { 
 		font-size: $font-size-large; 
-		vertical-align: middle;
+	    margin-left: 20px;
+	    display: block;
+	    float: left;
+	    line-height: 100px;
 	}
+
+	.btn-details {
+		background: darken($brand-primary, 5%);
+		color: #fff;
+		&:last-of-type {
+			margin-left: -3px;
+		}
+
+		&:hover,
+		&:focus {
+			background: darken($brand-primary, 10%);
+			color: $text-color;
+		}
+	}	
 }
 
 .table-book {

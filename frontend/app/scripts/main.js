@@ -332,16 +332,6 @@ MyApp.angular.controller('detailsDateController', ['$scope', 'DataService', '$st
 		console.log('fail'); 
 	}, $stateParams.userId);
 }]);
-MyApp.angular.directive('toggle', function(){
-  return {
-    restrict: 'A',
-    link: function(scope, element, attrs){
-      if (attrs.toggle=="tooltip"){
-        $(element).tooltip();
-      }
-    }
-  };
-});
 MyApp.angular.factory('DataService', ['$document', '$http', function ($document, $http) {
 	'use strict';
 
@@ -440,3 +430,13 @@ MyApp.angular.factory('InitService', ['$document', function ($document) {
   return pub;
   
 }]);
+MyApp.angular.directive('toggle', function(){
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs){
+      if (attrs.toggle=="tooltip"){
+        $(element).tooltip();
+      }
+    }
+  };
+});

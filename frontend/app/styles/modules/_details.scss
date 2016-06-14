@@ -58,3 +58,45 @@
 		color: $text-color;
 	}
 }
+
+.calendar {
+	.header {
+		padding: 20px 0;
+		background: $brand-primary;
+		color: $text-color;
+	}
+
+	.table {
+		& > thead > tr > th,
+		& > tbody > tr > td {
+			text-align: center;
+			padding: 8px;
+
+			// & > .days {
+			// 	width: 15px;
+			// 	height: 15px;
+			// 	font-size: 10px;
+			// 	color: #fff;
+			// 	font-weight: 100;
+			// 	font-style: normal;
+			// 	background: $state-success-text;
+			// }
+		}
+
+		& > tbody > tr > td {
+			background: lighten($state-success-text, 50%);
+
+			&.booked {
+				background: lighten($state-danger-text, 40%);
+			}
+
+			&.not-available {
+				background: #eee;	
+			}
+
+			&[data-toggle="modal"] {
+				cursor: pointer;
+			}
+		}
+	}
+}

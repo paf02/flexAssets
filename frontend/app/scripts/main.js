@@ -30,9 +30,9 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider) {
       url: "/details?:userId",
       templateUrl: "_partials/details.html"
     })
-    .state('details.date', {
-      url: "/detailsdate?:userId",
-      templateUrl: "_partials/detail.date.html"
+    .state('booking', {
+      url: "/booking?:userId",
+      templateUrl: "_partials/booking.html"
     });
 });
 
@@ -287,13 +287,11 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'DataService',
 }]);
 
 MyApp.angular.controller('detailsController', ['$scope', 'InitService', 'DataService', '$stateParams', function($scope, InitService, DataService, $stateParams){
-	// console.log($stateParams.userId);
-
 	DataService.getUser(function(results) {
 		try {
 			$scope.user = results.data.User;
       $scope.skills = $scope.user.skill;
-      // console.log($scope.skills);
+      console.log($scope.skills);
 		} 
 		catch(e) {
 			console.log(e);
@@ -317,13 +315,13 @@ MyApp.angular.filter('startFrom', function() {
     }
 });
 
-MyApp.angular.controller('detailsDateController', ['$scope', 'DataService', '$stateParams', function($scope, DataService, $stateParams){
+MyApp.angular.controller('bookingController', ['$scope', 'DataService', '$stateParams', function($scope, DataService, $stateParams){
 	// console.log($stateParams.userId);
 
 	DataService.getUser(function(results) {
 		try {
 			$scope.user = results.data.User;
-      console.log($scope.user);
+      		console.log($scope.user);
 		} 
 		catch(e) {
 			console.log(e);

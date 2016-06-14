@@ -1,0 +1,376 @@
+<div ng-controller="bookingController" class="animated fadeInRight">
+	<div class="details-head row form-group clearfix" ng-model="users">
+		<a class="btn-back" ui-sref="home.search">
+			<i class="zmdi zmdi-arrow-left zmdi-hc-lg"></i>
+		</a>
+		<span>Availability & Booking</span>
+	</div>
+	<label class="control-label"><i class="zmdi zmdi-account"></i> User Info</label>
+	<div class="table-responsive">
+		<table class="table form-group">
+			<thead>
+				<tr>
+					<th>Country</th>
+					<th>Category</th>
+					<th>Role</th>
+					<th>Resume</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>{{user.country.name}}</td>
+					<td>{{user.role.category.name}}</td>
+					<td>{{user.role.name}}</td>
+					<td><a href="{{user.resume}}" target="_blank"><i class="zmdi zmdi-file-plus"></i> View Resume</a></a></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<label class="control-label"><i class="zmdi zmdi-calendar-check"></i> Availability</label>
+	<div class="row">
+		<div class="col-md-5 col-sm-6">
+			<div class="clearfix form-group">
+				<div class="col-xs-6">
+					<div class="row">
+						<input class="form-control input-lg" type="text" placeholder="From" />
+					</div>
+				</div>
+				<div class="col-xs-6">
+					<div class="row">
+						<input class="form-control input-lg" type="text" placeholder="To" />
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-4 col-xs-12">
+			<div class="calendar">
+				<div class="header text-center">
+					June 2016
+				</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>M</th>
+							<th>T</th>
+							<th>W</th>
+							<th>R</th>
+							<th>F</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								1
+							</td>
+							<td>
+								2
+							</td>
+							<td>
+								3
+							</td>
+							<td>
+								4
+							</td>
+							<td>
+								5
+							</td>
+						</tr>
+						<tr>
+							<td>
+								8
+							</td>
+							<td>
+								9
+							</td>
+							<td class="not-available">
+								10
+							</td>
+							<td>
+								11
+							</td>
+							<td>
+								12
+							</td>
+						</tr>
+						<tr>
+							<td>
+								15
+							</td>
+							<td>
+								16
+							</td>
+							<td>
+								17
+							</td>
+							<td class="booked">
+								18
+							</td>
+							<td class="booked">
+								19
+							</td>
+						</tr>
+						<tr>
+							<td class="booked">
+								22
+							</td>
+							<td class="booked">
+								23
+							</td>
+							<td class="booked">
+								24
+							</td>
+							<td class="booked">
+								25
+							</td>
+							<td>
+								26
+							</td>
+						</tr>
+						<tr>
+							<td>
+								29
+							</td>
+							<td>
+								30
+							</td>
+							<td>
+								31
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="col-sm-4 col-xs-12">
+			<div class="calendar">
+				<div class="header text-center">
+					July 2016
+				</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>M</th>
+							<th>T</th>
+							<th>W</th>
+							<th>R</th>
+							<th>F</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								1
+							</td>
+							<td>
+								2
+							</td>
+							<td>
+								3
+							</td>
+							<td>
+								4
+							</td>
+							<td>
+								5
+							</td>
+						</tr>
+						<tr>
+							<td>
+								8
+							</td>
+							<td>
+								9
+							</td>
+							<td class="not-available">
+								10
+							</td>
+							<td>
+								11
+							</td>
+							<td>
+								12
+							</td>
+						</tr>
+						<tr>
+							<td>
+								15
+							</td>
+							<td>
+								16
+							</td>
+							<td>
+								17
+							</td>
+							<td class="booked">
+								18
+							</td>
+							<td class="booked">
+								19
+							</td>
+						</tr>
+						<tr>
+							<td class="booked">
+								22
+							</td>
+							<td class="booked">
+								23
+							</td>
+							<td class="booked">
+								24
+							</td>
+							<td class="booked">
+								25
+							</td>
+							<td>
+								26
+							</td>
+						</tr>
+						<tr>
+							<td>
+								29
+							</td>
+							<td>
+								30
+							</td>
+							<td>
+								31
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="col-sm-4 col-xs-12">
+			<div class="calendar">
+				<div class="header text-center">
+					August 2016
+				</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>M</th>
+							<th>T</th>
+							<th>W</th>
+							<th>R</th>
+							<th>F</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								1
+							</td>
+							<td>
+								2
+							</td>
+							<td>
+								3
+							</td>
+							<td>
+								4
+							</td>
+							<td>
+								5
+							</td>
+						</tr>
+						<tr>
+							<td>
+								8
+							</td>
+							<td>
+								9
+							</td>
+							<td class="not-available">
+								10
+							</td>
+							<td>
+								11
+							</td>
+							<td>
+								12
+							</td>
+						</tr>
+						<tr>
+							<td data-toggle="modal" data-target="#bookModal">
+								15
+							</td>
+							<td>
+								16
+							</td>
+							<td>
+								17
+							</td>
+							<td class="booked">
+								18
+							</td>
+							<td class="booked">
+								19
+							</td>
+						</tr>
+						<tr>
+							<td class="booked">
+								22
+							</td>
+							<td class="booked">
+								23
+							</td>
+							<td class="booked">
+								24
+							</td>
+							<td class="booked">
+								25
+							</td>
+							<td>
+								26
+							</td>
+						</tr>
+						<tr>
+							<td>
+								29
+							</td>
+							<td>
+								30
+							</td>
+							<td>
+								31
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<div class="modal fade" tabindex="-1" role="dialog" id="bookModal">
+      <div class="modal-dialog modal-sm">
+        <form class="modal-content" name="bookingForm" ng-submit="booking()" novalidate="true">
+          <div class="modal-header">
+            <div class="text-center"><i class="zmdi zmdi-account-calendar"></i> Booking</div>
+          </div>
+          <div class="modal-body">
+            <label class="control-label"><i class="zmdi zmdi-book"></i> Agency</label>
+            <div class="form-group">
+              <input type="text" name="agency" ng-model="agency" class="form-control input-lg" required>
+              <div class="help-block" ng-show="bookingForm.agency.$touched && bookingForm.agency.$invalid">
+                <small class="text-danger">Agency is required</small>
+              </div>
+            </div>
+            <label class="control-label"><i class="zmdi zmdi-time"></i> Hours by day</label>
+            <div class="help-block">
+              <select class="form-control input-lg">
+              	<option>8</option>
+              </select>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" data-dismiss="modal" class="btn-footer">Cancel</button>
+            <button type="submit" class="btn-footer" ng-disabled="bookingForm.agency.$dirty && bookingForm.agency.$invalid">Enter</button>
+          </div>
+        </div>
+      </form>
+    </div>

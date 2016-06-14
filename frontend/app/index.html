@@ -38,6 +38,7 @@
       </a>
       <a class="box pull-right" ng-show="!auth" href="#" data-toggle="modal" data-target="#login"><i class="zmdi zmdi-sign-in"></i>&nbsp;Login</a>
       <a class="box pull-right" ng-show="auth" ng-click="logout()"><i class="zmdi zmdi-sign-in"></i>&nbsp;Logout</a>
+      <a class="box pull-right" ng-show="auth" ui-sref="approval"><i class="zmdi zmdi-calendar-check"></i>&nbsp;Approval</a>
       <div class="box pull-left user-auth" ng-show="auth">
         Welcome Adrian
       </div>

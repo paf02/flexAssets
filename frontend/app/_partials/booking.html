@@ -44,7 +44,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-sm-4 col-xs-12">
+		<div class="col-sm-4 col-xs-6 col-xxs-12">
 			<div class="calendar">
 				<div class="header text-center">
 					June 2016
@@ -143,7 +143,7 @@
 				</table>
 			</div>
 		</div>
-		<div class="col-sm-4 col-xs-12">
+		<div class="col-sm-4 col-xs-6 col-xxs-12">
 			<div class="calendar">
 				<div class="header text-center">
 					July 2016
@@ -242,7 +242,7 @@
 				</table>
 			</div>
 		</div>
-		<div class="col-sm-4 col-xs-12">
+		<div class="col-sm-4 col-xs-6 col-xxs-12">
 			<div class="calendar">
 				<div class="header text-center">
 					August 2016
@@ -302,7 +302,7 @@
 							<td>
 								17
 							</td>
-							<td class="booked">
+							<td class="booked" data-toggle="modal" data-target="#infoBookModal">
 								18
 							</td>
 							<td class="booked">
@@ -347,30 +347,69 @@
 
 
 <div class="modal fade" tabindex="-1" role="dialog" id="bookModal">
-      <div class="modal-dialog modal-sm">
-        <form class="modal-content" name="bookingForm" ng-submit="booking()" novalidate="true">
-          <div class="modal-header">
-            <div class="text-center"><i class="zmdi zmdi-account-calendar"></i> Booking</div>
-          </div>
-          <div class="modal-body">
-            <label class="control-label"><i class="zmdi zmdi-book"></i> Agency</label>
-            <div class="form-group">
-              <input type="text" name="agency" ng-model="agency" class="form-control input-lg" required>
-              <div class="help-block" ng-show="bookingForm.agency.$touched && bookingForm.agency.$invalid">
-                <small class="text-danger">Agency is required</small>
-              </div>
-            </div>
-            <label class="control-label"><i class="zmdi zmdi-time"></i> Hours by day</label>
-            <div class="help-block">
-              <select class="form-control input-lg">
-              	<option>8</option>
-              </select>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" data-dismiss="modal" class="btn-footer">Cancel</button>
-            <button type="submit" class="btn-footer" ng-disabled="bookingForm.agency.$dirty && bookingForm.agency.$invalid">Enter</button>
-          </div>
-        </div>
-      </form>
-    </div>
+	<div class="modal-dialog modal-sm">
+		<form class="modal-content" name="bookingForm" ng-submit="booking()" novalidate="true">
+			<div class="modal-header">
+				<div class="text-center"><i class="zmdi zmdi-account-calendar"></i> Booking</div>
+			</div>
+			<div class="modal-body">
+				<label class="control-label"><i class="zmdi zmdi-book"></i> Agency</label>
+				<div class="help-block">
+					<select class="form-control input-lg" name="agency">
+						<option value="{{undefined}}">Select Agency</option>
+					</select>
+					<div class="help-block" ng-show="bookingForm.agency.$invalid">
+						<small class="text-danger">Agency is required</small>
+					</div>
+				</div>
+				<div class="hide">
+					<br>
+					<label class="control-label"><i class="zmdi zmdi-time"></i> Hours by day</label>
+					<div class="help-block">
+						<select class="form-control input-lg">
+							<option>4</option>
+							<option>8</option>
+						</select>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" data-dismiss="modal" class="btn-footer">Cancel</button>
+				<button type="submit" class="btn-footer">Enter</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="infoBookModal">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<div class="text-center"><i class="zmdi zmdi-account-calendar"></i> Booked</div>
+			</div>
+			<div class="modal-body">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Agency</th>
+							<th class="text-right">Hours</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Razorfish</td>
+							<td class="text-right">4</td>
+						</tr>
+						<tr>
+							<td>Digitas</td>
+							<td class="text-right">4</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<button type="button" data-dismiss="modal" class="btn-footer btn-block">Close</button>
+			</div>
+		</div>
+	</div>
+</div>

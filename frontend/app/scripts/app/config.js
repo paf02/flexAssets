@@ -33,6 +33,10 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider) {
     .state('booking', {
       url: "/booking?:userId",
       templateUrl: "_partials/booking.html"
+    })
+    .state('approval', {
+      url: "/approval",
+      templateUrl: "_partials/approval.html"
     });
 });
 

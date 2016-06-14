@@ -33,6 +33,10 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider) {
     .state('booking', {
       url: "/booking?:userId",
       templateUrl: "_partials/booking.html"
+    })
+    .state('approval', {
+      url: "/approval",
+      templateUrl: "_partials/approval.html"
     });
 });
 
@@ -284,6 +288,10 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'DataService',
   	$location.path('/home/search');
   }
 
+  $scope.isActive = function(route) {
+      return route === $location.path();
+  }
+
 }]);
 
 MyApp.angular.controller('detailsController', ['$scope', 'InitService', 'DataService', '$stateParams', function($scope, InitService, DataService, $stateParams){
@@ -330,16 +338,6 @@ MyApp.angular.controller('bookingController', ['$scope', 'DataService', '$stateP
 		console.log('fail'); 
 	}, $stateParams.userId);
 }]);
-MyApp.angular.directive('toggle', function(){
-  return {
-    restrict: 'A',
-    link: function(scope, element, attrs){
-      if (attrs.toggle=="tooltip"){
-        $(element).tooltip();
-      }
-    }
-  };
-});
 MyApp.angular.factory('DataService', ['$document', '$http', function ($document, $http) {
 	'use strict';
 
@@ -438,3 +436,13 @@ MyApp.angular.factory('InitService', ['$document', function ($document) {
   return pub;
   
 }]);
+MyApp.angular.directive('toggle', function(){
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs){
+      if (attrs.toggle=="tooltip"){
+        $(element).tooltip();
+      }
+    }
+  };
+});

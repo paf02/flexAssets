@@ -26,7 +26,7 @@
 		}
 
 		img {
-			width: 60%;
+			width: 50%;
 			vertical-align: middle;
 		} 
 	}
@@ -34,6 +34,7 @@
 	a {
 		background: $brand-primary;
 		color: $text-color;
+		margin-bottom: 1px;
 
 		&:hover,
 		&:focus {
@@ -61,5 +62,20 @@
 		.user-auth {
 			width: auto;
 		}
+
+		a {
+			margin-bottom: 0;
+			margin-left: 1px;
+		}
 	}
+
+}
+
+@media (max-width: 500px) {
+	.navbar-vertical {
+		.user-auth {
+			display: none;
+		}
+	}
+
 }

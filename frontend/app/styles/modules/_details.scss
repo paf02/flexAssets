@@ -100,3 +100,23 @@
 		}
 	}
 }
+
+@media (max-width: 500px) {
+	.details-head {
+		height: 60px;
+
+		.btn-back,
+		.btn-details {
+			height: 60px;
+			width: 60px;
+		}
+
+		.btn-back {
+		    line-height: 60px;
+		}
+
+		& > span { 
+		    line-height: 60px;
+		}	
+	}
+}

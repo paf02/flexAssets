@@ -19,6 +19,11 @@ a:hover,
 	transition: 0.3s;
 }
 
+a:hover,
+a:focus {
+	text-decoration: none;
+}
+
 .wrapper {
 	width: calc(100% - 100px);
 	height: 100vh;
@@ -171,6 +176,11 @@ input[type="file"]::-webkit-file-upload-button {
 		&:focus {
 			background: $brand-primary;
 		}
+
+		&.btn-block {
+			border: 0;
+			width: 100%;
+		}
 	}
 }
 
@@ -182,7 +192,14 @@ input[type="file"]::-webkit-file-upload-button {
 	}
 }
 
-@media (max-width: 400px) {
+@media (max-width: 768px) {
+	.modal-sm {
+	    width: 300px;
+	    margin: 10px auto;
+	}
+}
+
+@media (max-width: 500px) {
 	body {
 		overflow: auto;
 	}
@@ -193,10 +210,18 @@ input[type="file"]::-webkit-file-upload-button {
 		.container-fluid {
 			overflow-x: initial;
 			height: auto;
+			min-height: 100%;
 		}
 	}
 
 	.col-xxs-12 {
 		width: 100%;
+	}
+
+	.nav-tabs.nav-justified > li {
+
+		& > a {
+			padding: 20px 0;
+		}
 	}
 }

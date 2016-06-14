@@ -236,6 +236,10 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'DataService',
   	$location.path('/home/search');
   }
 
+  $scope.isActive = function(route) {
+      return route === $location.path();
+  }
+
 }]);
 
 MyApp.angular.controller('detailsController', ['$scope', 'InitService', 'DataService', '$stateParams', function($scope, InitService, DataService, $stateParams){

@@ -4,7 +4,7 @@ var MyApp = {};
 MyApp.config = {
 };
 
-MyApp.angular = angular.module('flexApp', ['ui.router']);
+MyApp.angular = angular.module('flexApp', ['ui.router', 'ui.bootstrap']);
 
 
 MyApp.angular.config(function($stateProvider, $urlRouterProvider) {

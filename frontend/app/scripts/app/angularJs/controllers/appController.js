@@ -247,7 +247,6 @@ MyApp.angular.controller('detailsController', ['$scope', 'InitService', 'DataSer
 		try {
 			$scope.user = results.data.User;
       $scope.skills = $scope.user.skill;
-      console.log($scope.skills);
 		} 
 		catch(e) {
 			console.log(e);
@@ -255,6 +254,16 @@ MyApp.angular.controller('detailsController', ['$scope', 'InitService', 'DataSer
 	}, function() {
 		console.log('fail'); 
 	}, $stateParams.userId);
+
+  $scope.userSkills = [];
+
+  $scope.add = function() {
+    $scope.userSkills.push($scope.selected);
+    $scope.selected = '';
+  }
+  $scope.delete = function() {
+    $scope.userSkills.splice(this.$index, 1);
+  }
 }]);
 
 MyApp.angular.filter('startFrom', function() {

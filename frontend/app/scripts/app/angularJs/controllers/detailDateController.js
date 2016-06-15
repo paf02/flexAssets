@@ -12,4 +12,5 @@ MyApp.angular.controller('bookingController', ['$scope', 'DataService', '$stateP
 	}, function() {
 		console.log('fail'); 
 	}, $stateParams.userId);
+
 }]);

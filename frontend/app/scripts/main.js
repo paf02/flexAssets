@@ -4,7 +4,7 @@ var MyApp = {};
 MyApp.config = {
 };
 
-MyApp.angular = angular.module('flexApp', ['ui.router']);
+MyApp.angular = angular.module('flexApp', ['ui.router', 'ui.bootstrap']);
 
 
 MyApp.angular.config(function($stateProvider, $urlRouterProvider) {
@@ -299,7 +299,6 @@ MyApp.angular.controller('detailsController', ['$scope', 'InitService', 'DataSer
 		try {
 			$scope.user = results.data.User;
       $scope.skills = $scope.user.skill;
-      console.log($scope.skills);
 		} 
 		catch(e) {
 			console.log(e);
@@ -307,6 +306,16 @@ MyApp.angular.controller('detailsController', ['$scope', 'InitService', 'DataSer
 	}, function() {
 		console.log('fail'); 
 	}, $stateParams.userId);
+
+  $scope.userSkills = [];
+
+  $scope.add = function() {
+    $scope.userSkills.push($scope.selected);
+    $scope.selected = '';
+  }
+  $scope.delete = function() {
+    $scope.userSkills.splice(this.$index, 1);
+  }
 }]);
 
 MyApp.angular.filter('startFrom', function() {
@@ -337,7 +346,18 @@ MyApp.angular.controller('bookingController', ['$scope', 'DataService', '$stateP
 	}, function() {
 		console.log('fail'); 
 	}, $stateParams.userId);
+
 }]);
+MyApp.angular.directive('toggle', function(){
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs){
+      if (attrs.toggle=="tooltip"){
+        $(element).tooltip();
+      }
+    }
+  };
+});
 MyApp.angular.factory('DataService', ['$document', '$http', function ($document, $http) {
 	'use strict';
 
@@ -436,13 +456,3 @@ MyApp.angular.factory('InitService', ['$document', function ($document) {
   return pub;
   
 }]);
-MyApp.angular.directive('toggle', function(){
-  return {
-    restrict: 'A',
-    link: function(scope, element, attrs){
-      if (attrs.toggle=="tooltip"){
-        $(element).tooltip();
-      }
-    }
-  };
-});

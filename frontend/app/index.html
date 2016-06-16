@@ -14,6 +14,7 @@
 
     <!-- build:css styles/vendor.css -->
     <!-- bower:css -->
+    <link rel="stylesheet" href="/bower_components/animate.css/animate.css" />
     <!-- endbower -->
     <!-- endbuild -->
 
@@ -32,11 +33,11 @@
     <!--[if lt IE 10]>
       <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
-    <nav class="navbar-vertical navbar-default text-center animated slideInLeft">
+    <nav class="navbar-vertical navbar-default text-center animated slideInLeft" ng-controller="headerController">
       <a class="box logo pull-left" ui-sref="home.search">
         <img alt="Flex" src="images/flex.jpg">
       </a>
-      <a class="box pull-right" ng-show="!auth" href="#" data-toggle="modal" data-target="#login"><i class="zmdi zmdi-sign-in"></i>&nbsp;Login</a>
+      <a class="box pull-right" ng-show="!auth" ng-click="open('sm')"><i class="zmdi zmdi-sign-in"></i>&nbsp;Login</a>
       <a class="box pull-right" ng-show="auth" ng-click="logout()"><i class="zmdi zmdi-sign-in"></i>&nbsp;Logout</a>
       <a class="box pull-right" ng-show="auth" ui-sref="approval"><i class="zmdi zmdi-calendar-check"></i>&nbsp;Approval</a>
       <div class="box pull-left user-auth" ng-show="auth">
@@ -47,42 +48,6 @@
     <div class="wrapper">
       <div class="container-fluid">
         <div ui-view></div>
-      </div>
-    </div>
-
-    <div class="modal fade" tabindex="-1" role="dialog" id="login">
-      <div class="modal-dialog modal-sm">
-        <form class="modal-content" name="loginForm" ng-submit="login()" novalidate="true">
-          <div class="modal-header">
-            <div class="text-center"><i class="zmdi zmdi-sign-in"></i> Login</div>
-          </div>
-          <div class="modal-body">
-            <label class="control-label"><i class="zmdi zmdi-account"></i> Username</label>
-            <div class="form-group">
-              <input type="text" name="username" ng-model="username" class="form-control input-lg" required>
-              <div class="help-block" ng-show="loginForm.username.$touched && loginForm.username.$invalid">
-                <small class="text-danger">Username is required</small>
-              </div>
-            </div>
-            <label class="control-label"><i class="zmdi zmdi-lock"></i> Password</label>
-            <div class="form-group">
-              <input type="password" name="password" ng-model="password" class="form-control input-lg" required>
-              <div class="help-block" ng-show="loginForm.password.$touched && loginForm.password.$invalid">
-                <small class="text-danger">Password is required</small>
-              </div>
-            </div>
-            <div ng-show="message" class="text-danger small">
-              Credentials not match
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" data-dismiss="modal" class="btn-footer">
-              Cancel
-            </button>
-            <button type="submit" class="btn-footer" ng-disabled="loginForm.username.$dirty && loginForm.username.$invalid ||  
-loginForm.password.$dirty && loginForm.password.$invalid">Enter</button>
-          </div>
-        </form>
       </div>
     </div>
 
@@ -99,14 +64,9 @@ loginForm.password.$dirty && loginForm.password.$invalid">Enter</button>
     <!-- build:js scripts/vendor.js -->
     <!-- bower:js -->
     <script src="/bower_components/modernizr/modernizr.js"></script>
-    <script src="/bower_components/jquery/dist/jquery.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/transition.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/modal.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tooltip.js"></script>
-    <script src="/bower_components/bootstrap-sass/assets/javascripts/bootstrap/tab.js"></script>
     <script src="/bower_components/angular/angular.js"></script>
     <script src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
     

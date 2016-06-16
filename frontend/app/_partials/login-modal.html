@@ -1,0 +1,33 @@
+<div ng-controller="loginController">
+<form name="loginForm" novalidate="true" ng-submit="login()">
+  <div class="modal-header">
+    <div class="text-center"><i class="zmdi zmdi-sign-in"></i> Login</div>
+  </div>
+  <div class="modal-body">
+    <label class="control-label"><i class="zmdi zmdi-account"></i> Username</label>
+    <div class="form-group">
+      <input type="text" name="username" ng-model="username" class="form-control input-lg" required>
+      <div class="help-block" ng-show="loginForm.username.$touched && loginForm.username.$invalid">
+        <small class="text-danger">Username is required</small>
+      </div>
+    </div>
+    <label class="control-label"><i class="zmdi zmdi-lock"></i> Password</label>
+    <div class="form-group">
+      <input type="password" name="password" ng-model="password" class="form-control input-lg" required>
+      <div class="help-block" ng-show="loginForm.password.$touched && loginForm.password.$invalid">
+        <small class="text-danger">Password is required</small>
+      </div>
+    </div>
+    <div ng-show="message" class="text-danger small">
+      Credentials not match
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn-footer" ng-click="cancel()">
+      Cancel
+    </button>
+    <button type="submit" class="btn-footer" ng-disabled="loginForm.username.$dirty && loginForm.username.$invalid ||  
+loginForm.password.$dirty && loginForm.password.$invalid">Enter</button>
+  </div>
+</form>
+</div>

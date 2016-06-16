@@ -63,7 +63,7 @@
 					<div class="clearfix">
 						<ul class="pull-right dates">
 							<li ng-repeat="date in dates track by $index" ng-class="getBreakLine(date, $index)">
-								<div class="days" data-toggle="tooltip" data-original-title="{{date | date}}" data-placement="bottom" ng-class="getCSSClass(user, date)">
+								<div class="days" title="{{date | date}}" ng-class="getCSSClass(user, date)">
 								</div>
 							</li>	
 						</ul>

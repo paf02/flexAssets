@@ -10,7 +10,7 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'DataService',
 			console.log(e);
 		}
 	}, function() {
-		console.log('fail'); 
+		console.log('fail');  
 	});
 
 	DataService.getCountry(function(results) {

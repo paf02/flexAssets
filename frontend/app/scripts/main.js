@@ -32,7 +32,8 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider) {
     })
     .state('booking', {
       url: "/booking?:userId",
-      templateUrl: "_partials/booking.html"
+      templateUrl: "_partials/booking.html",
+      controller: 'bookingController'
     })
     .state('approval', {
       url: "/approval",
@@ -62,7 +63,7 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'DataService',
 			console.log(e);
 		}
 	}, function() {
-		console.log('fail'); 
+		console.log('fail');  
 	});
 
 	DataService.getCountry(function(results) {

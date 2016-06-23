@@ -341,8 +341,8 @@ MyApp.angular.controller('headerController', ['$scope', 'DataService', '$locatio
 	console.log($scope.auth);
 
 	$scope.logout = function() {
-		//LoginService.setAuth(false);
-		$scope.auth = false;
+		LoginService.setAuth(false);
+		//$scope.auth = false;
 		$location.path('/home/search');
 	}
 }]);
@@ -373,7 +373,6 @@ MyApp.angular.controller('loginController', ['$scope', 'DataService', 'LoginServ
 			if (admin.username == results.data.Admin[0].username && admin.password == results.data.Admin[0].password) {
 				$scope.auth(true);
 				$scope.ok();
-				console.log($scope.open());
 				$scope.message = false;
 			} else {
 				$scope.message = true;

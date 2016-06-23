@@ -16,8 +16,8 @@ MyApp.angular.controller('headerController', ['$scope', 'DataService', '$locatio
 	console.log($scope.auth);
 
 	$scope.logout = function() {
-		//LoginService.setAuth(false);
-		$scope.auth = false;
+		LoginService.setAuth(false);
+		//$scope.auth = false;
 		$location.path('/home/search');
 	}
 }]);

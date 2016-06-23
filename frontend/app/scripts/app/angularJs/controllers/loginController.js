@@ -23,7 +23,8 @@ MyApp.angular.controller('loginController', ['$scope', 'DataService', 'LoginServ
 		DataService.getAdmin(function(results) {
 
 			if (admin.username == results.data.Admin[0].username && admin.password == results.data.Admin[0].password) {
-				$scope.auth(true);
+				LoginService.setAuth(true);
+				$scope.$emit('authEvent');
 				$scope.ok();
 				$scope.message = false;
 			} else {
@@ -33,9 +34,5 @@ MyApp.angular.controller('loginController', ['$scope', 'DataService', 'LoginServ
 			console.log('Not login'); 
 			$scope.message = true;
 		}, admin);
-	};
-
-	$scope.auth = function(value) {
-		LoginService.setAuth(value);
 	};
 }]);

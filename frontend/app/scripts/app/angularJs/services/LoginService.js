@@ -1,6 +1,6 @@
 MyApp.angular.factory("LoginService", function () {
 
-	var auth = false;
+	var auth = null;
 
 	return {
 	    getAuth: function () {

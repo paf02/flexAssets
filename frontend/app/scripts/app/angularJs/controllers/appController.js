@@ -1,4 +1,8 @@
-MyApp.angular.controller('appController', ['$scope', '$location', 'DataService', function($scope, $location, DataService){
+MyApp.angular.controller('appController', ['$scope', '$location', 'DataService', 'LoginService', function($scope, $location, DataService, LoginService){
+  
+  $scope.$on('authEvent', function(event, data) { 
+    $scope.auth = LoginService.getAuth();
+  });
 
 	DataService.getUsers(function(results) {
 		try {

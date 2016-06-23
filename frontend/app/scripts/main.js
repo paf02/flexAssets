@@ -51,7 +51,11 @@ MyApp.endPoints = {
   postAdminFind: 'http://10.66.22.180:3000/api/v1/adminFind',
 	getCurrency: 'http://jsonplaceholder.typicode.com/posts/3'
 }
-MyApp.angular.controller('appController', ['$scope', '$location', 'DataService', function($scope, $location, DataService){
+MyApp.angular.controller('appController', ['$scope', '$location', 'DataService', 'LoginService', function($scope, $location, DataService, LoginService){
+  
+  $scope.$on('authEvent', function(event, data) { 
+    $scope.auth = LoginService.getAuth();
+  });
 
 	DataService.getUsers(function(results) {
 		try {
@@ -336,12 +340,9 @@ MyApp.angular.controller('headerController', ['$scope', 'DataService', '$locatio
 		});
 	};
 
-	$scope.auth = LoginService.getAuth;
-
-	console.log($scope.auth);
-
 	$scope.logout = function() {
 		LoginService.setAuth(false);
+		$scope.$emit('authEvent');
 		//$scope.auth = false;
 		$location.path('/home/search');
 	}
@@ -371,7 +372,8 @@ MyApp.angular.controller('loginController', ['$scope', 'DataService', 'LoginServ
 		DataService.getAdmin(function(results) {
 
 			if (admin.username == results.data.Admin[0].username && admin.password == results.data.Admin[0].password) {
-				$scope.auth(true);
+				LoginService.setAuth(true);
+				$scope.$emit('authEvent');
 				$scope.ok();
 				$scope.message = false;
 			} else {
@@ -381,10 +383,6 @@ MyApp.angular.controller('loginController', ['$scope', 'DataService', 'LoginServ
 			console.log('Not login'); 
 			$scope.message = true;
 		}, admin);
-	};
-
-	$scope.auth = function(value) {
-		LoginService.setAuth(value);
 	};
 }]);
 MyApp.angular.factory('DataService', ['$document', '$http', function ($document, $http) {
@@ -439,7 +437,7 @@ MyApp.angular.factory('DataService', ['$document', '$http', function ($document,
 }]);
 MyApp.angular.factory("LoginService", function () {
 
-	var auth = false;
+	var auth = null;
 
 	return {
 	    getAuth: function () {

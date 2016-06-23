@@ -1,5 +1,8 @@
-MyApp.angular.controller('appController', ['$scope', '$location', 'DataService', function($scope, $location, DataService){
-	$scope.auth = false;
+MyApp.angular.controller('appController', ['$scope', '$location', 'DataService', 'LoginService', function($scope, $location, DataService, LoginService){
+  
+  $scope.$on('authEvent', function(event, data) { 
+    $scope.auth = LoginService.getAuth();
+  });
 
 	DataService.getUsers(function(results) {
 		try {
@@ -195,75 +198,10 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'DataService',
   	}
   }
 
-  // $scope.credentials = {
-  // 	username: "John Smith",
-  // 	password: "abc123"
-  // };
-
-  $scope.login = function() { 
-
-    var admin = {
-      username: $scope.loginForm.username.$modelValue,
-      password: $scope.loginForm.password.$modelValue
-    };
-
-    DataService.getAdmin(function(results) {
-      if (results.data.Admin.length > 0) {
-        $('#login').modal('hide');
-        $scope.auth = true;
-        $scope.message = false;
-      } else {
-       $scope.message = true;
-      }
-    }, function() {
-      console.log('Not login'); 
-      $scope.message = true;
-    }, admin); 
-
-
-
-  	// if($scope.loginForm.username.$modelValue == $scope.credentials.username && $scope.loginForm.password.$modelValue == $scope.credentials.password) {
-  	// 	$('#login').modal('hide');
-  	// 	$scope.auth = true;
-  	// 	$scope.message = false;
-  	// } else {
-  	// 	$scope.message = true;
-  	// }
-  }
-
-  $scope.logout = function() {
-  	$scope.auth = false;
-  	$location.path('/home/search');
-  }
-
   $scope.isActive = function(route) {
       return route === $location.path();
   }
 
-}]);
-
-MyApp.angular.controller('detailsController', ['$scope', 'InitService', 'DataService', '$stateParams', function($scope, InitService, DataService, $stateParams){
-	DataService.getUser(function(results) {
-		try {
-			$scope.user = results.data.User;
-      $scope.skills = $scope.user.skill;
-		} 
-		catch(e) {
-			console.log(e);
-		}
-	}, function() {
-		console.log('fail'); 
-	}, $stateParams.userId);
-
-  $scope.userSkills = [];
-
-  $scope.add = function() {
-    $scope.userSkills.push($scope.selected);
-    $scope.selected = '';
-  }
-  $scope.delete = function() {
-    $scope.userSkills.splice(this.$index, 1);
-  }
 }]);
 
 MyApp.angular.filter('startFrom', function() {
@@ -273,7 +211,7 @@ MyApp.angular.filter('startFrom', function() {
     		return input.slice(start);	
     	}
     	catch(e) {
-    		console.log(e);
+    		//console.log(e);
     		return null;
     	}
 

@@ -1,48 +1,42 @@
-MyApp.angular.controller('loginController', ['$scope', 'DataService', '$uibModal', 'LoginService', function($scope, DataService, $uibModal, LoginService){
+MyApp.angular.controller('loginController', ['$scope', 'DataService', 'LoginService', function($scope, DataService, LoginService){
 	
-	$scope.open = function (size) {
-		var modalInstance;
-		modalScope = $scope.$new(); 
-		modalScope.ok = function () {
-	        modalInstance.close('close');
-		};
-		modalScope.cancel = function () {
-        	modalInstance.dismiss('cancel');
-		};
+	$scope.ok = function () {
+		$scope.$close('close');
+	};
 
-		modalInstance = $uibModal.open({
-			template: '<login-modal></login-modal>',
-			size: size,
-			scope: modalScope
-		});
+	$scope.cancel = function () {
+		$scope.$dismiss('cancel');
 	};
 
 	var admin = {
-	  username: "",
-	  password: ""
+		username: "",
+		password: ""
 	};
 
 	$scope.login = function() { 
 		
 		admin = {
-		  username: $scope.loginForm.username.$modelValue,
-		  password: $scope.loginForm.password.$modelValue,
+			username: $scope.loginForm.username.$modelValue,
+			password: $scope.loginForm.password.$modelValue
 		}			
 
 		DataService.getAdmin(function(results) {
-		  
-		  if (admin.username == results.data.Admin[0].username && admin.password == results.data.Admin[0].password) {
-		    $scope.auth = true;
-		    $scope.open();
-		    $scope.message = false;
-		  } else {
-		   $scope.message = true;
-		  }
-		}, function() {
-		  console.log('Not login'); 
-		  $scope.message = true;
-		}, admin);
 
-		$scope.auth = true;
-	}
+			if (admin.username == results.data.Admin[0].username && admin.password == results.data.Admin[0].password) {
+				$scope.auth(true);
+				$scope.ok();
+				console.log($scope.open());
+				$scope.message = false;
+			} else {
+				$scope.message = true;
+			}
+		}, function() {
+			console.log('Not login'); 
+			$scope.message = true;
+		}, admin);
+	};
+
+	$scope.auth = function(value) {
+		LoginService.setAuth(value);
+	};
 }]);

@@ -2,10 +2,18 @@
   "name": "gulp-webapp-hbs",
   "private": true,
   "dependencies": {
+    "bootstrap-sass": "~3.3.5",
     "modernizr": "~2.8.1",
     "angular-ui-router": "^0.3.0",
     "animate.css": "^3.5.2",
     "angular-bootstrap": "^1.3.3"
+  },
+  "overrides": {
+    "bootstrap-sass": {
+      "main": [
+        "assets/stylesheets/_bootstrap.scss"
+      ]
+    }
   },
   "devDependencies": {
     "chai": "~3.2.0",

@@ -205,7 +205,8 @@ input[type="file"]::-webkit-file-upload-button {
 	}
 
 	.wrapper {
-		padding: 125px 10px 10px;
+		padding: 125px 10px 25px 10px;
+		height: 100%;
 
 		.container-fluid {
 			overflow-x: initial;

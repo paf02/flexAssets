@@ -2,16 +2,21 @@ MyApp.angular.controller('headerController', ['$scope', 'DataService', '$locatio
 	
 	$scope.open = function (size) {
 		var modalInstance;
-		$scope.modalScope = $scope.$new();  
+		var modalScope = $scope.$new();  
 
 		modalInstance = $uibModal.open({
 			template: '<login-modal></login-modal>',
 			size: size,
-			scope: $scope.modalScope
+			scope: modalScope
 		});
 	};
 
+	$scope.auth = LoginService.getAuth;
+
+	console.log($scope.auth);
+
 	$scope.logout = function() {
+		//LoginService.setAuth(false);
 		$scope.auth = false;
 		$location.path('/home/search');
 	}

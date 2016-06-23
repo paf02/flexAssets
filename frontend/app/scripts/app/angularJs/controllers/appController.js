@@ -207,7 +207,7 @@ MyApp.angular.filter('startFrom', function() {
     		return input.slice(start);	
     	}
     	catch(e) {
-    		console.log(e);
+    		//console.log(e);
     		return null;
     	}
 

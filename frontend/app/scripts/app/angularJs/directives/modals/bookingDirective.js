@@ -1,7 +1,7 @@
 MyApp.angular.directive('bookingModal', function() {
   return {
       restrict: 'E',
-      controller: 'bookingController',
+      controller: 'BookingController',
       templateUrl: '_partials/booking-modal.html'
   };
 });

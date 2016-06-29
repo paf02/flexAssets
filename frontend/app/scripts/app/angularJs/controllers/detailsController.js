@@ -1,8 +1,8 @@
-MyApp.angular.controller('detailsController', ['$scope', 'InitService', 'DataService', '$stateParams', function($scope, InitService, DataService, $stateParams){
+MyApp.angular.controller('DetailsController', ['$scope', 'InitService', 'DataService', '$stateParams', function($scope, InitService, DataService, $stateParams){
 	DataService.getUser(function(results) {
 		try {
 			$scope.user = results.data.User;
-      $scope.skills = $scope.user.skill;
+      		$scope.skills = $scope.user.skill;
 		} 
 		catch(e) {
 			console.log(e);

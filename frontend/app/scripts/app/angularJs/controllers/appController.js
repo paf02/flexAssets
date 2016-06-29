@@ -1,4 +1,4 @@
-MyApp.angular.controller('appController', ['$scope', '$location', 'DataService', 'LoginService', function($scope, $location, DataService, LoginService){
+MyApp.angular.controller('AppController', ['$scope', 'DataService', 'LoginService', function($scope, DataService, LoginService){
   
   $scope.$on('authEvent', function(event, data) { 
     $scope.auth = LoginService.getAuth();
@@ -196,10 +196,6 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'DataService',
   	} catch(e) {
   		return '';
   	}
-  }
-
-  $scope.isActive = function(route) {
-      return route === $location.path();
   }
 
 }]);

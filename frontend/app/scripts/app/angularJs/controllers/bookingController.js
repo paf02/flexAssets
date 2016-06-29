@@ -1,4 +1,4 @@
-MyApp.angular.controller('bookingController', ['$scope', 'DataService', '$stateParams', '$uibModal', function($scope, DataService, $stateParams, $uibModal){
+MyApp.angular.controller('BookingController', ['$scope', 'DataService', '$stateParams', '$uibModal', function($scope, DataService, $stateParams, $uibModal){
 	// console.log($stateParams.userId);
 
 	DataService.getUser(function(results) {

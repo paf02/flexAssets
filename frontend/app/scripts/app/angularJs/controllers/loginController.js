@@ -1,4 +1,4 @@
-MyApp.angular.controller('loginController', ['$scope', 'DataService', 'LoginService', function($scope, DataService, LoginService){
+MyApp.angular.controller('LoginController', ['$scope', 'DataService', 'LoginService', function($scope, DataService, LoginService){
 	
 	$scope.ok = function () {
 		$scope.$close('close');

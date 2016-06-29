@@ -48,10 +48,11 @@ MyApp.endPoints = {
 	getCountry: 'http://10.66.22.180:3000/api/v1/country',
 	getCategory: 'http://10.66.22.180:3000/api/v1/category',
 	getRole: 'http://10.66.22.180:3000/api/v1/role',
+  getSkill: 'http://10.66.22.180:3000/api/v1/skill',
   postAdminFind: 'http://10.66.22.180:3000/api/v1/adminFind',
 	getCurrency: 'http://jsonplaceholder.typicode.com/posts/3'
 }
-MyApp.angular.controller('appController', ['$scope', '$location', 'DataService', 'LoginService', function($scope, $location, DataService, LoginService){
+MyApp.angular.controller('AppController', ['$scope', 'DataService', 'LoginService', function($scope, DataService, LoginService){
   
   $scope.$on('authEvent', function(event, data) { 
     $scope.auth = LoginService.getAuth();
@@ -251,10 +252,6 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'DataService',
   	}
   }
 
-  $scope.isActive = function(route) {
-      return route === $location.path();
-  }
-
 }]);
 
 MyApp.angular.filter('startFrom', function() {
@@ -271,7 +268,7 @@ MyApp.angular.filter('startFrom', function() {
     }
 });
 
-MyApp.angular.controller('bookingController', ['$scope', 'DataService', '$stateParams', '$uibModal', function($scope, DataService, $stateParams, $uibModal){
+MyApp.angular.controller('BookingController', ['$scope', 'DataService', '$stateParams', '$uibModal', function($scope, DataService, $stateParams, $uibModal){
 	// console.log($stateParams.userId);
 
 	DataService.getUser(function(results) {
@@ -304,11 +301,11 @@ MyApp.angular.controller('bookingController', ['$scope', 'DataService', '$stateP
 		});
 	};
 }]);
-MyApp.angular.controller('detailsController', ['$scope', 'InitService', 'DataService', '$stateParams', function($scope, InitService, DataService, $stateParams){
+MyApp.angular.controller('DetailsController', ['$scope', 'InitService', 'DataService', '$stateParams', function($scope, InitService, DataService, $stateParams){
 	DataService.getUser(function(results) {
 		try {
 			$scope.user = results.data.User;
-      $scope.skills = $scope.user.skill;
+      		$scope.skills = $scope.user.skill;
 		} 
 		catch(e) {
 			console.log(e);
@@ -327,7 +324,32 @@ MyApp.angular.controller('detailsController', ['$scope', 'InitService', 'DataSer
     $scope.userSkills.splice(this.$index, 1);
   }
 }]);
-MyApp.angular.controller('headerController', ['$scope', 'DataService', '$location', '$uibModal', '$stateParams', 'LoginService', function($scope, DataService, $location, $uibModal, $stateParams, LoginService){
+MyApp.angular.controller('EmployeeController', ['$scope', 'InitService', 'DataService', function($scope, InitService, DataService){
+	DataService.getSkill(function(results) {
+		try {
+			$scope.skills = results.data.Skill;
+			console.log($scope.skills);
+		} 
+		catch(e) {
+			console.log(e);
+		}
+	}, function() {
+		console.log('fail'); 
+	});
+
+	$scope.test = "Test";
+
+	$scope.userSkills = [];
+
+	$scope.add = function() {
+		$scope.userSkills.push($scope.selected);
+		$scope.selected = '';
+	}
+	$scope.delete = function() {
+		$scope.userSkills.splice(this.$index, 1);
+	}
+}]);
+MyApp.angular.controller('HeaderController', ['$scope', 'DataService', '$location', '$uibModal', '$stateParams', 'LoginService', function($scope, DataService, $location, $uibModal, $stateParams, LoginService){
 	
 	$scope.open = function (size) {
 		var modalInstance;
@@ -347,7 +369,7 @@ MyApp.angular.controller('headerController', ['$scope', 'DataService', '$locatio
 		$location.path('/home/search');
 	}
 }]);
-MyApp.angular.controller('loginController', ['$scope', 'DataService', 'LoginService', function($scope, DataService, LoginService){
+MyApp.angular.controller('LoginController', ['$scope', 'DataService', 'LoginService', function($scope, DataService, LoginService){
 	
 	$scope.ok = function () {
 		$scope.$close('close');
@@ -408,6 +430,13 @@ MyApp.angular.factory('DataService', ['$document', '$http', function ($document,
 		$http({
 			method: 'GET',
 			url: MyApp.endPoints.getCountry
+		}).then(success, fail);
+	};
+
+	pub.getSkill = function(success, fail) {
+		$http({
+			method: 'GET',
+			url: MyApp.endPoints.getSkill
 		}).then(success, fail);
 	};
 
@@ -500,14 +529,14 @@ MyApp.angular.factory('InitService', ['$document', function ($document) {
 MyApp.angular.directive('bookingModal', function() {
   return {
       restrict: 'E',
-      controller: 'bookingController',
+      controller: 'BookingController',
       templateUrl: '_partials/booking-modal.html'
   };
 });
 MyApp.angular.directive('loginModal', function() {
   return {
       restrict: 'E',
-      controller: 'loginController',
+      controller: 'LoginController',
       templateUrl: '_partials/login-modal.html'
   };
 });

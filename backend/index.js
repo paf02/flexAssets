@@ -36,6 +36,11 @@ app.get('/', function(req, res) {
 });
 
 
+app.get('/sss', function(req, res) {
+    res.send('s');
+});
+
+
 // app.set('view engine', 'jade');
 // app.set('views','../frontend/dist');
 // app.get('/test/:id', function(req, res) {

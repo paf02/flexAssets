@@ -20,3 +20,13 @@ $icon-font-path: '../fonts/';
 @import "modules/footer";
 @import "modules/header";
 @import "modules/details";
+
+
+
+p {
+	@include algo(#000000, 200px);
+}
+
+ul {
+	@include algo(blue);
+}

@@ -48,11 +48,15 @@ MyApp.endPoints = {
 	getCountry: 'http://10.66.22.180:3000/api/v1/country',
 	getCategory: 'http://10.66.22.180:3000/api/v1/category',
 	getRole: 'http://10.66.22.180:3000/api/v1/role',
+  getSkill: 'http://10.66.22.180:3000/api/v1/skill',
   postAdminFind: 'http://10.66.22.180:3000/api/v1/adminFind',
 	getCurrency: 'http://jsonplaceholder.typicode.com/posts/3'
 }
-MyApp.angular.controller('appController', ['$scope', '$location', 'DataService', function($scope, $location, DataService){
-	$scope.auth = false;
+MyApp.angular.controller('AppController', ['$scope', 'DataService', 'LoginService', function($scope, DataService, LoginService){
+  
+  $scope.$on('authEvent', function(event, data) { 
+    $scope.auth = LoginService.getAuth();
+  });
 
 	DataService.getUsers(function(results) {
 		try {
@@ -248,58 +252,60 @@ MyApp.angular.controller('appController', ['$scope', '$location', 'DataService',
   	}
   }
 
-  // $scope.credentials = {
-  // 	username: "John Smith",
-  // 	password: "abc123"
-  // };
-
-  $scope.login = function() { 
-
-    var admin = {
-      username: $scope.loginForm.username.$modelValue,
-      password: $scope.loginForm.password.$modelValue
-    };
-
-    DataService.getAdmin(function(results) {
-      if (results.data.Admin.length > 0) {
-        $('#login').modal('hide');
-        $scope.auth = true;
-        $scope.message = false;
-      } else {
-       $scope.message = true;
-      }
-    }, function() {
-      console.log('Not login'); 
-      $scope.message = true;
-    }, admin); 
-
-
-
-  	// if($scope.loginForm.username.$modelValue == $scope.credentials.username && $scope.loginForm.password.$modelValue == $scope.credentials.password) {
-  	// 	$('#login').modal('hide');
-  	// 	$scope.auth = true;
-  	// 	$scope.message = false;
-  	// } else {
-  	// 	$scope.message = true;
-  	// }
-  }
-
-  $scope.logout = function() {
-  	$scope.auth = false;
-  	$location.path('/home/search');
-  }
-
-  $scope.isActive = function(route) {
-      return route === $location.path();
-  }
-
 }]);
 
-MyApp.angular.controller('detailsController', ['$scope', 'InitService', 'DataService', '$stateParams', function($scope, InitService, DataService, $stateParams){
+MyApp.angular.filter('startFrom', function() {
+	return function(input, start) {
+		try {
+    		start = +start; //parse to int
+    		return input.slice(start);	
+    	}
+    	catch(e) {
+    		//console.log(e);
+    		return null;
+    	}
+
+    }
+});
+
+MyApp.angular.controller('BookingController', ['$scope', 'DataService', '$stateParams', '$uibModal', function($scope, DataService, $stateParams, $uibModal){
+	// console.log($stateParams.userId);
+
 	DataService.getUser(function(results) {
 		try {
 			$scope.user = results.data.User;
-      $scope.skills = $scope.user.skill;
+      		console.log($scope.user);
+		} 
+		catch(e) {
+			console.log(e);
+		}
+	}, function() {
+		console.log('fail'); 
+	}, $stateParams.userId);
+
+
+	$scope.open = function (size) {
+		var modalInstance;
+		var modalScope = $scope.$new();
+		modalScope.ok = function () {
+	        modalInstance.close('close');
+		};
+		modalScope.cancel = function () {
+        	modalInstance.dismiss('cancel');
+		};      
+
+		modalInstance = $uibModal.open({
+			template: '<booking-modal></booking-modal>',
+			size: size,
+			scope: modalScope
+		});
+	};
+}]);
+MyApp.angular.controller('DetailsController', ['$scope', 'InitService', 'DataService', '$stateParams', function($scope, InitService, DataService, $stateParams){
+	DataService.getUser(function(results) {
+		try {
+			$scope.user = results.data.User;
+      		$scope.skills = $scope.user.skill;
 		} 
 		catch(e) {
 			console.log(e);
@@ -318,47 +324,89 @@ MyApp.angular.controller('detailsController', ['$scope', 'InitService', 'DataSer
     $scope.userSkills.splice(this.$index, 1);
   }
 }]);
-
-MyApp.angular.filter('startFrom', function() {
-	return function(input, start) {
+MyApp.angular.controller('EmployeeController', ['$scope', 'InitService', 'DataService', function($scope, InitService, DataService){
+	DataService.getSkill(function(results) {
 		try {
-    		start = +start; //parse to int
-    		return input.slice(start);	
-    	}
-    	catch(e) {
-    		console.log(e);
-    		return null;
-    	}
-
-    }
-});
-
-MyApp.angular.controller('bookingController', ['$scope', 'DataService', '$stateParams', function($scope, DataService, $stateParams){
-	// console.log($stateParams.userId);
-
-	DataService.getUser(function(results) {
-		try {
-			$scope.user = results.data.User;
-      		console.log($scope.user);
+			$scope.skills = results.data.Skill;
+			console.log($scope.skills);
 		} 
 		catch(e) {
 			console.log(e);
 		}
 	}, function() {
 		console.log('fail'); 
-	}, $stateParams.userId);
+	});
 
+	$scope.test = "Test";
+
+	$scope.userSkills = [];
+
+	$scope.add = function() {
+		$scope.userSkills.push($scope.selected);
+		$scope.selected = '';
+	}
+	$scope.delete = function() {
+		$scope.userSkills.splice(this.$index, 1);
+	}
 }]);
-MyApp.angular.directive('toggle', function(){
-  return {
-    restrict: 'A',
-    link: function(scope, element, attrs){
-      if (attrs.toggle=="tooltip"){
-        $(element).tooltip();
-      }
-    }
-  };
-});
+MyApp.angular.controller('HeaderController', ['$scope', 'DataService', '$location', '$uibModal', '$stateParams', 'LoginService', function($scope, DataService, $location, $uibModal, $stateParams, LoginService){
+	
+	$scope.open = function (size) {
+		var modalInstance;
+		var modalScope = $scope.$new();  
+
+		modalInstance = $uibModal.open({
+			template: '<login-modal></login-modal>',
+			size: size,
+			scope: modalScope
+		});
+	};
+
+	$scope.logout = function() {
+		LoginService.setAuth(false);
+		$scope.$emit('authEvent');
+		//$scope.auth = false;
+		$location.path('/home/search');
+	}
+}]);
+MyApp.angular.controller('LoginController', ['$scope', 'DataService', 'LoginService', function($scope, DataService, LoginService){
+	
+	$scope.ok = function () {
+		$scope.$close('close');
+	};
+
+	$scope.cancel = function () {
+		$scope.$dismiss('cancel');
+	};
+
+	var admin = {
+		username: "",
+		password: ""
+	};
+
+	$scope.login = function() { 
+		
+		admin = {
+			username: $scope.loginForm.username.$modelValue,
+			password: $scope.loginForm.password.$modelValue
+		}			
+
+		DataService.getAdmin(function(results) {
+
+			if (admin.username == results.data.Admin[0].username && admin.password == results.data.Admin[0].password) {
+				LoginService.setAuth(true);
+				$scope.$emit('authEvent');
+				$scope.ok();
+				$scope.message = false;
+			} else {
+				$scope.message = true;
+			}
+		}, function() {
+			console.log('Not login'); 
+			$scope.message = true;
+		}, admin);
+	};
+}]);
 MyApp.angular.factory('DataService', ['$document', '$http', function ($document, $http) {
 	'use strict';
 
@@ -382,6 +430,13 @@ MyApp.angular.factory('DataService', ['$document', '$http', function ($document,
 		$http({
 			method: 'GET',
 			url: MyApp.endPoints.getCountry
+		}).then(success, fail);
+	};
+
+	pub.getSkill = function(success, fail) {
+		$http({
+			method: 'GET',
+			url: MyApp.endPoints.getSkill
 		}).then(success, fail);
 	};
 
@@ -409,6 +464,20 @@ MyApp.angular.factory('DataService', ['$document', '$http', function ($document,
 
 	return pub;
 }]);
+MyApp.angular.factory("LoginService", function () {
+
+	var auth = null;
+
+	return {
+	    getAuth: function () {
+	        return auth;
+	    },
+	    setAuth: function (value) {
+	        auth = value;
+	    }
+	};
+
+});
 MyApp.angular.factory('InitService', ['$document', function ($document) {
   'use strict';
 
@@ -457,3 +526,17 @@ MyApp.angular.factory('InitService', ['$document', function ($document) {
   return pub;
   
 }]);
+MyApp.angular.directive('bookingModal', function() {
+  return {
+      restrict: 'E',
+      controller: 'BookingController',
+      templateUrl: '_partials/booking-modal.html'
+  };
+});
+MyApp.angular.directive('loginModal', function() {
+  return {
+      restrict: 'E',
+      controller: 'LoginController',
+      templateUrl: '_partials/login-modal.html'
+  };
+});

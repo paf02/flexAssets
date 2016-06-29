@@ -24,6 +24,13 @@ MyApp.angular.factory('DataService', ['$document', '$http', function ($document,
 		}).then(success, fail);
 	};
 
+	pub.getSkill = function(success, fail) {
+		$http({
+			method: 'GET',
+			url: MyApp.endPoints.getSkill
+		}).then(success, fail);
+	};
+
 	pub.getCategory = function(success, fail) {
 		$http({
 			method: 'GET',

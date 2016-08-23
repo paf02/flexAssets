@@ -6,20 +6,17 @@
 		</ul> -->
 
 		<uib-tabset active="activeJustified" justified="true" class="clearfix">
-		    <uib-tab index="0" ng-show="auth">
+		    <uib-tab index="0" ui-sref="home.search">
 		    	<uib-tab-heading>
 		        	<i class="zmdi zmdi-search"></i> Search <span class="hidden-xs">Employee</span>
 		      	</uib-tab-heading>
-		    	<!-- <div ui-view class="col-sm-12"></div> -->
+		    	<div ui-view="search" class="col-xs-12"></div>
 	    	</uib-tab>
-		    <uib-tab index="1" ng-show="auth">
+		    <uib-tab index="1" ng-show="auth" ui-sref="home.add">
 		    	<uib-tab-heading>
 		    		<i class="zmdi zmdi-account-add"></i> Add <span class="hidden-xs">Employee</span>
 		    	</uib-tab-heading>
-		    	<!-- <div ui-view class="col-sm-12"></div> -->
-		    	<div class="col-sm-12" ng-controller="EmployeeController">
-		    		{{test}}
-		    	</div>
+		    	<div ui-view="add" class="col-xs-12"></div>
 	    	</uib-tab>
 	  	</uib-tabset>
 	</div>

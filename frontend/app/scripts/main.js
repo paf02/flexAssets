@@ -16,16 +16,38 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('home', {
       url: "/home",
-      templateUrl: "_partials/home.html"
+      templateUrl: "_partials/home.html",
     })
+    // .state('home.search', {
+    //   url: "/search",
+    //   templateUrl: "_partials/home.search.html"
+    // })
+    // .state('home.add', {
+    //   url: "/add",
+    //   templateUrl: "_partials/home.add.html"
+    // }) 
+
+
     .state('home.search', {
       url: "/search",
-      templateUrl: "_partials/home.search.html"
+      views: {
+        'search': {
+          templateUrl: "_partials/home.search.html"
+        }
+      }
     })
+
     .state('home.add', {
       url: "/add",
-      templateUrl: "_partials/home.add.html"
-    }) 
+      views: {
+        'add': {
+          templateUrl: "_partials/home.add.html",
+          controller: 'EmployeeController'
+        }
+      }
+    })
+
+
     .state('details', {
       url: "/details?:userId",
       templateUrl: "_partials/details.html"
@@ -325,31 +347,31 @@ MyApp.angular.controller('DetailsController', ['$scope', 'InitService', 'DataSer
   }
 }]);
 MyApp.angular.controller('EmployeeController', ['$scope', 'InitService', 'DataService', function($scope, InitService, DataService){
-	DataService.getSkill(function(results) {
-		try {
-			$scope.skills = results.data.Skill;
-			console.log($scope.skills);
-		} 
-		catch(e) {
-			console.log(e);
-		}
-	}, function() {
-		console.log('fail'); 
-	});
+		console.log('a');
+	// DataService.getSkill(function(results) {
+	// 	try {
+	// 		$scope.skills = results.data.Skill;
+	// 		console.log($scope.skills);
+	// 	} 
+	// 	catch(e) {
+	// 		console.log(e);
+	// 	}
+	// }, function() {
+	// 	console.log('fail'); 
+	// });
 
-	$scope.test = "Test";
 
-	$scope.userSkills = [];
+	// $scope.userSkills = [];
 
-	$scope.add = function() {
-		$scope.userSkills.push($scope.selected);
-		$scope.selected = '';
-	}
-	$scope.delete = function() {
-		$scope.userSkills.splice(this.$index, 1);
-	}
+	// $scope.add = function() {
+	// 	$scope.userSkills.push($scope.selected);
+	// 	$scope.selected = '';
+	// }
+	// $scope.delete = function() {
+	// 	$scope.userSkills.splice(this.$index, 1);
+	// }
 }]);
-MyApp.angular.controller('HeaderController', ['$scope', 'DataService', '$location', '$uibModal', '$stateParams', 'LoginService', function($scope, DataService, $location, $uibModal, $stateParams, LoginService){
+MyApp.angular.controller('HeaderController', ['$scope', 'DataService', '$location', '$uibModal', '$stateParams', 'LoginService', '$state', function($scope, DataService, $location, $uibModal, $stateParams, LoginService, $state){
 	
 	$scope.open = function (size) {
 		var modalInstance;
@@ -363,10 +385,15 @@ MyApp.angular.controller('HeaderController', ['$scope', 'DataService', '$locatio
 	};
 
 	$scope.logout = function() {
+		$state.go('home.search');
+
+		
 		LoginService.setAuth(false);
 		$scope.$emit('authEvent');
 		//$scope.auth = false;
-		$location.path('/home/search');
+
+
+		// $location.path('/home/search');
 	}
 }]);
 MyApp.angular.controller('LoginController', ['$scope', 'DataService', 'LoginService', function($scope, DataService, LoginService){
@@ -483,7 +510,6 @@ MyApp.angular.factory('InitService', ['$document', function ($document) {
 
   var pub = {},
     eventListeners = {
-      'jQueryReady' : [],
       'ready': []
     };
   
@@ -497,13 +523,6 @@ MyApp.angular.factory('InitService', ['$document', function ($document) {
       eventListeners.ready[i]();
     }
   }
-
-  function jQueryOnReady() {
-    var i;
-    for (i = 0; i < eventListeners.jQueryReady.length; i = i + 1) {
-      eventListeners.jQueryReady[i]();
-    }
-  }
   
   // Init
   (function () {
@@ -511,17 +530,6 @@ MyApp.angular.factory('InitService', ['$document', function ($document) {
       onReady();
     });
   }());
-
-
-  (function() {
-    var nTimer = setInterval(function() {
-      if (window.jQuery) {
-        // Do something with jQuery
-        jQueryOnReady();
-        clearInterval(nTimer);
-      }
-    }, 100);
-  })();
 
   return pub;
   

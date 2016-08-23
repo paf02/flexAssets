@@ -16,16 +16,38 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('home', {
       url: "/home",
-      templateUrl: "_partials/home.html"
+      templateUrl: "_partials/home.html",
     })
+    // .state('home.search', {
+    //   url: "/search",
+    //   templateUrl: "_partials/home.search.html"
+    // })
+    // .state('home.add', {
+    //   url: "/add",
+    //   templateUrl: "_partials/home.add.html"
+    // }) 
+
+
     .state('home.search', {
       url: "/search",
-      templateUrl: "_partials/home.search.html"
+      views: {
+        'search': {
+          templateUrl: "_partials/home.search.html"
+        }
+      }
     })
+
     .state('home.add', {
       url: "/add",
-      templateUrl: "_partials/home.add.html"
-    }) 
+      views: {
+        'add': {
+          templateUrl: "_partials/home.add.html",
+          controller: 'EmployeeController'
+        }
+      }
+    })
+
+
     .state('details', {
       url: "/details?:userId",
       templateUrl: "_partials/details.html"

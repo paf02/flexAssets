@@ -3,7 +3,6 @@ MyApp.angular.factory('InitService', ['$document', function ($document) {
 
   var pub = {},
     eventListeners = {
-      'jQueryReady' : [],
       'ready': []
     };
   
@@ -17,13 +16,6 @@ MyApp.angular.factory('InitService', ['$document', function ($document) {
       eventListeners.ready[i]();
     }
   }
-
-  function jQueryOnReady() {
-    var i;
-    for (i = 0; i < eventListeners.jQueryReady.length; i = i + 1) {
-      eventListeners.jQueryReady[i]();
-    }
-  }
   
   // Init
   (function () {
@@ -31,17 +23,6 @@ MyApp.angular.factory('InitService', ['$document', function ($document) {
       onReady();
     });
   }());
-
-
-  (function() {
-    var nTimer = setInterval(function() {
-      if (window.jQuery) {
-        // Do something with jQuery
-        jQueryOnReady();
-        clearInterval(nTimer);
-      }
-    }, 100);
-  })();
 
   return pub;
   

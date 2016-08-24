@@ -4,7 +4,7 @@ var MyApp = {};
 MyApp.config = {
 };
 
-MyApp.angular = angular.module('flexApp', ['ui.router', 'ui.bootstrap']);
+MyApp.angular = angular.module('flexApp', ['ngCookies','ui.router', 'ui.bootstrap']);
 
 
 MyApp.angular.config(function($stateProvider, $urlRouterProvider) {
@@ -65,12 +65,12 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider) {
 
 
 MyApp.endPoints = {
-	getUsers: 'http://10.66.22.180:3000/api/v1/user',
-  getUsersFilterByID: 'http://10.66.22.180:3000/api/v1/user/filterByID',
-	getCountry: 'http://10.66.22.180:3000/api/v1/country',
-	getCategory: 'http://10.66.22.180:3000/api/v1/category',
-	getRole: 'http://10.66.22.180:3000/api/v1/role',
-  getSkill: 'http://10.66.22.180:3000/api/v1/skill',
-  postAdminFind: 'http://10.66.22.180:3000/api/v1/adminFind',
+	getUsers: 'http://localhost:3000/api/v1/user',
+  getUsersFilterByID: 'http://localhost:3000/api/v1/user/filterByID',
+	getCountry: 'http://localhost:3000/api/v1/country',
+	getCategory: 'http://localhost:3000/api/v1/category',
+	getRole: 'http://localhost:3000/api/v1/role',
+  getSkill: 'http://localhost:3000/api/v1/skill',
+  postAdminFind: 'http://localhost:3000/api/v1/adminFind',
 	getCurrency: 'http://jsonplaceholder.typicode.com/posts/3'
 }

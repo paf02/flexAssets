@@ -4,7 +4,7 @@ var MyApp = {};
 MyApp.config = {
 };
 
-MyApp.angular = angular.module('flexApp', ['ui.router', 'ui.bootstrap']);
+MyApp.angular = angular.module('flexApp', ['ngCookies','ui.router', 'ui.bootstrap']);
 
 
 MyApp.angular.config(function($stateProvider, $urlRouterProvider) {
@@ -65,17 +65,18 @@ MyApp.angular.config(function($stateProvider, $urlRouterProvider) {
 
 
 MyApp.endPoints = {
-	getUsers: 'http://10.66.22.180:3000/api/v1/user',
-  getUsersFilterByID: 'http://10.66.22.180:3000/api/v1/user/filterByID',
-	getCountry: 'http://10.66.22.180:3000/api/v1/country',
-	getCategory: 'http://10.66.22.180:3000/api/v1/category',
-	getRole: 'http://10.66.22.180:3000/api/v1/role',
-  getSkill: 'http://10.66.22.180:3000/api/v1/skill',
-  postAdminFind: 'http://10.66.22.180:3000/api/v1/adminFind',
+	getUsers: 'http://localhost:3000/api/v1/user',
+  getUsersFilterByID: 'http://localhost:3000/api/v1/user/filterByID',
+	getCountry: 'http://localhost:3000/api/v1/country',
+	getCategory: 'http://localhost:3000/api/v1/category',
+	getRole: 'http://localhost:3000/api/v1/role',
+  getSkill: 'http://localhost:3000/api/v1/skill',
+  postAdminFind: 'http://localhost:3000/api/v1/adminFind',
 	getCurrency: 'http://jsonplaceholder.typicode.com/posts/3'
 }
-MyApp.angular.controller('AppController', ['$scope', 'DataService', 'LoginService', function($scope, DataService, LoginService){
-  
+MyApp.angular.controller('AppController', ['$scope','$cookies', 'DataService', 'LoginService', function($scope,$cookies, DataService, LoginService){
+    var cookie = $cookies.get('FlexBookingApp');
+    $scope.auth = cookie ? true :false; 
   $scope.$on('authEvent', function(event, data) { 
     $scope.auth = LoginService.getAuth();
   });
@@ -371,7 +372,7 @@ MyApp.angular.controller('EmployeeController', ['$scope', 'InitService', 'DataSe
 	// 	$scope.userSkills.splice(this.$index, 1);
 	// }
 }]);
-MyApp.angular.controller('HeaderController', ['$scope', 'DataService', '$location', '$uibModal', '$stateParams', 'LoginService', '$state', function($scope, DataService, $location, $uibModal, $stateParams, LoginService, $state){
+MyApp.angular.controller('HeaderController', ['$scope','$cookies', 'DataService', '$location', '$uibModal', '$stateParams', 'LoginService', '$state', function($scope,$cookies, DataService, $location, $uibModal, $stateParams, LoginService, $state){
 	
 	$scope.open = function (size) {
 		var modalInstance;
@@ -386,20 +387,23 @@ MyApp.angular.controller('HeaderController', ['$scope', 'DataService', '$locatio
 
 	$scope.logout = function() {
 		$state.go('home.search');
-
-		
 		LoginService.setAuth(false);
 		$scope.$emit('authEvent');
-		//$scope.auth = false;
-
+		$cookies.remove('FlexBookingApp');
 
 		// $location.path('/home/search');
 	}
 }]);
-MyApp.angular.controller('LoginController', ['$scope', 'DataService', 'LoginService', function($scope, DataService, LoginService){
-	
+MyApp.angular.controller('LoginController', ['$scope', '$cookies', 'DataService', 'LoginService', function ($scope, $cookies, DataService, LoginService) {
+
 	$scope.ok = function () {
 		$scope.$close('close');
+		var now = new Date(),
+			exp = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes()+15,now.getSeconds(),now.getMilliseconds());
+		$scope.$emit('authEvent');
+		$cookies.put('FlexBookingApp','sessionToken', {
+			expires: exp
+		});
 	};
 
 	$scope.cancel = function () {
@@ -411,25 +415,24 @@ MyApp.angular.controller('LoginController', ['$scope', 'DataService', 'LoginServ
 		password: ""
 	};
 
-	$scope.login = function() { 
-		
+	$scope.login = function () {
+
 		admin = {
 			username: $scope.loginForm.username.$modelValue,
 			password: $scope.loginForm.password.$modelValue
-		}			
+		}
 
-		DataService.getAdmin(function(results) {
+		DataService.getAdmin(function (results) {
 
 			if (admin.username == results.data.Admin[0].username && admin.password == results.data.Admin[0].password) {
 				LoginService.setAuth(true);
-				$scope.$emit('authEvent');
 				$scope.ok();
 				$scope.message = false;
 			} else {
 				$scope.message = true;
 			}
-		}, function() {
-			console.log('Not login'); 
+		}, function () {
+			console.log('Not login');
 			$scope.message = true;
 		}, admin);
 	};
@@ -505,34 +508,34 @@ MyApp.angular.factory("LoginService", function () {
 	};
 
 });
-MyApp.angular.factory('InitService', ['$document', function ($document) {
+MyApp.angular.factory('InitService', ['$document', '$cookies', function ($document, $cookies) {
   'use strict';
 
   var pub = {},
     eventListeners = {
       'ready': []
     };
-  
+
   pub.addEventListener = function (eventName, listener) {
     eventListeners[eventName].push(listener);
   };
 
   function onReady() {
-    var i;
+      var i;
     for (i = 0; i < eventListeners.ready.length; i = i + 1) {
       eventListeners.ready[i]();
     }
   }
-  
+
   // Init
   (function () {
     $document.ready(function () {
       onReady();
     });
-  }());
+  } ());
 
   return pub;
-  
+
 }]);
 MyApp.angular.directive('bookingModal', function() {
   return {

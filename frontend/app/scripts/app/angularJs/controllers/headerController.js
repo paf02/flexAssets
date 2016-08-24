@@ -1,4 +1,4 @@
-MyApp.angular.controller('HeaderController', ['$scope', 'DataService', '$location', '$uibModal', '$stateParams', 'LoginService', '$state', function($scope, DataService, $location, $uibModal, $stateParams, LoginService, $state){
+MyApp.angular.controller('HeaderController', ['$scope','$cookies', 'DataService', '$location', '$uibModal', '$stateParams', 'LoginService', '$state', function($scope,$cookies, DataService, $location, $uibModal, $stateParams, LoginService, $state){
 	
 	$scope.open = function (size) {
 		var modalInstance;
@@ -13,12 +13,9 @@ MyApp.angular.controller('HeaderController', ['$scope', 'DataService', '$locatio
 
 	$scope.logout = function() {
 		$state.go('home.search');
-
-		
 		LoginService.setAuth(false);
 		$scope.$emit('authEvent');
-		//$scope.auth = false;
-
+		$cookies.remove('FlexBookingApp');
 
 		// $location.path('/home/search');
 	}

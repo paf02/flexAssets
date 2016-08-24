@@ -1,5 +1,6 @@
-MyApp.angular.controller('AppController', ['$scope', 'DataService', 'LoginService', function($scope, DataService, LoginService){
-  
+MyApp.angular.controller('AppController', ['$scope','$cookies', 'DataService', 'LoginService', function($scope,$cookies, DataService, LoginService){
+    var cookie = $cookies.get('FlexBookingApp');
+    $scope.auth = cookie ? true :false; 
   $scope.$on('authEvent', function(event, data) { 
     $scope.auth = LoginService.getAuth();
   });

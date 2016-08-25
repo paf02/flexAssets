@@ -12,16 +12,15 @@ module.exports = function(wagner) {
 	api.use(bodyparser.json({limit: config.maxFileSize}));
 	api.use(bodyparser.urlencoded({limit: config.maxFileSize, extended: true}));
 
-	function saveFile(argument) {
+	function saveFile(argument,employee) {
 		var extension = '';
-		var imgDat = argument.split(/^data:image\/(png|jpg|jpeg);base64,/);
+		//var imgDat = argument.split(/^data:image\/(png|jpg|jpeg);base64,/);
+		// if (imgDat[1].indexOf('png') !== -1) extension = 'png'
+		// else if (imgDat[1].indexOf('jpg') !== -1 || imgDat[1].indexOf('jpeg') !== -1) extension = 'jpg'
 
-		if (imgDat[1].indexOf('png') !== -1) extension = 'png'
-		else if (imgDat[1].indexOf('jpg') !== -1 || imgDat[1].indexOf('jpeg') !== -1) extension = 'jpg'
-
-		var generatePath = config.resumePath + shortid.generate() + '.' + extension;
+		var generatePath = config.resumePath + employee + '_CV.pdf';
 		
-		fs.writeFile(generatePath, imgDat[2], 'base64', function(err) {
+		fs.writeFile(generatePath, argument, 'base64', function(err) {
 		  if (err) 
 		  	console.log(err);
 		});
@@ -102,9 +101,9 @@ module.exports = function(wagner) {
 
 	api.post('/user', wagner.invoke(function(User) {
 		return function(req, res) {
-
+			var fullname = req.body.name + req.body.lastname;
 			if (req.body.resume) {
-				var urlFiles = req.headers.origin + saveFile(req.body.resume).split(config.publicAccess)[1];
+				var urlFiles = req.headers.origin + saveFile(req.body.resume,fullname).split(config.publicAccess)[1];
 			}
 
 			var newUser = new User({

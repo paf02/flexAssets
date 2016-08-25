@@ -3,7 +3,7 @@ MyApp.angular.controller('LoginController', ['$scope', '$cookies', 'DataService'
 	$scope.ok = function () {
 		$scope.$close('close');
 		var now = new Date(),
-			exp = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours(), now.getMinutes()+15,now.getSeconds(),now.getMilliseconds());
+			exp = new Date(now.getFullYear(), now.getMonth(), now.getDate(), now.getHours()+1, now.getMinutes(),now.getSeconds(),now.getMilliseconds());
 		$scope.$emit('authEvent');
 		$cookies.put('FlexBookingApp','sessionToken', {
 			expires: exp

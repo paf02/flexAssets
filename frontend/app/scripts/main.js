@@ -74,132 +74,76 @@ MyApp.endPoints = {
   postAdminFind: 'http://localhost:3000/api/v1/adminFind',
 	getCurrency: 'http://jsonplaceholder.typicode.com/posts/3'
 }
-MyApp.angular.controller('AppController', ['$scope','$cookies', 'DataService', 'LoginService', function($scope,$cookies, DataService, LoginService){
-    var cookie = $cookies.get('FlexBookingApp');
-    $scope.auth = cookie ? true :false; 
-  $scope.$on('authEvent', function(event, data) { 
-    $scope.auth = LoginService.getAuth();
-  });
-
-	DataService.getUsers(function(results) {
-		try {
-			$scope.users = results.data.User;
-			pagination();	
-		} 
-		catch(e) {
-			console.log(e);
-		}
-	}, function() {
-		console.log('fail');  
+MyApp.angular.controller('AppController', ['$scope', '$cookies', 'DataService', 'LoginService', 'Repository', function ($scope, $cookies, DataService, LoginService, Repository) {
+	$scope.dates = [];
+	
+	var cookie = $cookies.get('FlexBookingApp');
+    $scope.auth = cookie ? true : false;
+	$scope.$on('authEvent', function (event, data) {
+		$scope.auth = LoginService.getAuth();
 	});
 
-	DataService.getCountry(function(results) {
-		$scope.countries = results.data.Country;
-	}, function() {
-		console.log('fail'); 
+	Repository.getCountries().then(function (results) {
+		$scope.countries = results.Country;
 	});
 
-	DataService.getCategory(function(results) {
-		$scope.categories = results.data.Category;
-	}, function() {
-		console.log('fail'); 
+	Repository.getCategories().then(function (results) {
+		$scope.categories = results.Category;
 	});
 
-	DataService.getRole(function(results) {
-		$scope.roles = results.data.Role;
-	}, function() {
-		console.log('fail'); 
+	Repository.getRole().then(function (results) {
+		$scope.roles = results.Role;
 	});
-
+	
+	Repository.getEmployees().then(function (results) {
+		$scope.users = results.User;
+		pagination();
+	});
+	
 	function pagination() {
 		$scope.currentPage = 0;
 		$scope.defaultPageSize = 5;
 		$scope.pageSize = $scope.defaultPageSize;
-		var len = Math.ceil($scope.users.length/$scope.pageSize);
+		var len = Math.ceil($scope.users.length / $scope.pageSize);
 		$scope.pageArray = [];
 
-		for( var i = 0; i < len; i++ )
-		{
-			$scope.pageArray.push( i);
+		for (var i = 0; i < len; i++) {
+			$scope.pageArray.push(i);
 		}
 
-		return len;            
+		return len;
 	}
+	(function () {
+		// startDate is a string or Date.now()
+		var startDate = new Date,
+			today = new Date(startDate),
+			day_mili = null,
+			day = null,
+			day_number = -1,
+			i = 1,
+			weeks = 0,
+			day_numberOr = today.getDay();
 
-	// function getMondays() {
- //      var d = new Date(),
- //          month = d.getMonth(),
- //          mondays = [],
- //          count = 0;
+		// 2 == 2 weeks
+		while (weeks < (2 * 1)) {
+			// get the day in millis
+			day_mili = new Date(startDate).setDate(today.getDate() + i);
+			// parse the Date to a Date format
+			day = new Date(day_mili);
+			// get the day in the week
+			day_number = day.getDay();
+			if (i == 1 && day_numberOr < 5) {
+				calza(day_number);
+			}
 
- //      d.setDate(1);
+			if (day_number == day_numberOr)
+				weeks++;
 
- //      // Get the first Monday in the month
- //      while (d.getDay() !== 1) {
- //          d.setDate(d.getDate() + 1);
- //      }
+			// filter saturdays and sundays
+			if (0 < day_number && 6 > day_number)
+				$scope.dates.push(day);
 
- //      // Get all the other Mondays in the month
- //      while (d.getMonth() === month) {
- //          mondays.push(new Date(d.getTime()));
- //          d.setDate(d.getDate() + 7);
- //          count++;
- //          if(count>2) {
- //          	break;
- //          }
- //      }
-
- //      return mondays;
- //  	}
-
- //  	var m = getMondays();
- //  	$scope.dates = [];
-
- //  	m.forEach(function(ele) {
-	//     var x = new Date(ele);
-	//     var y = x.getTime();
-	//     var z, i, dates;
-
-	//     for (i=0; i<=4; i++) {
-	//     	z = (x.getDay() + i * 24 * 60 * 60 * 1000);
-	//       dates = new Date(y+z);
-	//       $scope.dates.push(dates);
-	//     }  	
-	// });
-
-	$scope.dates = [];
-
-  (function() {
-  	// startDate is a string or Date.now()
-  	var startDate = new Date,
-  			today = new Date(startDate),
-  			day_mili = null,
-  			day = null,
-  			day_number = -1,
-  			i = 1,
-  			weeks = 0,
-  			day_numberOr = today.getDay();
-
-  	// 2 == 2 weeks
-  	while (weeks < (2*1)){
-  		// get the day in millis
-  		day_mili =	new Date(startDate).setDate(today.getDate() + i);
-  		// parse the Date to a Date format
-  		day = new Date(day_mili);
-  		// get the day in the week
-  		day_number = day.getDay();
-  		if (i == 1 && day_numberOr < 5) {
-  			calza(day_number);
-  		}
-
-  		if (day_number == day_numberOr) 
-  			weeks++;
-
-  		// filter saturdays and sundays
-  		if (0 < day_number && 6 > day_number)
-  			$scope.dates.push(day);
-
-  		i++;
+			i++;
 			// console.log(day);
 		}
 	})();
@@ -207,91 +151,69 @@ MyApp.angular.controller('AppController', ['$scope','$cookies', 'DataService', '
 	function calza(day_number) {
 		for (var i = day_number - 1; i >= 1; i--) {
 			$scope.dates.push('');
-		};  
+		};
 	}
 
-	$scope.getBreakLine = function(dayView, indx) {
-  	if (dayView) {
-  		if (indx == 0) {
-  			return 'block';
-  		} else {
-  			if (dayView.getDay() > 1) {
-  				return 'block';
-  			} else {
-  				return '';
-  			}
-  		}
-  	} else {
-  		return 'hid block';
-  	}
-  } 
+	$scope.getBreakLine = function (dayView, indx) {
+		if (dayView) {
+			if (indx == 0) {
+				return 'block';
+			} else {
+				if (dayView.getDay() > 1) {
+					return 'block';
+				} else {
+					return '';
+				}
+			}
+		} else {
+			return 'hid block';
+		}
+	}
 
-  $scope.getCSSClass = function(user, dayView) {
-  	var day = null;
-  	var yssss = '';
-  	
-  	
-  	for (var indx = 0; indx < user.calendarPoint.length; indx++) {
-  		day = new Date(user.calendarPoint[indx].date);
-  		// console.log(parseDate(day));
-  		// console.log(parseDate(dayView));
+	$scope.getCSSClass = function (user, dayView) {
+		var day = null;
+		var yssss = '';
 
-  		if (parseDate(day) == parseDate(dayView)) {
-  			// console.log('match');
 
-        if (user.calendarPoint[indx].timeOff == '') {
-          yssss = 'book';
-        } else {
-          // switch () {
-          //   case 'vacation':
-          //     yssss = 'vacation';
-          //   break;
+		for (var indx = 0; indx < user.calendarPoint.length; indx++) {
+			day = new Date(user.calendarPoint[indx].date);
+			if (parseDate(day) == parseDate(dayView)) {
+				if (user.calendarPoint[indx].timeOff == '') {
+					yssss = 'book';
+				} else {
+					yssss = user.calendarPoint[indx].timeOff;
+				}
+				break;
+			}
+		};
+		return yssss;
+	}
 
-          //   case 'holiday':
-          //     yssss = 'holiday';
-          //   break;
-
-          //   case 'incapacitation':
-          //     yssss = 'incapacitation';
-          //   break;
-          // }
-
-          yssss = user.calendarPoint[indx].timeOff;
-        }
-  			
-  			break;
-  		}
-  	};
-
-  	// console.log(dayView.getFullYear() + "/" + (dayView.getMonth() + 1) + "/" + dayView.getDate());
-  	return yssss;
-  }   
-
-  function parseDate(day) {
-  	try {
-  		return day.getFullYear() + "/" + (day.getMonth() + 1) + "/" + day.getDate();
-  	} catch(e) {
-  		return '';
-  	}
-  }
+	function parseDate(day) {
+		try {
+			return day.getFullYear() + "/" + (day.getMonth() + 1) + "/" + day.getDate();
+		} catch (e) {
+			return '';
+		}
+	}
 
 }]);
 
-MyApp.angular.filter('startFrom', function() {
-	return function(input, start) {
+MyApp.angular.filter('startFrom', function () {
+	return function (input, start) {
 		try {
-    		start = +start; //parse to int
-    		return input.slice(start);	
-    	}
-    	catch(e) {
-    		//console.log(e);
-    		return null;
-    	}
+			start = +start; //parse to int
+			return input.slice(start);
+		}
+		catch (e) {
+			//console.log(e);
+			return null;
+		}
 
     }
 });
 
-MyApp.angular.controller('BookingController', ['$scope', 'DataService', '$stateParams', '$uibModal', function($scope, DataService, $stateParams, $uibModal){
+MyApp.angular.controller('bookingController', ['$scope', 'DataService', '$stateParams', '$uibModal', function($scope, DataService, $stateParams, $uibModal){
 	// console.log($stateParams.userId);
 
 	DataService.getUser(function(results) {
@@ -437,6 +359,58 @@ MyApp.angular.controller('LoginController', ['$scope', '$cookies', 'DataService'
 		}, admin);
 	};
 }]);
+MyApp.angular.factory('Repository', Repository);
+Repository.$inject = ['$document', '$http', '$q'];
+function Repository($document, $http, $q) {
+	var _countries;
+    var getCountries = function () {
+		var defer = $q.defer();
+		$http.get(MyApp.endPoints.getCountry).then(function (response) {
+			defer.resolve(response.data);
+		}, function (response) {
+			defer.reject(response);
+		});
+		return defer.promise;
+	};
+
+	var getCategories = function () {
+		var defer = $q.defer();
+		$http.get(MyApp.endPoints.getCategory).then(function (response) {
+			defer.resolve(response.data);
+		}, function (response) {
+			defer.reject(response);
+		});
+		return defer.promise;
+	};
+
+	var getRole = function () {
+		var defer = $q.defer();
+		$http.get(MyApp.endPoints.getRole).then(function (response) {
+			defer.resolve(response.data);
+		}, function (response) {
+			defer.reject(response);
+		});
+		return defer.promise;
+	};
+
+	var getEmployees = function () {
+		var defer = $q.defer();
+		$http.get(MyApp.endPoints.getUsers).then(function (response) {
+			defer.resolve(response.data);
+		}, function (response) {
+			defer.reject(response);
+		});
+		return defer.promise;
+	};
+
+	var repository = {
+		getCountries: getCountries,
+		getCategories: getCategories,
+		getRole: getRole,
+		getEmployees: getEmployees
+	};
+	return repository;
+}
 MyApp.angular.factory('DataService', ['$document', '$http', function ($document, $http) {
 	'use strict';
 
